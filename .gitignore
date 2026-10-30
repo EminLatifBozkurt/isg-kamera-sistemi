@@ -218,3 +218,25 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# İSG projesine özel: gizli ayarlar, görüntüler ve büyük model dosyaları.
+.env.*
+!.env.example
+node_modules/
+frontend/dist/
+playwright-report/
+test-results/
+data/
+media/
+runs/
+models/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+.DS_Store
