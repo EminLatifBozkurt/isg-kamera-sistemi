@@ -38,8 +38,8 @@ Veri/lisans incelemesi ve ilk ekipman kapsamını doğrulama. Ardından uygun
 PyTorch/CUDA kurulumu ve küçük bir model deneyi. Görüntü analizi, veri tabanı,
 web paneli, kullanıcı oturumu ve bildirimler henüz uygulanmadı.
 
-Bu adımın değişiklikleri yerel çalışma klasöründe hazırlandı; GitHub'a gönderim
-ve commit işlemi yapılmadı.
+Bu adım, aşağıdaki veri seti incelemesiyle birlikte `b02bbce` numaralı Git
+kaydına alındı ve GitHub `main` dalına gönderildi.
 
 ## 30 Ekim 2026 — PPE veri seti seçimi ve denetimi
 
