@@ -10,10 +10,12 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Ekipman gözlemini `uygun`, `ihlal adayı` veya `değerlendirilemiyor` olarak ayırma.
 - Bu davranışları doğrulayan testler ve bilgisayar ortamını raporlayan araç.
 - RTX 3050 Ti üzerinde doğrulanan CUDA destekli PyTorch ve Ultralytics ortamı.
+- ZIP içindeki tek görüntüde yerel genel YOLO ağırlığıyla çalışan çıkarım betiği.
 
-**Bu başlangıç sürümü görüntü analizi yapmaz.** Model eğitimi, kamera bağlantısı,
-veritabanı, web paneli ve bildirimler sonraki adımlardır. Kural testlerindeki
-gözlemler elle hazırlanır; model doğruluğu ölçümü olarak yorumlanmamalıdır.
+**Bu sürümde PPE'ye özel eğitilmiş model henüz yoktur.** Genel model yalnız ilk
+çalışma deneyi için kullanıldı. Kamera bağlantısı, veritabanı, web paneli ve
+bildirimler sonraki adımlardır. Kural testlerindeki gözlemler elle hazırlanır;
+model doğruluğu ölçümü olarak yorumlanmamalıdır.
 
 ## Kurulum (Windows / PowerShell)
 
@@ -71,6 +73,17 @@ yapılandırılmadığı ayrıca belirtilir. `--reload` geliştirme içindir.
 raporlar. `check_cuda.py` ise model ağırlığı indirmeden küçük bir hesabı gerçekten
 GPU'da çalıştırır. Bu kontrolün geçmesi PPE tespit doğruluğunu kanıtlamaz.
 
+Yerelde indirilmiş bir ağırlıkla tek test görüntüsü çıkarımı:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/run_single_image_inference.py `
+  data\datasets\construction-ppe.zip images/test/image999.jpg `
+  --model data\models\yolo26n.pt --device 0
+```
+
+Betik eksik ağırlığı otomatik indirmez. İlk deney sonucu ve yorumlama sınırları
+[ilk model deneyi belgesinde](docs/ILK_MODEL_DENEYI.md) açıklanır.
+
 ## Dosya düzeni
 
 ```text
@@ -88,7 +101,8 @@ ekleyeceğiz. Ayrıntılar: [Görev listesi](docs/GOREVLER.md),
 [proje kararları](docs/PROJE_KARARLARI.md), [sistem tasarımı](docs/SISTEM_TASARIMI.md).
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
-Demo görüntülerinin lisans ve saklama kuralları
+İlk genel model deneyi [ayrı deney belgesinde](docs/ILK_MODEL_DENEYI.md),
+demo görüntülerinin lisans ve saklama kuralları
 [demo kaynakları belgesinde](docs/DEMO_GORUNTU_KAYNAKLARI.md) tutulur.
 
 ## Temel kapsam

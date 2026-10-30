@@ -93,3 +93,24 @@ kurulumu ve küçük tensör doğrulaması (B3).
 B3 tamamlandı. Henüz herhangi bir YOLO model ağırlığı indirilmedi ve görüntü
 çıkarımı yapılmadı. Sıradaki görev, boyutu önceden bildirilecek hazır nano model
 ağırlığıyla Construction-PPE görüntüsünde ilk kontrollü çıkarım (B4).
+
+## 30 Ekim 2026 — İlk tek-görüntü model çıkarımı tamamlandı
+
+- Kullanıcıya 5.544.453 baytlık dosya boyutu bildirildi ve açık onay alındı.
+- Resmî `yolo26n.pt` genel nesne ağırlığı indirildi; SHA-256 değeri kaydedildi.
+- Construction-PPE test bölümündeki `image999.jpg` örneği seçildi.
+- Veri etiketi 1 kişi, 1 baret, 1 yelek, 1 gözlük, 2 eldiven ve 2 bot içeriyor.
+- Genel model kişiyi 0,907 güvenle buldu; baret, yelek, gözlük, eldiven ve bot
+  genel modelin sınıf kataloğunda bulunmadığı için bu ekipmanları tespit etmedi.
+- İlk çalıştırmada model çıkarım aşaması 46,520 ms sürdü. Bu tek örnekten video
+  FPS'si veya kamera kapasitesi sonucu çıkarılmadı.
+- Yerel ağırlık yoksa otomatik indirme yapmayan, açıklamalı
+  `scripts/run_single_image_inference.py` betiği eklendi.
+- Kaynak, işaretlenmiş görüntü ve JSON raporu Git dışındaki `data/inference/b4/`
+  klasöründe üretildi.
+- Deney komutu, gerçek sonuç ve doğru yorum `ILK_MODEL_DENEYI.md` içinde
+  belgelendi.
+
+B4 tamamlandı. Genel modelin çalışması PPE modelinin hazır olduğu anlamına
+gelmiyor. Kullanıcının kod değişikliklerini tarayıcıda görebilmesi için sıradaki
+teslim V1: React/TypeScript arayüz temeli ve ana panel iskeleti.

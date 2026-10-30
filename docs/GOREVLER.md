@@ -35,8 +35,11 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
   Sonuç: PyTorch 2.11.0+cu128, torchvision 0.26.0+cu128 ve Ultralytics
   8.4.194 kuruldu. RTX 3050 Ti üzerinde 2048x2048 matris çarpımı CUDA'da
   tamamlandı; tekrar kullanılabilir kontrol betiği ve sabit sürüm listeleri eklendi.
-- [ ] B4. Hazır modelle tek görüntüde çıkarımı dene.
+- [x] B4. Hazır modelle tek görüntüde çıkarımı dene.
   Bitme ölçütü: modelin genel sınıfları ile özel PPE sınıflarının farkı belgelenir.
+  Sonuç: Genel YOLO26n, PPE etiketli test görüntüsündeki kişiyi 0,907 güvenle
+  buldu; model kataloğunda beş PPE sınıfının bulunmadığı gerçek çıktı üzerinden
+  gösterildi. Komut, ağırlık özeti ve sınırlamalar `ILK_MODEL_DENEYI.md` içinde.
 - [ ] B5. Veriyi video/kaynak bazında eğitim, doğrulama ve test olarak ayır.
   Bitme ölçütü: aynı kaynağın komşu kareleri eğitim ve teste sızmaz.
 - [ ] B6. Küçük PPE modelini hazır ağırlıklar üzerinden eğit ve deney ayarlarını kaydet.
