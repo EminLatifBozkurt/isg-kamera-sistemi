@@ -11,7 +11,7 @@ from pathlib import Path
 def collect_environment() -> dict:
     project_root = Path(__file__).resolve().parents[1]
     package_versions = {}
-    for package in ("fastapi", "torch", "ultralytics", "opencv-python"):
+    for package in ("fastapi", "torch", "torchvision", "ultralytics", "opencv-python"):
         try:
             package_versions[package] = importlib.metadata.version(package)
         except importlib.metadata.PackageNotFoundError:

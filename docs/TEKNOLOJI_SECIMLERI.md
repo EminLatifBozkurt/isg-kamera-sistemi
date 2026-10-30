@@ -11,10 +11,10 @@ Kullanıcının bildirdiği: Acer Nitro 5, 12. nesil Intel i5, 32 GB RAM, 512 GB
 | Katman | Seçim | Gerekçe |
 |---|---|---|
 | Görüntü işleme ve sunucu dili | Python 3.12 | Modeli eğiten, videoyu işleyen ve sunucuyu çalıştıran kodlar Python ile yazılacak; sürüm uyumluluğu kurulumda sınanacak |
-| Model çalıştırma ve eğitim | PyTorch, NVIDIA CUDA destekli paket | Yerel NVIDIA GPU kullanımı; paket/sürücü uyumu doğrulanacak |
+| Model çalıştırma ve eğitim | PyTorch 2.11.0+cu128 | Yerel RTX 3050 Ti üzerinde CUDA 12.8 ve gerçek tensör hesabı doğrulandı |
 | Nesne tespit modeli | Ultralytics YOLO26n, PPE verisiyle ince ayar | Yeni proje için küçük ve güncel başlangıç; YOLO11n karşılaştırma alternatifi |
 | Kişi takibi | ByteTrack | Kamera içi geçici takip; çalışan kimliği veya kameralar arası kimlik değildir |
-| Video ve görüntü | OpenCV + FFmpeg | Webcam, dosya, ağ akışı okuma; klip üretme ve tarayıcıya uygun kodlama |
+| Video ve görüntü | OpenCV 5.0 + FFmpeg | Webcam, dosya, ağ akışı okuma; klip üretme ve tarayıcıya uygun kodlama |
 | Sunucu | FastAPI + Pydantic + Uvicorn | Veri doğrulama, API belgeleri, WebSocket desteği |
 | Ön yüz | React + TypeScript + Vite | Etkileşimli yerel panel, tip kontrolü, derlenmiş statik arayüz |
 | Arayüz bileşenleri | Material UI ücretsiz çekirdek bileşenleri | Formlar, tablolar, iletişim kutuları; ücretli bileşen gereksinimi yok |
@@ -54,6 +54,15 @@ Hazır genel YOLO ağırlıkları özel PPE desteği anlamına gelmez. Başlang�
 Görünür ekipman ilgili kişiye atanacak; yanındaki kişinin ekipmanı diğerine sayılmayacak. Bulunamayan ekipman doğrudan eksik kabul edilmeyecek. Görünürlük, kişinin boyutu, süre ve eksiklik kanıtı değerlendirilecek; sonuç uygun, ihlal adayı veya değerlendirilemiyor olabilir.
 
 Hazır ağırlık üzerinden ince ayar yapılacak. Veri ayrımı video/kaynak bazında olacak; aynı videonun komşu kareleri eğitim ve teste dağıtılmayacak. Ölçümler: sınıf başına precision/recall, mAP, olay seviyesinde kaçırma ve yanlış alarm, saat başına yanlış bildirim, uçtan uca gecikme, FPS, VRAM, CPU ve disk.
+
+## Doğrulanan model ortamı
+
+30 Ekim 2026 tarihinde Windows, Python 3.12.2 ve RTX 3050 Ti Laptop GPU
+üzerinde PyTorch 2.11.0+cu128, torchvision 0.26.0+cu128, Ultralytics 8.4.194
+ve OpenCV 5.0.0 birlikte doğrulandı. CUDA 12.8 kullanılabilir göründü ve
+2048x2048 matris çarpımı `cuda:0` üzerinde tamamlandı. Bu yalnız ortam testidir;
+PPE modeli doğruluğu, video FPS'si veya aynı anda çalışacak kamera sayısı B4 ve
+sonraki ölçümler yapılmadan kesinleşmiş sayılmaz.
 
 ## Uygulama yaklaşımı
 

@@ -9,6 +9,7 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Kamera ve içinde bulunulan bölgelerin ekipman şartlarını birleştiren kural kodu.
 - Ekipman gözlemini `uygun`, `ihlal adayı` veya `değerlendirilemiyor` olarak ayırma.
 - Bu davranışları doğrulayan testler ve bilgisayar ortamını raporlayan araç.
+- RTX 3050 Ti üzerinde doğrulanan CUDA destekli PyTorch ve Ultralytics ortamı.
 
 **Bu başlangıç sürümü görüntü analizi yapmaz.** Model eğitimi, kamera bağlantısı,
 veritabanı, web paneli ve bildirimler sonraki adımlardır. Kural testlerindeki
@@ -24,9 +25,18 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --no-deps -e ./backend
 ```
 
-`requirements-dev.lock.txt`, bu ilk sürümde Python 3.12 / Windows üzerinde
-doğrulanan sunucu ve test paketlerinin sürümleridir. GPU/model paketlerini henüz
-içermez. Bağımlılıkları güncellerken testleri yeniden çalıştıracağız.
+`requirements-dev.lock.txt`, Python 3.12 / Windows üzerinde doğrulanan sunucu
+ve test paketlerinin sürümleridir. GPU/model ortamı ayrı kurulur:
+
+```powershell
+# İlk dosya yaklaşık 2,75 GB PyTorch paketi indirir.
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements-torch-cu128.txt
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements-vision.lock.txt
+```
+
+Bu CUDA listesi NVIDIA ekran kartlı Windows bilgisayar için doğrulandı. Büyük
+paketleri indirmeden önce bağlantı ve boş disk alanı kontrol edilmelidir.
+Bağımlılıkları güncellerken testleri yeniden çalıştıracağız.
 
 Ortamı etkinleştirme komutu gerekmez; `.venv` içindeki Python'u doğrudan
 kullanmak PowerShell betik çalıştırma ayarını değiştirmeden ilerlememizi sağlar.
@@ -54,11 +64,12 @@ yapılandırılmadığı ayrıca belirtilir. `--reload` geliştirme içindir.
 .\.venv\Scripts\python.exe -m pytest -c backend/pyproject.toml backend/tests
 .\.venv\Scripts\python.exe -m ruff check backend scripts
 .\.venv\Scripts\python.exe scripts/check_environment.py
+.\.venv\Scripts\python.exe scripts/check_cuda.py
 ```
 
-Son komut Python, disk alanı, NVIDIA sürücüsü ve model paketlerinin kurulum
-durumunu gösterir. NVIDIA kartının görünmesi tek başına PyTorch/CUDA'nın
-çalıştığını kanıtlamaz; bunu model aşamasında ayrı test edeceğiz.
+`check_environment.py` Python, disk alanı, NVIDIA sürücüsü ve paket durumunu
+raporlar. `check_cuda.py` ise model ağırlığı indirmeden küçük bir hesabı gerçekten
+GPU'da çalıştırır. Bu kontrolün geçmesi PPE tespit doğruluğunu kanıtlamaz.
 
 ## Dosya düzeni
 
@@ -77,6 +88,8 @@ ekleyeceğiz. Ayrıntılar: [Görev listesi](docs/GOREVLER.md),
 [proje kararları](docs/PROJE_KARARLARI.md), [sistem tasarımı](docs/SISTEM_TASARIMI.md).
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
+Demo görüntülerinin lisans ve saklama kuralları
+[demo kaynakları belgesinde](docs/DEMO_GORUNTU_KAYNAKLARI.md) tutulur.
 
 ## Temel kapsam
 

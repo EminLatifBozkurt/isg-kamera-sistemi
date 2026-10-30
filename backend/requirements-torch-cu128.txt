@@ -1,0 +1,6 @@
+# Windows, Python 3.12 ve NVIDIA ekran kartı için doğrulanan PyTorch kurulumu.
+# Bu dosyanın ana paketi yaklaşık 2,75 GB indirir; çalıştırmadan önce bağlantıyı kontrol et.
+--index-url https://download.pytorch.org/whl/cu128
+
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128

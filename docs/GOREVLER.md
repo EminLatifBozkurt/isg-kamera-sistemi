@@ -25,10 +25,16 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
   Sonuç: Construction-PPE ilk temel deney için seçildi. Arşiv denetimi, sınıf
   dağılımı, etiket sorunları ve alternatiflerle karşılaştırma
   `VERI_SETI_INCELEMESI.md` içinde kaydedildi.
-- [ ] B2. Kullanılacak demo fotoğraf/video kaynaklarının izinlerini belirle.
+- [x] B2. Kullanılacak demo fotoğraf/video kaynaklarının izinlerini belirle.
   Bitme ölçütü: izinli kaynak listesi; görüntüler Git'e yanlışlıkla eklenmez.
-- [ ] B3. Sanal ortama uygun GPU destekli PyTorch ve model paketlerini kur.
+  Sonuç: Construction-PPE test görüntüleri, iki pozitif Pexels video adayı ve
+  onaylı kendi canlandırmamız için kurallar `DEMO_GORUNTU_KAYNAKLARI.md`
+  içinde kaydedildi. Lisansı belirsiz ve izinsiz kamera görüntüleri dışlandı.
+- [x] B3. Sanal ortama uygun GPU destekli PyTorch ve model paketlerini kur.
   Bitme ölçütü: PyTorch GPU'yu görür; küçük tensör işlemi GPU'da tamamlanır.
+  Sonuç: PyTorch 2.11.0+cu128, torchvision 0.26.0+cu128 ve Ultralytics
+  8.4.194 kuruldu. RTX 3050 Ti üzerinde 2048x2048 matris çarpımı CUDA'da
+  tamamlandı; tekrar kullanılabilir kontrol betiği ve sabit sürüm listeleri eklendi.
 - [ ] B4. Hazır modelle tek görüntüde çıkarımı dene.
   Bitme ölçütü: modelin genel sınıfları ile özel PPE sınıflarının farkı belgelenir.
 - [ ] B5. Veriyi video/kaynak bazında eğitim, doğrulama ve test olarak ayır.
@@ -37,6 +43,19 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
   Çıktı: yeniden üretilebilir eğitim komutu, veri sürümü, ağırlık ve deney kaydı.
 - [ ] B7. Ayrılmış test verisinde sınıf başına doğruluk ve yerel hız/belleği ölç.
   Bitme ölçütü: sayısal rapor; başarısız sınıflar açık; sabit ekipman kapsamı kesinleşir.
+
+## V. İlk görünür arayüz — B4 tamamlandıktan sonra
+
+- [ ] V1. React/TypeScript arayüz temelini ve sayfa yönlendirmesini kur.
+  Çıktı: tarayıcıdan açılan ana panel, kameralar, olaylar ve çalışanlar menüsü.
+- [ ] V2. Gerçek sunucu çalışma durumunu ana panele bağla.
+  Bitme ölçütü: sunucu/model/veritabanı durumları hazır değilse açıkça öyle görünür.
+- [ ] V3. İlk ekranı çalıştırma komutlarını ve ekran görüntüsünü README'ye ekle.
+  Bitme ölçütü: kullanıcı yerel adresten ilerlemeyi görebilir.
+
+Bu erken arayüz, daha sonraki F bölümündeki kamera önizleme, bölge çizimi ve
+olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyle
+çalışıyor gibi gösterilmeyecek.
 
 ## C. Tek görüntü kaynağını işleme — B sonuçları uygun olduğunda
 
