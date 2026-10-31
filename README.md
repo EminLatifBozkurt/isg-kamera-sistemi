@@ -11,11 +11,12 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Bu davranışları doğrulayan testler ve bilgisayar ortamını raporlayan araç.
 - RTX 3050 Ti üzerinde doğrulanan CUDA destekli PyTorch ve Ultralytics ortamı.
 - ZIP içindeki tek görüntüde yerel genel YOLO ağırlığıyla çalışan çıkarım betiği.
+- Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
 **Bu sürümde PPE'ye özel eğitilmiş model henüz yoktur.** Genel model yalnız ilk
-çalışma deneyi için kullanıldı. Kamera bağlantısı, veritabanı, web paneli ve
-bildirimler sonraki adımlardır. Kural testlerindeki gözlemler elle hazırlanır;
-model doğruluğu ölçümü olarak yorumlanmamalıdır.
+çalışma deneyi için kullanıldı. İlk web paneli hazırdır; kamera bağlantısı,
+veritabanı ve bildirimler sonraki adımlardır. Kural testlerindeki gözlemler elle
+hazırlanır; model doğruluğu ölçümü olarak yorumlanmamalıdır.
 
 ## Kurulum (Windows / PowerShell)
 
@@ -49,16 +50,29 @@ Başlangıç ayarlarıyla bu dosya olmadan da çalışır.
 
 ## Çalıştırma
 
+İki ayrı PowerShell terminali aç. Birinci terminalde API'yi çalıştır:
+
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn isg_api.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
+İkinci terminalde arayüzü çalıştır:
+
+```powershell
+cd frontend
+npm ci
+npm run dev
+```
+
 - API belgesi: <http://127.0.0.1:8000/docs>
 - Sunucu durumu: <http://127.0.0.1:8000/api/v1/health>
+- İSG web paneli: <http://127.0.0.1:5173>
 
 Bu adres şu aşamada yalnız bu bilgisayardan erişilir. Sunucu durumunun `ok`
 olması, kamera veya modelin çalıştığını göstermez; yanıtta bu bileşenlerin henüz
 yapılandırılmadığı ayrıca belirtilir. `--reload` geliştirme içindir.
+Arayüz geliştirme sunucusu `/api` isteklerini 8000 portundaki FastAPI'ye aktarır.
+Bu adresler şu anda yalnız yerel geliştirme içindir; şirket ağına açılmamıştır.
 
 ## Kontroller
 
@@ -67,6 +81,10 @@ yapılandırılmadığı ayrıca belirtilir. `--reload` geliştirme içindir.
 .\.venv\Scripts\python.exe -m ruff check backend scripts
 .\.venv\Scripts\python.exe scripts/check_environment.py
 .\.venv\Scripts\python.exe scripts/check_cuda.py
+cd frontend
+npm run lint
+npm run typecheck
+npm run build
 ```
 
 `check_environment.py` Python, disk alanı, NVIDIA sürücüsü ve paket durumunu
@@ -91,6 +109,9 @@ backend/
   src/isg_api/       Sunucu, ayarlar ve ekipman kuralları
   tests/            Kural ve API testleri
   pyproject.toml    Python paketi ve test ayarları
+frontend/
+  src/              React sayfaları, bileşenler ve health API bağlantısı
+  package.json      Sabitlenmiş arayüz bağımlılıkları ve komutlar
 docs/               Gereksinimler, tasarım ve sıralı görev listesi
 scripts/            Geliştirme yardımcıları
 .env.example        Paylaşılabilir örnek ayarlar

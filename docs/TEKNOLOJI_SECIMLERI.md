@@ -16,9 +16,9 @@ Kullanıcının bildirdiği: Acer Nitro 5, 12. nesil Intel i5, 32 GB RAM, 512 GB
 | Kişi takibi | ByteTrack | Kamera içi geçici takip; çalışan kimliği veya kameralar arası kimlik değildir |
 | Video ve görüntü | OpenCV 5.0 + FFmpeg | Webcam, dosya, ağ akışı okuma; klip üretme ve tarayıcıya uygun kodlama |
 | Sunucu | FastAPI + Pydantic + Uvicorn | Veri doğrulama, API belgeleri, WebSocket desteği |
-| Ön yüz | React + TypeScript + Vite | Etkileşimli yerel panel, tip kontrolü, derlenmiş statik arayüz |
-| Arayüz bileşenleri | Material UI ücretsiz çekirdek bileşenleri | Formlar, tablolar, iletişim kutuları; ücretli bileşen gereksinimi yok |
-| Sayfa yönlendirme | React Router | Kamera, olay ve çalışan sayfaları |
+| Ön yüz | React 19.3 + TypeScript 6.0 + Vite 8.3 | Etkileşimli yerel panel, tip kontrolü ve üretim derlemesi gerçek ortamda doğrulandı |
+| Arayüz bileşenleri | Material UI 9.5 ücretsiz çekirdek bileşenleri | Formlar, kartlar ve çekmece menüsü; ücretli bileşen gereksinimi yok |
+| Sayfa yönlendirme | React Router 7.18 | Kamera, olay ve çalışan sayfaları tarayıcıda doğrulandı |
 | Bölge çizimi | react-konva / Konva | Kamera görüntüsünde çokgen çizme ve düzenleme |
 | Bölge hesabı | OpenCV pointPolygonTest | İlk sürüm için ayrı coğrafi veritabanına ihtiyaç olmadan nokta/çokgen testi |
 | Kalıcı kayıt | PostgreSQL | Çalışan, olay, kamera, kural ve inceleme ilişkileri |

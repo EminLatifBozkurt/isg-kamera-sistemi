@@ -114,3 +114,23 @@ ağırlığıyla Construction-PPE görüntüsünde ilk kontrollü çıkarım (B4
 B4 tamamlandı. Genel modelin çalışması PPE modelinin hazır olduğu anlamına
 gelmiyor. Kullanıcının kod değişikliklerini tarayıcıda görebilmesi için sıradaki
 teslim V1: React/TypeScript arayüz temeli ve ana panel iskeleti.
+
+## 31 Ekim 2026 — İlk görünür web paneli hazır
+
+- `frontend/` altında React 19.3.1, TypeScript 6.0.3 ve Vite 8.3.5 uygulaması kuruldu.
+- Material UI 9.5.0 ile İSG kontrol merkezine uygun responsive tasarım hazırlandı.
+- Genel Bakış, Kameralar, Olaylar ve Çalışanlar sayfaları React Router ile bağlandı.
+- Ana panel gerçek `/api/v1/health` adresini Vite proxy üzerinden çağırıyor.
+- API çalışıyorsa hizmet adı ve sürümü gösteriliyor; analiz ile veritabanı hazır
+  değilse `Bağlı değil` olarak görünüyor.
+- Kamera, olay ve çalışan kayıtları henüz olmadığı için sahte liste/sayı üretilmedi.
+- Hazır olmayan ekleme ve filtre düğmeleri devre dışı bırakıldı.
+- Masaüstü 1440x900 ve mobil 390x844 görünümünde yatay taşma olmadığı doğrulandı.
+- Mobil çekmece menüsü ve tüm sayfa yönlendirmeleri tarayıcıda denendi.
+- ESLint, TypeScript kontrolü ve Vite üretim derlemesi geçti; npm denetiminde
+  bilinen güvenlik açığı bulunmadı.
+- Yerel sayfa `200`, Vite üzerinden FastAPI health yanıtı `status=ok` döndürdü.
+- Panel yalnız yerel adreste açıldı; harici Sites yayını veya bulut kurulumu yapılmadı.
+
+V1 ve V2 tamamlandı. V3'ün çalıştırma komutları README'ye eklendi; kalıcı ekran
+görüntüsü henüz eklenmediği için V3 tamamlandı olarak işaretlenmedi.

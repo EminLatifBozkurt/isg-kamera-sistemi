@@ -27,6 +27,12 @@
   Ultralytics 8.4.194 ve OpenCV 5.0.0. RTX 3050 Ti üzerinde CUDA hesabı geçti.
 - İlk genel model deneyi `yolo26n.pt` ile geçti. Model kişiyi buldu fakat PPE
   sınıfları model kataloğunda yok; PPE varlığı/yokluğu bu genel ağırlıkla yorumlanmayacak.
+- Doğrulanan arayüz ortamı: React 19.3.1, TypeScript 6.0.3, Vite 8.3.5,
+  Material UI 9.5.0 ve React Router 7.18.5. TypeScript 7, ESLint eklentisi henüz
+  desteklemediği için zorla kurulmadı.
+- Panel şirket içi/yerel hedefe göre geliştiriliyor; harici Sites yayını yapılmayacak.
+- Vite geliştirme sunucusu `/api` isteklerini yerel FastAPI sunucusuna aktarır.
+  Üretim sunma ve yerel ağ erişimi teslim aşamasında ayrıca yapılandırılacak.
 
 ## Kesinleşen kapsam
 

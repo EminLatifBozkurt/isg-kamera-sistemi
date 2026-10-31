@@ -49,10 +49,14 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
 
 ## V. İlk görünür arayüz — B4 tamamlandıktan sonra
 
-- [ ] V1. React/TypeScript arayüz temelini ve sayfa yönlendirmesini kur.
+- [x] V1. React/TypeScript arayüz temelini ve sayfa yönlendirmesini kur.
   Çıktı: tarayıcıdan açılan ana panel, kameralar, olaylar ve çalışanlar menüsü.
-- [ ] V2. Gerçek sunucu çalışma durumunu ana panele bağla.
+  Sonuç: React 19, TypeScript 6, Vite 8, Material UI 9 ve React Router 7 ile
+  responsive panel kuruldu; dört sayfa ve bulunamadı yönlendirmesi doğrulandı.
+- [x] V2. Gerçek sunucu çalışma durumunu ana panele bağla.
   Bitme ölçütü: sunucu/model/veritabanı durumları hazır değilse açıkça öyle görünür.
+  Sonuç: Vite proxy üzerinden gerçek FastAPI health yanıtı gösteriliyor. Sunucu
+  `ok`; analiz ve veritabanı `not_configured` olarak dürüstçe görüntüleniyor.
 - [ ] V3. İlk ekranı çalıştırma komutlarını ve ekran görüntüsünü README'ye ekle.
   Bitme ölçütü: kullanıcı yerel adresten ilerlemeyi görebilir.
 
