@@ -50,6 +50,19 @@ Başlangıç ayarlarıyla bu dosya olmadan da çalışır.
 
 ## Çalıştırma
 
+### Tek tıkla başlatma
+
+Windows'ta depo kökündeki `PROJEYI_BASLAT.cmd` dosyasına çift tıkla. Betik
+FastAPI ve React süreçlerini arka planda başlatır, hazır olmalarını bekler ve
+paneli varsayılan tarayıcıda açar. Sunucuları kapatmak için
+`PROJEYI_DURDUR.cmd` dosyasına çift tıkla.
+
+Başlatıcı paket indirmez. `.venv` veya `frontend/node_modules` eksikse hangi
+kurulum adımının gerektiğini Türkçe hata mesajıyla bildirir. Çalışma logları
+Git dışında tutulan `data/runtime/` klasörüne yazılır.
+
+### Terminalden başlatma
+
 İki ayrı PowerShell terminali aç. Birinci terminalde API'yi çalıştır:
 
 ```powershell

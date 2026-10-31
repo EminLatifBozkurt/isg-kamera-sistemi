@@ -134,3 +134,15 @@ teslim V1: React/TypeScript arayüz temeli ve ana panel iskeleti.
 
 V1 ve V2 tamamlandı. V3'ün çalıştırma komutları README'ye eklendi; kalıcı ekran
 görüntüsü henüz eklenmediği için V3 tamamlandı olarak işaretlenmedi.
+
+## 31 Ekim 2026 — Tek tıkla proje başlatıcı eklendi
+
+- Depo köküne çift tıklanabilen `PROJEYI_BASLAT.cmd` eklendi.
+- Başlatıcı FastAPI ve Vite süreçlerini gizli arka plan süreçleri olarak açıyor,
+  iki HTTP adresinin hazır olmasını bekliyor ve paneli tarayıcıda açıyor.
+- Eksik `.venv` veya arayüz paketlerinde otomatik indirme yapmak yerine Türkçe
+  hata mesajı gösteriyor.
+- Portlar başka uygulama tarafından kullanılıyorsa ilgili süreci kapatmadan
+  güvenli biçimde duruyor.
+- Başlatıcının açtığı süreçleri kapatmak için `PROJEYI_DURDUR.cmd` eklendi.
+- Süreç kimlikleri ve loglar Git dışındaki `data/runtime/` klasöründe tutuluyor.
