@@ -1,5 +1,4 @@
 import {
-  CheckCircleRounded,
   CloudDoneRounded,
   MemoryRounded,
   NotificationsNoneRounded,
@@ -13,14 +12,6 @@ import { EmptyState } from "../components/EmptyState";
 import { PageHeader } from "../components/PageHeader";
 import { StatusCard } from "../components/StatusCard";
 import { useHealth } from "../hooks/useHealth";
-
-const milestones = [
-  { title: "Sunucu ve iş kuralları", detail: "FastAPI, health ve ekipman kural testleri", done: true },
-  { title: "GPU çalışma ortamı", detail: "PyTorch CUDA ve RTX 3050 Ti doğrulandı", done: true },
-  { title: "İlk model deneyi", detail: "Genel YOLO ile tek görüntü çıkarımı", done: true },
-  { title: "İSG web paneli", detail: "React yönlendirmesi ve gerçek health bağlantısı hazır", done: true },
-  { title: "Kamera yönetimi", detail: "Video ve webcam kaynak akışı sıradaki uygulama adımı", done: false },
-];
 
 export function DashboardPage() {
   const { data, state, error, refresh } = useHealth();
@@ -90,33 +81,6 @@ export function DashboardPage() {
       </Box>
 
       <Box className="dashboard-lower-grid">
-        <Card className="progress-card">
-          <CardContent>
-            <Box className="section-heading-row">
-              <Box>
-                <Typography className="section-kicker">PROJE DURUMU</Typography>
-                <Typography component="h2" variant="h2">
-                  Geliştirme adımları
-                </Typography>
-              </Box>
-              <Chip label="V1 + V2 hazır" size="small" className="stage-chip" />
-            </Box>
-            <Box className="milestone-list">
-              {milestones.map((milestone) => (
-                <Box className="milestone" key={milestone.title}>
-                  <Box className={milestone.done ? "milestone-icon done" : "milestone-icon current"}>
-                    {milestone.done ? <CheckCircleRounded /> : <span />}
-                  </Box>
-                  <Box>
-                    <Typography className="milestone-title">{milestone.title}</Typography>
-                    <Typography className="milestone-detail">{milestone.detail}</Typography>
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-          </CardContent>
-        </Card>
-
         <Card className="events-card">
           <CardContent>
             <Box className="section-heading-row">
