@@ -102,8 +102,11 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
   Sonuç: Dolduğunda en eski kareyi düşüren oturum kapsamlı kuyruk eklendi.
   Alınan, işlenen ve düşen kareler ile gecikme ölçülüyor; `idle`, `healthy`,
   `backlog`, `stale` ve `stopped` durumları birbirinden ayrılıyor.
-- [ ] C5. İkinci kaynak ve ağ akışını ölçümlere göre değerlendir.
-  Bitme ölçütü: desteklenen eşzamanlı kaynak sayısı gerçek ölçümle belirtilir.
+- [x] C5. İkinci kaynak ve ağ akışını ölçümlere göre değerlendir.
+  Sonuç: RTX 3050 Ti üzerinde 640 piksel PPE+ByteTrack akışı bir ve iki yerel
+  kaynakla ölçüldü. İki kaynakta kaynak başına 34,985 FPS ölçüldü; bu sürümün
+  sınırı en fazla iki eşzamanlı kaynak olarak belirlendi. Gerçek RTSP kaynağı
+  ölçülmediği için ağ akışı şimdilik etkinleştirilmeyecek.
 
 ## D. Kalıcı kayıt ve uygulama sunucusu
 

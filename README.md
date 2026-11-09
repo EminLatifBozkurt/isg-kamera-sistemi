@@ -19,6 +19,7 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Webcam'i ayrı oturumla açan ve bağlantı/okuma durumlarını açıkça bildiren kaynak.
 - ByteTrack ile oturum içi insan takibi ve belirsizliği koruyan ekipman–kişi eşleştirmesi.
 - Analiz yavaşladığında eski kareleri düşüren sınırlı kuyruk ve donma/güncellik durumu.
+- RTX 3050 Ti için ölçülmüş en fazla iki eşzamanlı yerel kaynak sınırı.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
@@ -210,6 +211,21 @@ Araç yerel modelle ByteTrack çalıştırır; görüntü veya video kaydetmez. 
 model ya da takip paketi varsa otomatik indirme/kurulum yapmaz. Sonuçta takip
 edilen kişi numaraları ile atanmış, belirsiz ve sahipsiz ekipman sayıları yer
 alır. Ayrıntılar [takip ve eşleştirme belgesindedir](docs/PPE_TAKIP_VE_ESLESTIRME.md).
+
+### Bir ve iki kaynak kapasitesini ölçme
+
+```powershell
+.\.venv\Scripts\python.exe scripts\benchmark_multi_source.py `
+  --video C:\video\ornek.mp4 `
+  --model data\training\b6\b6-clean-positive-e20\weights\best.pt `
+  --name yerel-1v2 --source-counts 1 2 --target-fps 5 --device 0
+```
+
+Ölçüm modeli ısıttıktan sonra kaynak başına FPS ve tepe GPU belleğini kaydeder;
+paket veya model indirmez ve eski raporun üzerine yazmaz. Mevcut bilgisayarda
+iki yerel kaynak 5 FPS hedefini geçti. Üç veya daha fazlası ölçülmediği için
+desteklenmiyor; gerçek RTSP akışı da henüz etkin değildir. Ayrıntılar
+[kapasite ölçümü belgesindedir](docs/COKLU_KAYNAK_KAPASITESI.md).
 
 ## Dosya düzeni
 

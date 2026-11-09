@@ -340,3 +340,29 @@ C4 tamamlandı. Sıradaki C5 görevi, RTX 3050 Ti üzerindeki gerçek sonuçlara
 ikinci eşzamanlı kaynak/ağ akışı sınırını değerlendirmektir. Mevcut tek-kare
 ölçümleri yaklaşık 26 FPS gösterse de kamera okuma, takip ve kuyruk birlikte
 ölçülmeden iki kaynak desteği vaat edilmeyecektir.
+
+## 9 Kasım 2026 — Bir ve iki kaynak kapasitesi ölçüldü
+
+- `scripts/benchmark_multi_source.py`, aynı yerel model/video/çözünürlükte bir
+  ve iki bağımsız ByteTrack kaynağını karşılaştıracak şekilde eklendi.
+- Her senaryoda kaynak başına üç ısınma karesi modelin ilk yükleme etkisini
+  ölçüm dışında bıraktı; ardından kaynak başına 12 kare ölçüldü.
+- Tek kaynakta 73,612 FPS, ortalama takip çağrısı 11,390 ms, tepe ayrılmış GPU
+  belleği 65,197 MiB ölçüldü.
+- İki kaynakta toplam 69,969 FPS, kaynak başına 34,985 FPS, ortalama takip
+  çağrısı 12,055 ms ve tepe ayrılmış GPU belleği 83,062 MiB ölçüldü.
+- Her kaynak ayrı model/takip durumu kullandı; takip kimlikleri kaynaklar arasında
+  karışmadı. Ölçüm 640 piksel ve kısa/hafif hareketli yerel videoya aittir.
+- Proje için başlangıç hedefi kaynak başına 5 FPS olarak açıkça kaydedildi.
+  Ölçülen en büyük sayı iki olduğu için bu sürümün yapılandırma sınırı en fazla
+  iki eşzamanlı kaynak oldu; üç veya daha fazla kaynak destekleniyor denmeyecek.
+- Kullanılabilir gerçek RTSP kamera olmadığı için ağ gecikmesi, kopma ve yeniden
+  bağlanma ölçülmedi. Ağ akışı kodda etkinleştirilmeyecek; webcam ve kayıtlı
+  video desteklenen kaynaklar olarak kalacak.
+- Ölçüm raporu Git dışındaki
+  `data/evaluation/c5/c5-local-1v2-final/c5-capacity-report.json` dosyasına yazıldı.
+- Kapasite karar mantığı için dört yeni test eklendi; projenin toplam 78 Python
+  testi geçti. Ruff kod ve biçim kontrolleri temiz sonuç verdi.
+
+C5 tamamlandı ve C bölümü bitti. Sıradaki ana görev D1: PostgreSQL geliştirme
+kurulumunu ve gizli bilgileri depoya koymayan bağlantı ayarlarını hazırlamaktır.
