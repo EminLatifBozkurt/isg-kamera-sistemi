@@ -16,6 +16,7 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   temiz PPE çalışma verisi.
 - Temiz veriyle eğitilmiş PPE modeli ve 107 ayrı test görüntüsündeki sayısal rapor.
 - Kayıtlı videoyu kaynak zamanında, her açılışta ayrı oturum kimliğiyle okuyan akış.
+- Webcam'i ayrı oturumla açan ve bağlantı/okuma durumlarını açıkça bildiren kaynak.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
@@ -178,6 +179,21 @@ Bilgisayarındaki bir videoyu model çalıştırmadan, kaynak zamanında oku:
 video tekrar açıldığında yeni kimlik üretilir; böylece ilerideki takip numaraları
 eski oynatımla karışmaz. Araç dosya veya paket indirmez. Ayrıntılar
 [kayıtlı video akışı belgesinde](docs/KAYITLI_VIDEO_AKISI.md) açıklanır.
+
+### Webcam bağlantısını denetleme
+
+Webcam'i 60 kare boyunca açıp bağlantıyı kontrol et:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\inspect_webcam.py `
+  --device 0 --source-id dahili-kamera --max-frames 60
+```
+
+Bu denetim görüntüleri göstermez, kaydetmez veya modele göndermez. Sonuçta
+çözünürlük, kameranın bildirdiği FPS, okunan kare sayısı, oturum kimliği ve son
+bağlantı durumu yazılır. Kamera bulunamazsa veya kare okuma kesilirse normal
+kapanmış gibi gösterilmez; açık hata üretilir. Ayrıntılar
+[webcam akışı belgesinde](docs/WEBCAM_AKISI.md) bulunur.
 
 ## Dosya düzeni
 

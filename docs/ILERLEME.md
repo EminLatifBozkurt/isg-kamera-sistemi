@@ -260,3 +260,28 @@ videoda zamansal kararlılık ve kişi–ekipman ilişkilendirmesidir.
 
 C1 tamamlandı. Sıradaki görev C2: webcam kaynağını aynı oturum modeline eklemek
 ve açılma, kapanma, bağlantı hatası durumlarını açık biçimde raporlamak.
+
+## 9 Kasım 2026 — Webcam kaynağı ve bağlantı durumları eklendi
+
+- `isg_api.webcam_source` modülü webcam'i yalnız gerektiğinde OpenCV ile açacak
+  ve her bağlantıya benzersiz oturum kimliği verecek şekilde eklendi.
+- Kaynak durumu `idle`, `opening`, `streaming`, `stopped`, `unavailable` ve
+  `read_error` değerleriyle açıkça ayrıldı. Kamera kesintisi normal kapanış gibi
+  gösterilmiyor.
+- Son alınan karenin UTC zamanı ve oturumdaki kare sayısı değişmez durum kopyası
+  üzerinden API/arayüz tarafından okunabilecek biçimde tutuluyor.
+- Aynı webcam için eşzamanlı ikinci oturum reddediliyor. Kamera kapatılıp yeniden
+  açıldığında yeni oturum ve takip kapsamı oluşuyor.
+- FPS bilgisini vermeyen webcam'ler tamamen reddedilmiyor; bildirilen FPS boş
+  bırakılıyor. Negatif aygıt numarası ve boş kaynak kimliği baştan engelleniyor.
+- `scripts/inspect_webcam.py` görüntüleri göstermeden, diske yazmadan ve modele
+  göndermeden sınırlı donanım denemesi yapacak şekilde eklendi.
+- Acer Nitro 5'in 0 numaralı dahili kamerası gerçek OpenCV ile açıldı. Kamera
+  640×480 ve 30 FPS bildirdi; beş kare başarıyla okundu ve bağlantı `stopped`
+  durumuyla kapatıldı. Hiçbir görüntü saklanmadı.
+- Webcam yaşam döngüsü için 12 yeni test eklendi; projenin toplam 59 Python
+  testi geçti. Ruff kod ve biçim kontrolleri temiz sonuç verdi.
+
+C2 tamamlandı. Sıradaki görev C3: PPE modelini video karelerine bağlamak,
+ByteTrack ile kişileri oturum içinde takip etmek ve ekipmanı doğru kişiye
+atarken belirsizliği korumak.

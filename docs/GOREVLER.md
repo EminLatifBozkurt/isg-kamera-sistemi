@@ -88,8 +88,11 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
   saniyesi ve benzersiz oturum kimliğiyle eklendi. Aynı video yeniden açıldığında
   yeni takip kapsamı oluşuyor. 30 karelik 10 FPS yerel videoda normal hızlı ve
   beklemesiz okuma gerçek OpenCV ile doğrulandı.
-- [ ] C2. Webcam kaynağı ve kaynak durumlarını ekle.
-  Bitme ölçütü: açma, kapatma ve bağlantı hatası açıkça raporlanır.
+- [x] C2. Webcam kaynağı ve kaynak durumlarını ekle.
+  Sonuç: Açılıyor, görüntü alıyor, durduruldu, erişilemiyor ve okuma hatası
+  durumları eklendi. Aynı aygıtta eşzamanlı ikinci oturum engelleniyor; yeniden
+  açılış yeni takip kapsamı üretiyor. Dahili webcam'de 640×480, bildirilen 30 FPS
+  ve beş karelik gerçek bağlantı denemesi görüntü kaydetmeden tamamlandı.
 - [ ] C3. ByteTrack ile kamera içi takip ve kişiye ekipman atamasını ekle.
   Bitme ölçütü: komşu kişinin ekipmanı diğerine sayılmaz; belirsizlik korunur.
 - [ ] C4. Sınırlı kare kuyruğu ve analiz süreci durumunu ekle.
