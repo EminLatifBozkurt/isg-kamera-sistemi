@@ -1,8 +1,13 @@
-# İlk PPE Model Eğitimi — B6
+# Filtresiz İlk PPE Model Eğitimi — Kabul Edilmeyen Başlangıç Deneyi
+
+> **Durum:** Bu model proje modeli olarak kullanılmayacaktır. Sonradan yapılan
+> tam görsel denetimde veri setinin son 300 görüntüsünün iş güvenliğiyle ilgisiz
+> spor, konser, toplantı, gündelik yaşam ve silahlı kişi sahneleri olduğu bulundu.
+> Aşağıdaki sonuçlar yalnız sorunun nasıl fark edildiğini belgelemek içindir.
 
 ## Amaç
 
-B5'te temizlenen veriyi kullanarak küçük bir nesne algılama modelinin gerçekten
+B5'te yapısal olarak temizlenen veriyi kullanarak küçük bir nesne algılama modelinin
 PPE sınıflarını öğrenip öğrenemediğini görmek ve deneyin tekrar edilebilir bir
 kaydını oluşturmaktır. Bu aşama nihai başarı ölçümü değildir; ayrılmış test
 görüntüleri B7'ye kadar kullanılmamıştır.
@@ -61,11 +66,13 @@ güvenilir biçimde ayırmayı henüz öğrenemedi.
 
 ## Sonucun anlamı ve sınırı
 
-Bu değerler yalnız doğrulama bölümüne aittir. Model seçilirken bu görüntülerden
-yararlanıldığı için nihai başarı gibi sunulamaz. B7 aşamasında 138 dokunulmamış
-test görüntüsüyle sınıf başına ölçüm, çıkarım hızı ve GPU bellek kullanımı ayrıca
-raporlanacaktır. Özellikle zayıf ihlal sınıfları için etiket ve örnek dengesi de
-incelenecektir.
+Bu değerler yalnız sorunlu doğrulama bölümüne aittir. Model seçilirken bu görüntülerden
+yararlanıldığı için nihai başarı gibi sunulamaz. Reddedilen model 138 test
+görüntüsünde ayrıca ölçülmedi. `no_helmet`, `no_goggle`, `no_gloves` ve `no_boots` örneklerinin
+tamamının iş yeri dışı 300 görüntüden geldiği görülmüştür. Bu sınıflar ile anlamı
+belirsiz `none` temiz eğitimden çıkarılmıştır. Yeni model yalnız helmet, gloves,
+vest, boots, goggles ve Person sınıflarıyla ayrıca eğitilmiş ve bağımsız test
+sonucu `TEMIZ_PPE_MODELI_VE_TESTI.md` içinde kaydedilmiştir.
 
 Model ağırlıkları ve ayrıntılı deney çıktıları büyük/üretilmiş dosyalar olduğu
 için `data/training/b6/b6-baseline-e20/` altında yerel tutulur ve Git'e eklenmez.

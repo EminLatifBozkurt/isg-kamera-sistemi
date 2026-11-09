@@ -47,13 +47,22 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
   kaynak kimliği vermediği için bu sınır açıkça kaydedildi. Yeni video verilerinde
   aynı kaynak kimliğini bölmeyen CSV desteği eklendi. Ayrıntılar
   `VERI_HAZIRLAMA_VE_AYIRMA.md` içinde.
-- [x] B6. Küçük PPE modelini hazır ağırlıklar üzerinden eğit ve deney ayarlarını kaydet.
-  Sonuç: YOLO26n, 1.138 eğitim ve 140 doğrulama görüntüsüyle 20 tur eğitildi.
-  En iyi ağırlıkta doğrulama mAP50 0,5423, mAP50-95 0,2794 ölçüldü. Yerel
-  ağırlıklar, dosya özetleri ve deney kaydı Git dışındaki `data/training/b6/`
-  altında; yeniden üretim komutu ve sınırlamalar `ILK_PPE_EGITIMI.md` içinde.
-- [ ] B7. Ayrılmış test verisinde sınıf başına doğruluk ve yerel hız/belleği ölç.
-  Bitme ölçütü: sayısal rapor; başarısız sınıflar açık; sabit ekipman kapsamı kesinleşir.
+- [x] B5.1. Görüntülerin tamamını sahne uygunluğu açısından görsel olarak denetle.
+  Sonuç: 23 inceleme sayfasında 1.416 görüntü kontrol edildi. `image1117`–
+  `image1416` arasındaki 300 spor, konser, toplantı, gündelik yaşam ve silahlı
+  kişi görüntüsü iş yeri/PPE kapsamı dışında bulundu.
+- [x] B5.2. Sahne ve sınıf politikasını uygulayan temiz veri sürümünü üret.
+  Sonuç: 1.116 ilgili görüntü korundu; `none` ile iş yeri dışı örneklerden gelen
+  dört `no_*` sınıfı çıkarıldı. Altı sınıflı pozitif veri 900/109/107 olarak
+  ayrılmış durumda ve benzerlik grupları parçalanmadı.
+- [x] B6. Temiz altı sınıflı veriyle küçük PPE modelini yeniden eğit.
+  Sonuç: YOLO26n, 900 eğitim ve 109 doğrulama görüntüsüyle sıfırdan 20 tur
+  eğitildi. Doğrulamada mAP50 0,8868 ve mAP50-95 0,4930 ölçüldü. Önceki 11
+  sınıflı model yalnız veri sorununun kanıtı olarak saklandı.
+- [x] B7. Ayrılmış test verisinde sınıf başına doğruluk ve yerel hız/belleği ölç.
+  Sonuç: Eğitimde kullanılmayan 107 temiz test görüntüsünde mAP50 0,8536,
+  mAP50-95 0,4645 ve yaklaşık 26,0 FPS ölçüldü. Gözlük ve eldiven diğer
+  sınıflardan zayıf; gerçek video ve kamera açısı deneyi hâlâ gereklidir.
 
 ## V. İlk görünür arayüz — B4 tamamlandıktan sonra
 

@@ -1,0 +1,45 @@
+{
+  "review_date": "2026-11-09",
+  "source_archive_sha256": "bef8dcb599aa4e9d9f5e602cb6fa7143d3c84d7f6a0ff40463d7f2a4c2632ccc",
+  "source_dataset": "data/datasets/construction-ppe-b5",
+  "method": "1.416 görüntünün tamamı, dosya adı ve benzerlik grubu görünen 23 temas sayfasında görsel olarak incelendi.",
+  "rules": [
+    {
+      "first_image_number": 1,
+      "last_image_number": 1116,
+      "action": "include",
+      "category": "ppe_relevant",
+      "reason": "İş yeri, saha, üretim veya PPE görünümünü öğretmek için hazırlanmış ilgili örnek."
+    },
+    {
+      "first_image_number": 1117,
+      "last_image_number": 1416,
+      "action": "exclude",
+      "category": "unrelated_scene",
+      "reason": "Spor, konser, toplantı, gündelik yaşam, silahlı kişiler veya iş güvenliği bağlamı dışındaki sahne."
+    }
+  ],
+  "class_policy": {
+    "keep": {
+      "0": { "new_id": 0, "name": "helmet" },
+      "1": { "new_id": 1, "name": "gloves" },
+      "2": { "new_id": 2, "name": "vest" },
+      "3": { "new_id": 3, "name": "boots" },
+      "4": { "new_id": 4, "name": "goggles" },
+      "6": { "new_id": 5, "name": "Person" }
+    },
+    "drop": {
+      "5": "none sınıfının resmî anlamı belirsiz",
+      "7": "no_helmet örneklerinin tamamı iş yeri dışı sahnelerde",
+      "8": "no_goggle örneklerinin tamamı iş yeri dışı sahnelerde",
+      "9": "no_gloves örneklerinin tamamı iş yeri dışı sahnelerde",
+      "10": "no_boots örneklerinin tamamı iş yeri dışı sahnelerde"
+    },
+    "decision": "Model yalnız görünen kişi ve PPE nesnelerini öğrenecek. Eksiklik, görünür vücut bölgesinde gereken PPE'nin birkaç kare boyunca kişiyle eşleşmemesi halinde kural katmanında ihlal adayı olacaktır."
+  },
+  "limitations": [
+    "İlk 1.116 görüntünün bir kısmı gerçek CCTV yerine stok veya hazırlanmış PPE fotoğrafıdır.",
+    "Sahne uygunluğu, tek tek kutu etiketlerinin doğruluğunu kanıtlamaz.",
+    "none sınıfı no_vest olarak yeniden adlandırılmamış, temiz eğitimden çıkarılmıştır."
+  ]
+}

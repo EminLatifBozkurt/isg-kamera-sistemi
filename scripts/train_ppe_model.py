@@ -15,6 +15,11 @@ import re
 import time
 from pathlib import Path
 
+if __package__:
+    from scripts.offline_ultralytics import ensure_local_ultralytics_font
+else:
+    from offline_ultralytics import ensure_local_ultralytics_font
+
 RUN_NAME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 
 
@@ -55,13 +60,29 @@ def read_split_provenance(data_yaml: Path) -> dict:
     if not report_path.is_file():
         return {"split_report": None}
     report = json.loads(report_path.read_text(encoding="utf-8"))
+    filter_report_path = data_yaml.with_name("filter-report.json")
+    filter_report = (
+        json.loads(filter_report_path.read_text(encoding="utf-8"))
+        if filter_report_path.is_file()
+        else None
+    )
+    image_count = report.get("image_count")
+    prepared_split_images = report.get("prepared_split_images")
+    if filter_report is not None:
+        # Sahne filtresi uygulanmış veride eski B5 raporu yalnız kaynağı kanıtlar.
+        # Eğitimde gerçekten kullanılan sayıları filtre raporundan alıyoruz.
+        image_count = filter_report.get("included_image_count")
+        prepared_split_images = filter_report.get("included_images_by_split")
     return {
         "split_report": str(report_path.resolve()),
+        "filter_report": (
+            str(filter_report_path.resolve()) if filter_report is not None else None
+        ),
         "source_archive": report.get("source_archive"),
         "source_sha256": report.get("source_sha256"),
-        "image_count": report.get("image_count"),
+        "image_count": image_count,
         "group_count": report.get("group_count"),
-        "prepared_split_images": report.get("prepared_split_images"),
+        "prepared_split_images": prepared_split_images,
         "prepared_cross_split_similar_pairs": report.get(
             "prepared_cross_split_similar_pairs"
         ),
@@ -77,6 +98,7 @@ def run_training(args: argparse.Namespace) -> dict:
     matplotlib_dir.mkdir(parents=True, exist_ok=True)
     os.environ.setdefault("YOLO_CONFIG_DIR", str(config_dir.resolve()))
     os.environ.setdefault("MPLCONFIGDIR", str(matplotlib_dir.resolve()))
+    ensure_local_ultralytics_font(config_dir)
 
     import cv2
     import torch
@@ -191,8 +213,8 @@ def run_training(args: argparse.Namespace) -> dict:
         },
         "validation_metrics": serializable_results,
         "warning": (
-            "Bu bir temel deneydir. Doğruluk ve saha uygunluğu bağımsız test "
-            "bölümünde B7 aşamasında değerlendirilecektir."
+            "Bu kayıt doğrulama sonucudur. Bağımsız test ayrıca çalıştırılmalı; "
+            "gerçek kamera açısı ve saha uygunluğu ayrıca sınanmalıdır."
         ),
     }
     record_path = save_dir / "experiment-record.json"

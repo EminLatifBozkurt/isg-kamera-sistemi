@@ -34,6 +34,31 @@ def test_missing_split_report_is_recorded(tmp_path) -> None:
     assert read_split_provenance(data_yaml) == {"split_report": None}
 
 
+def test_filtered_dataset_uses_filtered_image_counts(tmp_path) -> None:
+    data_yaml = tmp_path / "data.yaml"
+    data_yaml.write_text("names:\n  0: helmet\n", encoding="utf-8")
+    (tmp_path / "split-report.json").write_text(
+        '{"source_sha256":"abc","image_count":1416,'
+        '"prepared_split_images":{"train":1138,"val":140,"test":138}}',
+        encoding="utf-8",
+    )
+    (tmp_path / "filter-report.json").write_text(
+        '{"included_image_count":1116,'
+        '"included_images_by_split":{"train":900,"val":109,"test":107}}',
+        encoding="utf-8",
+    )
+
+    result = read_split_provenance(data_yaml)
+
+    assert result["image_count"] == 1116
+    assert result["prepared_split_images"] == {
+        "train": 900,
+        "val": 109,
+        "test": 107,
+    }
+    assert result["filter_report"] == str((tmp_path / "filter-report.json").resolve())
+
+
 def test_resume_checkpoint_must_be_same_runs_last_weights(tmp_path) -> None:
     run_dir = tmp_path / "b6-baseline"
     checkpoint = run_dir / "weights" / "last.pt"

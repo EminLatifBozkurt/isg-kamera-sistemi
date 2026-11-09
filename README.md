@@ -12,13 +12,18 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - RTX 3050 Ti üzerinde doğrulanan CUDA destekli PyTorch ve Ultralytics ortamı.
 - ZIP içindeki tek görüntüde yerel genel YOLO ağırlığıyla çalışan çıkarım betiği.
 - Benzer kareleri bölmeden temiz eğitim/doğrulama/test verisi hazırlama aracı.
-- Yerel başlangıç ağırlığından eğitilmiş ilk 11 sınıflı PPE modeli ve kayıtlı deney.
+- Tüm görüntüleri görsel denetlenen, iş yeri dışı sahneleri çıkarılmış altı sınıflı
+  temiz PPE çalışma verisi.
+- Temiz veriyle eğitilmiş PPE modeli ve 107 ayrı test görüntüsündeki sayısal rapor.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
-İlk PPE modeli eğitildi; ancak sonuçlar şimdilik yalnız doğrulama bölümüne aittir.
-Bağımsız test ölçümü B7 aşamasında yapılacaktır. İlk web paneli hazırdır; kamera
-bağlantısı, veritabanı ve bildirimler sonraki adımlardır. Kural testlerindeki
-gözlemler elle hazırlanır; model doğruluğu ölçümü olarak yorumlanmamalıdır.
+İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
+proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
+eksiklik sınıfları çıkarıldı. Temiz model, eğitimde görmediği 107 görüntüde
+mAP50 0,8536 ve yaklaşık 26 FPS verdi. Bu sonuç gerçek fabrika kamerasında saha
+onayı yerine geçmez.
+İlk web paneli hazırdır; kamera bağlantısı, veritabanı ve bildirimler sonraki
+adımlardır. Kural testleri model doğruluğu ölçümü olarak yorumlanmamalıdır.
 
 ## Kurulum (Windows / PowerShell)
 
@@ -135,14 +140,28 @@ Hazırlanmış veriyle ilk PPE eğitimini çalıştırma:
 ```powershell
 .\.venv\Scripts\python.exe scripts\train_ppe_model.py `
   --model data\models\yolo26n.pt `
-  --data data\datasets\construction-ppe-b5\data.yaml `
-  --name b6-baseline-e20 --epochs 20 --batch 8 --device 0
+  --data data\datasets\construction-ppe-positive-v1\data.yaml `
+  --name b6-clean-positive-e20 --epochs 20 --batch 8 --device 0
 ```
 
-Betik eksik model veya veriyi indirmez, var olan deneyin üzerine yazmaz ve deney
+Betik eksik model veya veriyi indirmez, yerel sistem yazı tipini kullanır, var
+olan deneyin üzerine yazmaz ve deney
 ayarlarını JSON olarak kaydeder. Kesilen aynı deneye `--resume-from` ile devam
 edilebilir. Sonuçlar ve yorumlama sınırları
-[ilk PPE eğitimi belgesinde](docs/ILK_PPE_EGITIMI.md) açıklanır.
+[temiz model ve test belgesinde](docs/TEMIZ_PPE_MODELI_VE_TESTI.md) açıklanır.
+
+Eğitimde kullanılmayan test bölümüyle bağımsız ölçüm:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\evaluate_ppe_model.py `
+  --model data\training\b6\b6-clean-positive-e20\weights\best.pt `
+  --data data\datasets\construction-ppe-positive-v1\data.yaml `
+  --name b7-clean-positive-b1 --batch 1 --device 0
+```
+
+Değerlendirme aracı yalnız yerel model, veri ve sistem yazı tipini kullanır;
+eksik bir bileşende internetten indirmek yerine durur. Sonuç JSON'u Git dışında
+`data/evaluation/b7/` altına yazılır.
 
 ## Dosya düzeni
 
@@ -166,8 +185,10 @@ Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması
 [veri hazırlama belgesinde](docs/VERI_HAZIRLAMA_VE_AYIRMA.md) açıklanır.
-İlk PPE eğitiminin ayarları ve doğrulama sonucu
+Filtresiz ilk PPE eğitiminin neden kabul edilmediği
 [ilk PPE eğitimi belgesinde](docs/ILK_PPE_EGITIMI.md) bulunur.
+Kabul edilen temiz modelin eğitimi ve bağımsız test sonucu
+[temiz PPE modeli belgesinde](docs/TEMIZ_PPE_MODELI_VE_TESTI.md) bulunur.
 İlk genel model deneyi [ayrı deney belgesinde](docs/ILK_MODEL_DENEYI.md),
 demo görüntülerinin lisans ve saklama kuralları
 [demo kaynakları belgesinde](docs/DEMO_GORUNTU_KAYNAKLARI.md) tutulur.
@@ -181,9 +202,10 @@ demo görüntülerinin lisans ve saklama kuralları
 - Çalışan sayfaları ve otomatik bağlanan olay geçmişi.
 - Yerel ağda çalışma; tehlikeli davranış analizi sonraya bırakıldı.
 
-İlk ekipman adayları baret, yelek, gözlük, eldiven ve bot görünümüdür; model
-başarısı bağımsız test verisinde henüz doğrulanmamıştır. Botun koruyucu standardı
-gibi özellikler yalnız görüntüden doğrulanmış sayılmayacaktır.
+İlk ekipman adayları baret, yelek, gözlük, eldiven ve bot görünümüdür. Model
+başarısı ayrılmış test verisinde ölçülmüştür; gerçek kamera, ışık, örtülme ve
+video akışı ayrıca sınanacaktır. Botun koruyucu standardı gibi özellikler yalnız
+görüntüden doğrulanmış sayılmayacaktır.
 
 ## Git ve lisans
 

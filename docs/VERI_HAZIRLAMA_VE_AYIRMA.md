@@ -86,6 +86,7 @@ yakın benzerlik sızıntısını kaldırır; bilinmeyen kaynak ilişkilerini va
 iddia etmez. Yeni çekilecek video verilerinde CSV kaynak kimliği zorunlu
 tutulacaktır.
 
-B5 tamamlandı. Henüz PPE modeli eğitilmedi. Sıradaki görev B6: bu hazırlanmış
-veri üzerinde küçük model eğitimini ölçülü ayarlarla başlatmak ve deney kaydını
-tutmaktır.
+B5 çalışması sonrasında yapılan tam görsel denetim, 300 iş yeri dışı sahneyi
+ortaya çıkardı. Bu nedenle burada anlatılan 11 sınıflı çalışma kopyası eğitimde
+kullanılmadı; sahne filtreli altı sınıflı veri sürümü üretildi. Temiz modelin
+eğitim ve test sonucu `TEMIZ_PPE_MODELI_VE_TESTI.md` içinde kaydedildi.

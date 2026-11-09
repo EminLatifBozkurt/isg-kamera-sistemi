@@ -171,7 +171,7 @@ Construction-PPE gerçek çekim/video kimliği sağlamadığı için görsel ben
 gruplarının ortak kaynağı kesin kanıtlamadığı açıkça belgelendi. B5 tamamlandı;
 sıradaki ana görev, hazırlanmış veriyle küçük PPE modelini eğitmek (B6).
 
-## 9 Kasım 2026 — İlk PPE modeli eğitildi
+## 9 Kasım 2026 — Filtresiz başlangıç modeli eğitildi
 
 - `scripts/train_ppe_model.py` ile yalnız yerel veri ve yerel YOLO26n başlangıç
   ağırlığı kullanan, otomatik indirme yapmayan eğitim akışı eklendi.
@@ -189,5 +189,50 @@ sıradaki ana görev, hazırlanmış veriyle küçük PPE modelini eğitmek (B6)
 - Eğitim yardımcılarının dosya özeti, güvenli deney adı, devam kaydı ve veri kaydı
   davranışı için on test eklendi; veri hazırlama testleriyle birlikte 15 test geçti.
 
-B6 tamamlandı. Sonuçlar henüz bağımsız test başarısı değildir; sıradaki ana görev
-ayrılmış 138 test görüntüsünde sınıf başına doğruluk, hız ve bellek ölçümü (B7).
+Bu çalışma daha sonra yapılan tam sahne denetimi nedeniyle B6'nın tamamlanması
+olarak kabul edilmedi. Sonuçlar proje başarısı değildir.
+
+## 9 Kasım 2026 — Veri setinin sahne kapsamı düzeltildi
+
+- 1.416 görüntünün tamamı, dosya adı ve benzerlik grubu görünen 23 temas
+  sayfasında görsel olarak incelendi.
+- `image1117` ile `image1416` arasındaki 300 görüntünün spor, konser, toplantı,
+  gündelik yaşam, silahlı kişiler ve benzeri iş güvenliği dışı sahneler olduğu
+  doğrulandı.
+- Bu 300 görüntünün `no_helmet`, `no_goggle`, `no_gloves` ve `no_boots`
+  örneklerinin tamamını içerdiği ölçüldü. Bu nedenle filtresiz modelin eksik
+  ekipman başarısı geçersiz kabul edildi.
+- Belirsiz `none` sınıfı ve dört uygunsuz `no_*` sınıfı temiz eğitimden çıkarıldı.
+- Yeni veri sürümü helmet, gloves, vest, boots, goggles ve Person olmak üzere
+  altı sınıf içeriyor: 900 eğitim, 109 doğrulama ve 107 test görüntüsü.
+- Sahne kararları kaynak arşiv özetiyle kaydedildi; hiçbir benzerlik grubunun
+  kısmen tutulup kısmen çıkarılmadığı doğrulandı.
+- Ham arşiv, B5 verisi ve filtresiz ilk model silinmedi; karşılaştırma ve denetim
+  kanıtı olarak Git dışındaki `data/` klasöründe kaldı.
+
+## 9 Kasım 2026 — Temiz PPE modeli eğitildi ve bağımsız test edildi
+
+- YOLO26n, yalnız altı görünür sınıfı içeren 900 temiz eğitim görüntüsüyle,
+  640 piksel, 8'li grup ve 20 tur ayarlarında sıfırdan yeniden eğitildi.
+- 109 doğrulama görüntüsünde precision 0,9002, recall 0,8103, mAP50 0,8868 ve
+  mAP50-95 0,4930 ölçüldü.
+- Model seçimi bittikten sonra, eğitim ve doğrulamada hiç kullanılmayan 107 test
+  görüntüsü `scripts/evaluate_ppe_model.py` ile yalnız bir kez ölçüldü.
+- Bağımsız testte precision 0,8798, recall 0,7664, mAP50 0,8536 ve mAP50-95
+  0,4645 elde edildi.
+- Sınıf mAP50 sonuçları: baret 0,9309; insan 0,9120; yelek 0,9107; bot 0,8505;
+  eldiven 0,7767; gözlük 0,7408. Eldiven ve gözlük sonraki veri geliştirmesinde
+  önceliklidir.
+- RTX 3050 Ti üzerinde tek görüntülü testte işleme hattı görüntü başına yaklaşık
+  38,4 ms, yani yaklaşık 26,0 FPS verdi. Bu ölçüm kamera okuma ve olay kaydını
+  içermez.
+- Ultralytics'in değerlendirme başında 755 KB yazı tipini otomatik indirdiği
+  fark edildi. Betikler, bundan sonra sistemdeki yerel fontu hazırlayacak ve
+  bulunamazsa internete çıkmak yerine duracak şekilde düzeltildi.
+- Veri denetimi, filtreleme, eğitim kaydı, değerlendirme ve mevcut API/kurallar
+  dahil toplam 37 Python testi geçti; Ruff kod ve biçim kontrolleri temiz.
+
+B6 ve B7 tamamlandı. Model görünür ekipmanı algılar; “eksik ekipman” kararı,
+sonraki aşamada kişi–ekipman eşleştirmesi ve kamera/bölge kurallarıyla üretilecektir.
+Bu sonuç saha güvenliği için üretim onayı değildir; sıradaki model görevi kayıtlı
+videoda zamansal kararlılık ve kişi–ekipman ilişkilendirmesidir.

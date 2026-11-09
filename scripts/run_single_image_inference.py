@@ -14,6 +14,11 @@ from collections import Counter
 from pathlib import Path, PurePosixPath
 from zipfile import BadZipFile, ZipFile
 
+if __package__:
+    from scripts.offline_ultralytics import ensure_local_ultralytics_font
+else:
+    from offline_ultralytics import ensure_local_ultralytics_font
+
 
 def parse_names(data_yaml: str) -> dict[int, str]:
     """Veri tanımındaki `0: helmet` biçimindeki sınıf adlarını oku."""
@@ -84,6 +89,7 @@ def run_inference(args: argparse.Namespace) -> dict:
     config_dir = project_root / "data" / "ultralytics-config"
     config_dir.mkdir(parents=True, exist_ok=True)
     os.environ.setdefault("YOLO_CONFIG_DIR", str(config_dir.resolve()))
+    ensure_local_ultralytics_font(config_dir)
 
     import cv2
     from ultralytics import YOLO
