@@ -18,6 +18,7 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Kayıtlı videoyu kaynak zamanında, her açılışta ayrı oturum kimliğiyle okuyan akış.
 - Webcam'i ayrı oturumla açan ve bağlantı/okuma durumlarını açıkça bildiren kaynak.
 - ByteTrack ile oturum içi insan takibi ve belirsizliği koruyan ekipman–kişi eşleştirmesi.
+- Analiz yavaşladığında eski kareleri düşüren sınırlı kuyruk ve donma/güncellik durumu.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve

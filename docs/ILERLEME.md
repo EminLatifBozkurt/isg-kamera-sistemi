@@ -318,3 +318,25 @@ atarken belirsizliği korumak.
 C3 tamamlandı. Bu kontrollü sonuç gerçek kalabalık saha başarısı değildir.
 Sıradaki C4 görevi, analiz yavaşladığında eski karelerin sınırsız birikmesini
 engelleyen sınırlı kuyruk ile güncellik/donma durumlarını eklemektir.
+
+## 9 Kasım 2026 — Sınırlı kare kuyruğu ve güncellik durumu eklendi
+
+- `LatestFrameQueue`, canlı görüntü analizinde RAM'in sınırsız büyümemesi için
+  varsayılan iki kare kapasiteli olarak eklendi.
+- Kuyruk doluyken yeni kare geldiğinde üretici bekletilmiyor; en eski kare
+  düşürülüp en güncel görüntü korunuyor. Alınan, işlenen ve düşen kare sayıları
+  ayrı tutuluyor.
+- Yeni kamera oturumu başladığında kuyruktaki eski kareler ve sayaçlar temizleniyor.
+  Başka oturuma ait karenin yanlışlıkla eklenmesi veya işlenmesi reddediliyor.
+- Son görüntü yaşı, son işleme zamanı ve görüntünün alınmasından analizin bitişine
+  kadar geçen süre ölçülüyor.
+- Durumlar `idle` (henüz kare yok), `healthy`, `backlog` (kuyruk dolu), `stale`
+  (görüntü donmuş/eski) ve `stopped` olarak açıkça ayrıldı.
+- Kapasite, en eski kareyi düşürme, oturum sıfırlama, donma eşiği, işleme
+  gecikmesi, kapanış ve zaman aşımı için altı yeni test eklendi.
+- Projenin toplam 74 Python testi geçti; Ruff kod ve biçim kontrolleri temiz.
+
+C4 tamamlandı. Sıradaki C5 görevi, RTX 3050 Ti üzerindeki gerçek sonuçlara göre
+ikinci eşzamanlı kaynak/ağ akışı sınırını değerlendirmektir. Mevcut tek-kare
+ölçümleri yaklaşık 26 FPS gösterse de kamera okuma, takip ve kuyruk birlikte
+ölçülmeden iki kaynak desteği vaat edilmeyecektir.

@@ -98,8 +98,10 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
   oturumunda sıfırlanıyor. Ekipman beklenen vücut bölgesi ve kutu yakınlığıyla
   kişiye atanıyor; yakın iki adayda belirsiz bırakılıyor. 15 karelik yerel
   denemede aynı kişi tek takip numarasıyla izlendi ve 62 ekipman tespiti bağlandı.
-- [ ] C4. Sınırlı kare kuyruğu ve analiz süreci durumunu ekle.
-  Bitme ölçütü: yavaşlamada eski görüntüler sınırsız birikmez; donma fark edilir.
+- [x] C4. Sınırlı kare kuyruğu ve analiz süreci durumunu ekle.
+  Sonuç: Dolduğunda en eski kareyi düşüren oturum kapsamlı kuyruk eklendi.
+  Alınan, işlenen ve düşen kareler ile gecikme ölçülüyor; `idle`, `healthy`,
+  `backlog`, `stale` ve `stopped` durumları birbirinden ayrılıyor.
 - [ ] C5. İkinci kaynak ve ağ akışını ölçümlere göre değerlendir.
   Bitme ölçütü: desteklenen eşzamanlı kaynak sayısı gerçek ölçümle belirtilir.
 
