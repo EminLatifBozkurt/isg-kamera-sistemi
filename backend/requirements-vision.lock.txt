@@ -5,6 +5,7 @@ contourpy==1.4.0
 cycler==0.12.1
 fonttools==4.68.0
 kiwisolver==1.5.1
+lap==0.5.14
 matplotlib==3.11.2
 nvidia-ml-py==13.615.71
 opencv-python==5.0.0.93

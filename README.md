@@ -17,6 +17,7 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Temiz veriyle eğitilmiş PPE modeli ve 107 ayrı test görüntüsündeki sayısal rapor.
 - Kayıtlı videoyu kaynak zamanında, her açılışta ayrı oturum kimliğiyle okuyan akış.
 - Webcam'i ayrı oturumla açan ve bağlantı/okuma durumlarını açıkça bildiren kaynak.
+- ByteTrack ile oturum içi insan takibi ve belirsizliği koruyan ekipman–kişi eşleştirmesi.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
@@ -194,6 +195,20 @@ Bu denetim görüntüleri göstermez, kaydetmez veya modele göndermez. Sonuçta
 bağlantı durumu yazılır. Kamera bulunamazsa veya kare okuma kesilirse normal
 kapanmış gibi gösterilmez; açık hata üretilir. Ayrıntılar
 [webcam akışı belgesinde](docs/WEBCAM_AKISI.md) bulunur.
+
+### Kayıtlı videoda kişi ve PPE takibini deneme
+
+```powershell
+.\.venv\Scripts\python.exe scripts\run_video_tracking.py `
+  C:\video\ornek.mp4 `
+  --model data\training\b6\b6-clean-positive-e20\weights\best.pt `
+  --source-id demo-kamera --max-frames 120 --device 0
+```
+
+Araç yerel modelle ByteTrack çalıştırır; görüntü veya video kaydetmez. Eksik
+model ya da takip paketi varsa otomatik indirme/kurulum yapmaz. Sonuçta takip
+edilen kişi numaraları ile atanmış, belirsiz ve sahipsiz ekipman sayıları yer
+alır. Ayrıntılar [takip ve eşleştirme belgesindedir](docs/PPE_TAKIP_VE_ESLESTIRME.md).
 
 ## Dosya düzeni
 

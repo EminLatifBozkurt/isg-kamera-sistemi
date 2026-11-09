@@ -93,8 +93,11 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
   durumları eklendi. Aynı aygıtta eşzamanlı ikinci oturum engelleniyor; yeniden
   açılış yeni takip kapsamı üretiyor. Dahili webcam'de 640×480, bildirilen 30 FPS
   ve beş karelik gerçek bağlantı denemesi görüntü kaydetmeden tamamlandı.
-- [ ] C3. ByteTrack ile kamera içi takip ve kişiye ekipman atamasını ekle.
-  Bitme ölçütü: komşu kişinin ekipmanı diğerine sayılmaz; belirsizlik korunur.
+- [x] C3. ByteTrack ile kamera içi takip ve kişiye ekipman atamasını ekle.
+  Sonuç: Yerel PPE modeli ByteTrack'e bağlandı; takip belleği her kamera
+  oturumunda sıfırlanıyor. Ekipman beklenen vücut bölgesi ve kutu yakınlığıyla
+  kişiye atanıyor; yakın iki adayda belirsiz bırakılıyor. 15 karelik yerel
+  denemede aynı kişi tek takip numarasıyla izlendi ve 62 ekipman tespiti bağlandı.
 - [ ] C4. Sınırlı kare kuyruğu ve analiz süreci durumunu ekle.
   Bitme ölçütü: yavaşlamada eski görüntüler sınırsız birikmez; donma fark edilir.
 - [ ] C5. İkinci kaynak ve ağ akışını ölçümlere göre değerlendir.

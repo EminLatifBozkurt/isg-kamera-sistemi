@@ -285,3 +285,36 @@ ve açılma, kapanma, bağlantı hatası durumlarını açık biçimde raporlama
 C2 tamamlandı. Sıradaki görev C3: PPE modelini video karelerine bağlamak,
 ByteTrack ile kişileri oturum içinde takip etmek ve ekipmanı doğru kişiye
 atarken belirsizliği korumak.
+
+## 9 Kasım 2026 — ByteTrack ve ekipman–kişi eşleştirmesi eklendi
+
+- Temiz PPE modeli kayıtlı video karelerine bağlandı. Ultralytics'in paketle
+  gelen `bytetrack.yaml` yapılandırması aynı oturumdaki tespit numaralarını
+  kareler arasında sürdürüyor.
+- Yeni kamera/video oturumu başladığında mevcut ByteTrack belleği ve numara
+  sayacı sıfırlanıyor. Başka oturuma ait kare etkin takipçiye verilemiyor.
+- Baret/gözlük baş, yelek gövde, eldiven orta/yan ve bot alt vücut bölgesinde
+  aranıyor. Ekipman kutusunun kişi kutusu içindeki oranı ve yatay yakınlığı
+  birlikte değerlendiriliyor.
+- İki kişinin aday puanı birbirine yakınsa ekipman hiçbirine kesin olarak
+  yazılmıyor; iki kişi için de belirsiz gözlem olarak korunuyor. Takip kimliği
+  henüz doğrulanmamış kişi de kesin eşleştirmede kullanılmıyor.
+- Kontrollü testlerde yan yana iki kişiden birinin bareti diğerine yazılmadı;
+  üst üste binen iki kişide ortadaki baret belirsiz kaldı; ayak hizasındaki nesne
+  baret sayılmadı.
+- İlk gerçek denemede gövdesi kadraj dışında kalan kişi algılanmadı ve yalnız
+  görünen baret sahipsiz kaldı. Bu davranış doğru kabul edildi; sistem görünmeyen
+  kişiye ekipman uydurmadı.
+- Tam vücudu görünen yerel PPE fotoğrafından oluşturulan 15 karelik hafif
+  hareketli videoda kişi bütün karelerde tek `track_id=2` ile izlendi. 15 insan,
+  15 baret, 15 yelek ve 32 bot tespiti oluştu; 62 ekipman tespiti kişiye bağlandı.
+- ByteTrack ilk çalıştırmada eksik `lap` paketini beklenmedik biçimde otomatik
+  indirip kurdu (1,5 MB). Bu hata kaydedildi; `YOLO_AUTOINSTALL=False` koruması
+  ve başlamadan bağımlılık denetimi eklendi. Bundan sonra eksik paket, kullanıcı
+  onayı olmadan kurulmayacak.
+- Takip ve eşleştirme için dokuz yeni test eklendi; projenin toplam 68 Python
+  testi geçti. Ruff kod ve biçim kontrolleri temiz sonuç verdi.
+
+C3 tamamlandı. Bu kontrollü sonuç gerçek kalabalık saha başarısı değildir.
+Sıradaki C4 görevi, analiz yavaşladığında eski karelerin sınırsız birikmesini
+engelleyen sınırlı kuyruk ile güncellik/donma durumlarını eklemektir.
