@@ -146,3 +146,27 @@ görüntüsü henüz eklenmediği için V3 tamamlandı olarak işaretlenmedi.
   güvenli biçimde duruyor.
 - Başlatıcının açtığı süreçleri kapatmak için `PROJEYI_DURDUR.cmd` eklendi.
 - Süreç kimlikleri ve loglar Git dışındaki `data/runtime/` klasöründe tutuluyor.
+
+## 9 Kasım 2026 — Eğitim verisi temizlendi ve yeniden ayrıldı
+
+- Ham Construction-PPE ZIP dosyasını değiştirmeyen
+  `scripts/prepare_yolo_dataset.py` aracı eklendi.
+- 1.416 görüntünün tamamı algısal benzerlik açısından karşılaştırıldı.
+- Hazır eğitim/doğrulama/test ayrımında bölümler arasına dağılmış 38 benzer
+  görüntü çifti bulundu.
+- Benzer kareler 1.299 grup altında toplandı; en büyük grup 12 görüntü içeriyor.
+- Gruplar parçalanmadan yaklaşık %80/%10/%10 oranında yeniden dağıtıldı.
+- Yeni ayrım 1.138 eğitim, 140 doğrulama ve 138 test görüntüsü içeriyor.
+- Yeni ayrımda bölümler arasındaki benzer görüntü çifti sayısı sıfırlandı.
+- Görüntüsü olmayan 10 artık etiket dışarıda bırakıldı ve bir yinelenen etiket
+  satırı temizlendi.
+- Gelecekteki videolarda bütün kareleri kaynak/oturum kimliğiyle aynı bölümde
+  tutmak için isteğe bağlı CSV grup desteği eklendi.
+- Üretilen 171,30 MiB çalışma verisi `data/` altında tutuluyor ve Git'e girmiyor.
+- Üretilen `data.yaml`, Ultralytics ile kontrol edildi; üç bölüm yolu ve 11 sınıf
+  doğru bulundu.
+- Veri hazırlama mantığı için beş yeni test eklendi; toplam on test geçti.
+
+Construction-PPE gerçek çekim/video kimliği sağlamadığı için görsel benzerlik
+gruplarının ortak kaynağı kesin kanıtlamadığı açıkça belgelendi. B5 tamamlandı;
+sıradaki ana görev, hazırlanmış veriyle küçük PPE modelini eğitmek (B6).

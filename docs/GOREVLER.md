@@ -40,8 +40,13 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
   Sonuç: Genel YOLO26n, PPE etiketli test görüntüsündeki kişiyi 0,907 güvenle
   buldu; model kataloğunda beş PPE sınıfının bulunmadığı gerçek çıktı üzerinden
   gösterildi. Komut, ağırlık özeti ve sınırlamalar `ILK_MODEL_DENEYI.md` içinde.
-- [ ] B5. Veriyi video/kaynak bazında eğitim, doğrulama ve test olarak ayır.
+- [x] B5. Veriyi video/kaynak bazında eğitim, doğrulama ve test olarak ayır.
   Bitme ölçütü: aynı kaynağın komşu kareleri eğitim ve teste sızmaz.
+  Sonuç: Hazır ayrımdaki 38 bölümler arası benzer görüntü çifti pHash gruplarıyla
+  sıfıra indirildi; 1.416 görüntülük temiz çalışma kopyası üretildi. Arşiv gerçek
+  kaynak kimliği vermediği için bu sınır açıkça kaydedildi. Yeni video verilerinde
+  aynı kaynak kimliğini bölmeyen CSV desteği eklendi. Ayrıntılar
+  `VERI_HAZIRLAMA_VE_AYIRMA.md` içinde.
 - [ ] B6. Küçük PPE modelini hazır ağırlıklar üzerinden eğit ve deney ayarlarını kaydet.
   Çıktı: yeniden üretilebilir eğitim komutu, veri sürümü, ağırlık ve deney kaydı.
 - [ ] B7. Ayrılmış test verisinde sınıf başına doğruluk ve yerel hız/belleği ölç.

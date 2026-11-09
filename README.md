@@ -11,6 +11,7 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Bu davranışları doğrulayan testler ve bilgisayar ortamını raporlayan araç.
 - RTX 3050 Ti üzerinde doğrulanan CUDA destekli PyTorch ve Ultralytics ortamı.
 - ZIP içindeki tek görüntüde yerel genel YOLO ağırlığıyla çalışan çıkarım betiği.
+- Benzer kareleri bölmeden temiz eğitim/doğrulama/test verisi hazırlama aracı.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
 **Bu sürümde PPE'ye özel eğitilmiş model henüz yoktur.** Genel model yalnız ilk
@@ -115,6 +116,19 @@ Yerelde indirilmiş bir ağırlıkla tek test görüntüsü çıkarımı:
 Betik eksik ağırlığı otomatik indirmez. İlk deney sonucu ve yorumlama sınırları
 [ilk model deneyi belgesinde](docs/ILK_MODEL_DENEYI.md) açıklanır.
 
+Ham PPE ZIP dosyasından temiz ve benzer görüntü gruplarını bölmeyen çalışma
+verisi hazırlama:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\prepare_yolo_dataset.py `
+  data\datasets\construction-ppe.zip `
+  data\datasets\construction-ppe-b5
+```
+
+Araç ham ZIP'i değiştirmez ve var olan çıktı klasörünün üzerine yazmaz. Sonuçlar
+Git dışındaki `data/` klasöründe tutulur. Yöntem, ölçüm ve kaynak bilgisi sınırı
+[veri hazırlama belgesinde](docs/VERI_HAZIRLAMA_VE_AYIRMA.md) açıklanır.
+
 ## Dosya düzeni
 
 ```text
@@ -135,6 +149,8 @@ ekleyeceğiz. Ayrıntılar: [Görev listesi](docs/GOREVLER.md),
 [proje kararları](docs/PROJE_KARARLARI.md), [sistem tasarımı](docs/SISTEM_TASARIMI.md).
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
+Eğitim/doğrulama/test ayrımının hazırlanması
+[veri hazırlama belgesinde](docs/VERI_HAZIRLAMA_VE_AYIRMA.md) açıklanır.
 İlk genel model deneyi [ayrı deney belgesinde](docs/ILK_MODEL_DENEYI.md),
 demo görüntülerinin lisans ve saklama kuralları
 [demo kaynakları belgesinde](docs/DEMO_GORUNTU_KAYNAKLARI.md) tutulur.
