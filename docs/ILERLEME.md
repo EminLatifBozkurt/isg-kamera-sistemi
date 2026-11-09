@@ -236,3 +236,27 @@ B6 ve B7 tamamlandı. Model görünür ekipmanı algılar; “eksik ekipman” k
 sonraki aşamada kişi–ekipman eşleştirmesi ve kamera/bölge kurallarıyla üretilecektir.
 Bu sonuç saha güvenliği için üretim onayı değildir; sıradaki model görevi kayıtlı
 videoda zamansal kararlılık ve kişi–ekipman ilişkilendirmesidir.
+
+## 9 Kasım 2026 — Kayıtlı video oturumu eklendi
+
+- `isg_api.video_source` modülü kayıtlı videoyu OpenCV ile açacak şekilde eklendi.
+  OpenCV yalnız video özelliği kullanıldığında yükleniyor; temel API başlangıcı
+  gereksiz yere görüntü paketine bağlanmıyor.
+- Her video açılışı benzersiz oturum kimliği, kaynak kimliği, başlangıç zamanı,
+  FPS, kare sayısı ve çözünürlük bilgisi taşıyor.
+- Her karede oturum kimliği, sıfırdan başlayan kare numarası, videonun kendi
+  saniyesi ve bilgisayarda gözlemlendiği UTC zamanı birlikte tutuluyor.
+- Normal mod videonun kaynak zamanına göre bekliyor; analiz deneyi için hızlı mod
+  kaynak hızını beklemeden okuyabiliyor.
+- Video yeniden açıldığında yeni `tracking_scope` üretiliyor. Böylece C3'te
+  eklenecek takip numaraları eski oynatım veya başka oturumla birleşmeyecek.
+- Bozuk/tekrarlanan kapsayıcı zamanında FPS tabanlı güvenli zaman kullanılıyor;
+  geçersiz FPS, açılamayan dosya ve ikinci kez kullanılan oturum reddediliyor.
+- Yerel PPE test görüntüsünden Git dışındaki `data/runtime` alanında 640×360,
+  10 FPS ve 30 karelik geçici video üretildi. Normal hızlı okumada 30 kare ve
+  0,0–2,9 saniye kaynak zamanı doğrulandı; ikinci açılış yeni oturum kimliği verdi.
+- Video oturumu için 10 yeni test eklendi; projenin toplam 47 Python testi geçti.
+  Ruff kod ve biçim denetimleri de temiz sonuç verdi.
+
+C1 tamamlandı. Sıradaki görev C2: webcam kaynağını aynı oturum modeline eklemek
+ve açılma, kapanma, bağlantı hatası durumlarını açık biçimde raporlamak.

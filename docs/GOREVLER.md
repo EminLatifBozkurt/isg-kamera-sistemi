@@ -83,8 +83,11 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
 
 ## C. Tek görüntü kaynağını işleme — B sonuçları uygun olduğunda
 
-- [ ] C1. Kayıtlı videoyu kaynak zamanına uygun hızda oku; zaman/oturum kimliği tut.
-  Bitme ölçütü: video tekrarında eski takipler yeni oturuma taşınmaz.
+- [x] C1. Kayıtlı videoyu kaynak zamanına uygun hızda oku; zaman/oturum kimliği tut.
+  Sonuç: OpenCV tabanlı tek kullanımlık video oturumu, kare numarası, kaynak
+  saniyesi ve benzersiz oturum kimliğiyle eklendi. Aynı video yeniden açıldığında
+  yeni takip kapsamı oluşuyor. 30 karelik 10 FPS yerel videoda normal hızlı ve
+  beklemesiz okuma gerçek OpenCV ile doğrulandı.
 - [ ] C2. Webcam kaynağı ve kaynak durumlarını ekle.
   Bitme ölçütü: açma, kapatma ve bağlantı hatası açıkça raporlanır.
 - [ ] C3. ByteTrack ile kamera içi takip ve kişiye ekipman atamasını ekle.

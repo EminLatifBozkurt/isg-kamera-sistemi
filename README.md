@@ -15,6 +15,7 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Tüm görüntüleri görsel denetlenen, iş yeri dışı sahneleri çıkarılmış altı sınıflı
   temiz PPE çalışma verisi.
 - Temiz veriyle eğitilmiş PPE modeli ve 107 ayrı test görüntüsündeki sayısal rapor.
+- Kayıtlı videoyu kaynak zamanında, her açılışta ayrı oturum kimliğiyle okuyan akış.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
@@ -162,6 +163,21 @@ Eğitimde kullanılmayan test bölümüyle bağımsız ölçüm:
 Değerlendirme aracı yalnız yerel model, veri ve sistem yazı tipini kullanır;
 eksik bir bileşende internetten indirmek yerine durur. Sonuç JSON'u Git dışında
 `data/evaluation/b7/` altına yazılır.
+
+### Kayıtlı video akışını denetleme
+
+Bilgisayarındaki bir videoyu model çalıştırmadan, kaynak zamanında oku:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\inspect_recorded_video.py `
+  C:\video\ornek.mp4 --source-id demo-kamera --max-frames 120
+```
+
+`--fast` eklenirse kareler video hızını beklemeden okunur. Çıktıda FPS,
+çözünürlük, videonun kendi saniyesi ve benzersiz oturum kimliği bulunur. Aynı
+video tekrar açıldığında yeni kimlik üretilir; böylece ilerideki takip numaraları
+eski oynatımla karışmaz. Araç dosya veya paket indirmez. Ayrıntılar
+[kayıtlı video akışı belgesinde](docs/KAYITLI_VIDEO_AKISI.md) açıklanır.
 
 ## Dosya düzeni
 
