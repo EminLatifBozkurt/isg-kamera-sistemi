@@ -366,3 +366,24 @@ ikinci eşzamanlı kaynak/ağ akışı sınırını değerlendirmektir. Mevcut t
 
 C5 tamamlandı ve C bölümü bitti. Sıradaki ana görev D1: PostgreSQL geliştirme
 kurulumunu ve gizli bilgileri depoya koymayan bağlantı ayarlarını hazırlamaktır.
+
+## 9 Kasım 2026 — PostgreSQL bağlantı hazırlığı yapıldı (D1 devam ediyor)
+
+- Bilgisayarda `psql`, PostgreSQL Windows servisi, Docker ve Podman bulunmadığı
+  doğrulandı; var olmayan veritabanı kurulmuş gibi gösterilmedi.
+- `Settings` içine 127.0.0.1/5432 varsayımları, veritabanı/kullanıcı adı, 1–20
+  arası havuz boyutu ve `SecretStr` parola alanı eklendi.
+- Parola yoksa `database_configured` false kalıyor. Parola ayar nesnesinin veya
+  güvenle gösterilebilen bağlantı hedefinin metninde açığa çıkmıyor.
+- `create_database_engine`, paketler ve parola hazır olmadan otomatik kurulum
+  yapmıyor; açık hata veriyor. Hazır olduğunda `postgresql+psycopg` ve
+  `pool_pre_ping` ile sınırlı bağlantı havuzu oluşturacak.
+- `check_database_connection` bağlantıda gerçek `SELECT 1` çalıştırıp gecikmeyi
+  ölçecek. Sahte bağlantıyla davranış test edildi; gerçek PostgreSQL bağlantısı
+  kuruluma kadar tamamlanmış sayılmayacak.
+- `.env.example` yalnız `CHANGE_ME` örneği içeriyor; gerçek `.env` Git dışında.
+- Beş yeni testle toplam 83 Python testi geçti; Ruff kontrolleri temiz.
+
+D1 henüz tamamlanmadı. Resmî Windows kurucusu ve Python veritabanı paketleri
+kullanıcının indirme onayından sonra kurulacak; ardından gerçek bağlantı ve
+yanlış parola testi yapılacak.

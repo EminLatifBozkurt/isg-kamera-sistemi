@@ -112,6 +112,9 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
 
 - [ ] D1. PostgreSQL geliştirme kurulumunu ve bağlantı ayarlarını hazırla.
   Bitme ölçütü: bağlantı doğrulanır; şifre depoya girmez.
+  Hazırlık: Host/port/veritabanı/kullanıcı ayarları ve gizli `SecretStr` parola,
+  güvenli hedef özeti ve `SELECT 1` bağlantı kontrolü eklendi. Bilgisayarda
+  PostgreSQL/Docker yok; sunucu ve Python paketleri onay alınmadan indirilmeyecek.
 - [ ] D2. SQLAlchemy tablolarını ve ilk Alembic şema değişikliğini yaz.
   Çıktı: kamera, oturum, kural sürümü, çalışan, olay, medya ve inceleme kayıtları.
 - [ ] D3. Kullanıcı oturumu, parola özeti, CSRF ve yönetici/İSG yetkilerini ekle.

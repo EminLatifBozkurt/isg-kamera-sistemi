@@ -59,6 +59,9 @@ Sistem Python'una proje paketleri kurulmaz.
 
 İsteğe bağlı ayarlar için `.env.example` dosyasını `.env` adıyla kopyalayabilirsin.
 Başlangıç ayarlarıyla bu dosya olmadan da çalışır.
+Veritabanı şifresi yalnız Git'e girmeyen `.env` içindeki
+`ISG_DATABASE_PASSWORD` alanında tutulur; eksikse uygulama veritabanını hazır
+göstermez ve paket/sunucu indirmeye çalışmaz.
 
 ## Çalıştırma
 
