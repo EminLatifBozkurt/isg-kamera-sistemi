@@ -47,8 +47,11 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
   kaynak kimliği vermediği için bu sınır açıkça kaydedildi. Yeni video verilerinde
   aynı kaynak kimliğini bölmeyen CSV desteği eklendi. Ayrıntılar
   `VERI_HAZIRLAMA_VE_AYIRMA.md` içinde.
-- [ ] B6. Küçük PPE modelini hazır ağırlıklar üzerinden eğit ve deney ayarlarını kaydet.
-  Çıktı: yeniden üretilebilir eğitim komutu, veri sürümü, ağırlık ve deney kaydı.
+- [x] B6. Küçük PPE modelini hazır ağırlıklar üzerinden eğit ve deney ayarlarını kaydet.
+  Sonuç: YOLO26n, 1.138 eğitim ve 140 doğrulama görüntüsüyle 20 tur eğitildi.
+  En iyi ağırlıkta doğrulama mAP50 0,5423, mAP50-95 0,2794 ölçüldü. Yerel
+  ağırlıklar, dosya özetleri ve deney kaydı Git dışındaki `data/training/b6/`
+  altında; yeniden üretim komutu ve sınırlamalar `ILK_PPE_EGITIMI.md` içinde.
 - [ ] B7. Ayrılmış test verisinde sınıf başına doğruluk ve yerel hız/belleği ölç.
   Bitme ölçütü: sayısal rapor; başarısız sınıflar açık; sabit ekipman kapsamı kesinleşir.
 
@@ -105,7 +108,7 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
   Bitme ölçütü: klip hazırlanıyor/hazır/hatalı durumları doğru; işlem analizi kilitlemez.
 - [ ] E4. Kalıcı olay/değişiklik kayıtları ve WebSocket bildirimi ekle.
   Bitme ölçütü: panel kapalıyken olay kaydedilir; yeniden bağlantıda liste tamamlanır.
-- [ ] E5. İnceleme sonucu, çalışan eşleştirme, açıklama ve değişiklik geçmişini ekle.
+- [ ] E5. İnceleme sonucu, açıklama ve değişiklik geçmişini ekle.
   Bitme ölçütü: yanlış alarm doğrulanmış ihlal sayısını artırmaz; düzeltme izlenebilir.
 
 ## F. Web paneli — API akışları netleştikten sonra
@@ -117,9 +120,11 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
 - [ ] F3. Çokgen çizme, düzenleme ve bölge kurallarını ekle.
   Bitme ölçütü: ölçek/boş kenar koordinatları doğru; geçersiz şekiller reddedilir.
 - [ ] F4. Olay listesi, filtreler, bildirim ve fotoğraf/video inceleme ekranını ekle.
-  Bitme ölçütü: bildirim doğru olayı açar; medya durumu doğru gösterilir.
-- [ ] F5. Çalışan profili, eşleştirme, inceleme sonucu ve not akışını ekle.
-  Bitme ölçütü: olay çalışana atanır; yanlış atama düzelir; özetler güncellenir.
+  Bitme ölçütü: tanınan kişinin bildirimi çalışan profilini; tanınmayan kişinin
+  bildirimi ayrı bilinmeyen kimlik kuyruğunu açar; medya durumu doğru gösterilir.
+- [ ] F5. Çalışan profili, yüz kaydı, otomatik olay geçmişi ve not akışını ekle.
+  Bitme ölçütü: tanınan olay otomatik olarak doğru profil geçmişinde görünür;
+  İSG görevlisi olay için elle çalışan seçmez.
 - [ ] F6. Genel görünüm, sistem durumları ve saklama ayarlarını ekle.
   Bitme ölçütü: kamera kesintisi, analiz durması ve ekipman ihlali karışmaz.
 
@@ -131,6 +136,24 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
   Bitme ölçütü: kamera temeli + bölgelerin ek şartları doğru; örtülme açıkça ele alınır.
 - [ ] G3. Kamera/bölge kural değişikliklerini çalışan analize sürümle uygula.
   Bitme ölçütü: eski olayın kanıtı/kuralı değişmez; yeni kuralın geçerlilik anı nettir.
+
+## K. Yüz tanıma ve otomatik bildirim yönlendirme — C ve D üzerine
+
+- [ ] K1. Yerel yüz tanıma modelini, lisansını ve izinli demo yüz verisini doğrula.
+  İlk aday: mevcut OpenCV ortamıyla YuNet yüz tespiti + SFace yüz özeti. Model
+  dosyalarının boyutu bildirilip onay alınmadan indirme yapılmaz.
+- [ ] K2. Çalışan profiline birden fazla izinli yüz örneğiyle kayıt ve güvenli
+  yüz özeti saklama akışını ekle.
+  Bitme ölçütü: ham fotoğraf zorunlu tutulmaz; kayıt silme/pasifleştirme çalışır.
+- [ ] K3. Yüzü kişi takibiyle eşleştirip birden fazla karede kararlı kimlik kararı üret.
+  Bitme ölçütü: tek düşük kaliteli kare kişiyi tanınmış yapmaz; yüz görünmüyorsa
+  veya en iyi iki aday birbirine yakınsa sonuç bilinmeyen/belirsiz kalır.
+- [ ] K4. Olay ve bildirimi kimlik sonucuna göre otomatik yönlendir.
+  Bitme ölçütü: güvenilir eşleşme doğrudan çalışanın profil/geçmiş sayfasına;
+  eşleşmeyen olay ayrı bilinmeyen kimlik kuyruğuna gider. Elle çalışan seçimi yoktur.
+- [ ] K5. Yanlış kişiye bağlama, tanıyamama, farklı açı/ışık ve hız ölçümlerini yap.
+  Bitme ölçütü: eşikler izinli yerel örneklerle ölçülür; yanlış eşleşme zorla başka
+  çalışana atanmaz, kimlik bağlantısı kaldırılarak bilinmeyen kuyruğuna alınır.
 
 ## H. Dayanıklılık, ölçüm ve teslim
 
@@ -149,7 +172,7 @@ olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyl
 
 ## Sonraya bırakılanlar
 
-Otomatik yüz/kişi tanıma, kameralar arası kimlik eşleştirme, tehlikeli davranış
+Kameralar arasında kişinin hareketini kesintisiz takip etme, tehlikeli davranış
 analizi, tamamen yasak bölge ve yaklaşma alarmı ayrı kapsam olarak ele alınacak.
-Kişiye özel ek ekipman şartları, otomatik kimlik yokken canlı tespit iddiasıyla
-sunulmayacak; ilk sürümde insan incelemesine yardımcı profil bilgisidir.
+Yüz görünmediğinde veya güvenilir biçimde eşleşmediğinde kişiye özel ek ekipman
+şartları uygulanmayacak; kamera ve bölge kuralları çalışmaya devam edecek.

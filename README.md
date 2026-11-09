@@ -12,12 +12,13 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - RTX 3050 Ti üzerinde doğrulanan CUDA destekli PyTorch ve Ultralytics ortamı.
 - ZIP içindeki tek görüntüde yerel genel YOLO ağırlığıyla çalışan çıkarım betiği.
 - Benzer kareleri bölmeden temiz eğitim/doğrulama/test verisi hazırlama aracı.
+- Yerel başlangıç ağırlığından eğitilmiş ilk 11 sınıflı PPE modeli ve kayıtlı deney.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 
-**Bu sürümde PPE'ye özel eğitilmiş model henüz yoktur.** Genel model yalnız ilk
-çalışma deneyi için kullanıldı. İlk web paneli hazırdır; kamera bağlantısı,
-veritabanı ve bildirimler sonraki adımlardır. Kural testlerindeki gözlemler elle
-hazırlanır; model doğruluğu ölçümü olarak yorumlanmamalıdır.
+İlk PPE modeli eğitildi; ancak sonuçlar şimdilik yalnız doğrulama bölümüne aittir.
+Bağımsız test ölçümü B7 aşamasında yapılacaktır. İlk web paneli hazırdır; kamera
+bağlantısı, veritabanı ve bildirimler sonraki adımlardır. Kural testlerindeki
+gözlemler elle hazırlanır; model doğruluğu ölçümü olarak yorumlanmamalıdır.
 
 ## Kurulum (Windows / PowerShell)
 
@@ -129,6 +130,20 @@ Araç ham ZIP'i değiştirmez ve var olan çıktı klasörünün üzerine yazmaz
 Git dışındaki `data/` klasöründe tutulur. Yöntem, ölçüm ve kaynak bilgisi sınırı
 [veri hazırlama belgesinde](docs/VERI_HAZIRLAMA_VE_AYIRMA.md) açıklanır.
 
+Hazırlanmış veriyle ilk PPE eğitimini çalıştırma:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\train_ppe_model.py `
+  --model data\models\yolo26n.pt `
+  --data data\datasets\construction-ppe-b5\data.yaml `
+  --name b6-baseline-e20 --epochs 20 --batch 8 --device 0
+```
+
+Betik eksik model veya veriyi indirmez, var olan deneyin üzerine yazmaz ve deney
+ayarlarını JSON olarak kaydeder. Kesilen aynı deneye `--resume-from` ile devam
+edilebilir. Sonuçlar ve yorumlama sınırları
+[ilk PPE eğitimi belgesinde](docs/ILK_PPE_EGITIMI.md) açıklanır.
+
 ## Dosya düzeni
 
 ```text
@@ -151,6 +166,8 @@ Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması
 [veri hazırlama belgesinde](docs/VERI_HAZIRLAMA_VE_AYIRMA.md) açıklanır.
+İlk PPE eğitiminin ayarları ve doğrulama sonucu
+[ilk PPE eğitimi belgesinde](docs/ILK_PPE_EGITIMI.md) bulunur.
 İlk genel model deneyi [ayrı deney belgesinde](docs/ILK_MODEL_DENEYI.md),
 demo görüntülerinin lisans ve saklama kuralları
 [demo kaynakları belgesinde](docs/DEMO_GORUNTU_KAYNAKLARI.md) tutulur.
@@ -159,13 +176,14 @@ demo görüntülerinin lisans ve saklama kuralları
 
 - Webcam, kayıtlı video ve ileride ağ kamerası desteği.
 - Kamera ve çizilen bölgelere göre ekipman zorunlulukları.
-- Olay fotoğrafı/kısa klibi, İSG incelemesi, açıklama ve çalışanla elle eşleştirme.
-- Çalışan sayfaları ve doğrulanmış olayların geçmişi.
-- Yerel ağda çalışma; otomatik kimlik tanıma ve davranış analizi sonraya bırakıldı.
+- Olay fotoğrafı/kısa klibi, İSG incelemesi ve açıklama.
+- İzinli yüz kayıtlarıyla otomatik çalışan eşleştirme; tanınmayanlar için ayrı kuyruk.
+- Çalışan sayfaları ve otomatik bağlanan olay geçmişi.
+- Yerel ağda çalışma; tehlikeli davranış analizi sonraya bırakıldı.
 
 İlk ekipman adayları baret, yelek, gözlük, eldiven ve bot görünümüdür; model
-başarısı henüz doğrulanmamıştır. Botun koruyucu standardı gibi özellikler
-yalnız görüntüden doğrulanmış sayılmayacaktır.
+başarısı bağımsız test verisinde henüz doğrulanmamıştır. Botun koruyucu standardı
+gibi özellikler yalnız görüntüden doğrulanmış sayılmayacaktır.
 
 ## Git ve lisans
 

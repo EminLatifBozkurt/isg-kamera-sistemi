@@ -42,9 +42,11 @@
 4. Ekipman kataloğu sabit ve baret/yelekten geniş olacak. Arayüzden ekipman türü ekleme/silme yok.
 5. Kamera ve kamera görüntüsünde çizilen bölgelere ekipman şartları atanabilecek.
 6. Bölgeye giriş tek başına ihlal değil; gerekli ekipmanlar herkes için değerlendirilecek.
-7. Çalışan profilleri, geçmiş olaylar, olayın çalışanla elle ilişkilendirilmesi.
+7. Çalışan profilleri, izinli yüz kayıtları ve otomatik ilişkilendirilen olay geçmişi.
 8. İSG incelemesi, açıklama ve doğrulandı/yanlış alarm kararı; karar düzeltme geçmişi.
-9. Kişi tanınmasa bile olay oluşacak. Otomatik kimlik tanıma zorunlu değil.
+9. Yüz tanıma, izinli çalışan kayıtlarıyla otomatik kimlik eşleştirme için kullanılacak.
+   Güvenilir biçimde tanınan olay çalışanın geçmişine otomatik bağlanacak; tanınmayan
+   veya belirsiz olay ayrı kuyruğa gidecek. İSG görevlisi elle çalışan seçmeyecek.
 10. Otomatik davranış analizi ilk sürüm dışında; sonradan ayrıca değerlendirilecek.
 
 ## Tasarım ilkeleri

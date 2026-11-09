@@ -33,7 +33,9 @@ Tek Git deposu içinde modüller ayrılacak. Web sunucusu ile analiz farklı iş
 8. İhlal adayını süre ve tekrar gözlemlerle doğrula; tek kötü kareden bildirim üretme.
 9. Kalıcı olay kaydını ve ilk kanıt görüntüsünü oluştur. Kısa klip hazırlanırken durumunu ayrıca belirt.
 10. Sunucu yeni kayıtları alıp bağlı panellere bildirir. Bildirim kanalı koparsa olay veritabanında kalır.
-11. İSG görevlisi olayı inceler, çalışanla ilişkilendirir, sonucunu ve isteğe bağlı açıklamasını kaydeder.
+11. Güvenilir yüz eşleşmesi olayı otomatik olarak çalışan profiline yönlendirir;
+    eşleşme yoksa olay bilinmeyen kimlik kuyruğuna gider. İSG görevlisi sonucu
+    inceler ve isteğe bağlı açıklamasını kaydeder.
 
 Analiz süreci ile API arasındaki ilk iletişim kalıcı olay/değişiklik kayıtları üzerinden olacak. API bu kayıtları kısa aralıklarla sorgulayarak WebSocket üzerinden iletecek. Başlangıç sorgu aralığı yaklaşık bir saniye olarak ölçülebilir; bu gerçek ölçülmüş gecikme değildir. Redis ilk sürümde zorunlu değil. WebSocket teslimatı, veritabanı kaydının yerine geçmez. Bağlantı yenilenince panel olay listesini ve değişen kayıtları yeniden sorgular; kayıt kimlikleriyle tekrarları ayıklar.
 
@@ -61,13 +63,26 @@ Bot görünümünden güvenlik standardı, maske görünümünden filtre uygunlu
 
 ## 6. Kişi profili ve olay eşleştirme
 
-İlk sürümde çalışan kaydı ile kameradaki takip kaydı farklı kavramlardır. Çalışan sayfasında ad, çalışan numarası, bölüm, etkinlik durumu ve isteğe bağlı ek ekipman gereksinimleri tutulabilir. Benzersiz çalışan numarası isim benzerliklerini ayırır.
+Çalışan kaydı ile kameradaki takip kaydı farklı kavramlardır. Çalışan sayfasında
+ad, çalışan numarası, bölüm, etkinlik durumu, izinli yüz örnekleri ve isteğe bağlı
+ek ekipman gereksinimleri tutulabilir. Benzersiz çalışan numarası isim
+benzerliklerini ayırır.
 
-Yeni olay çalışansız oluşabilir. İSG görevlisi çalışanı arayıp olayda açıkça işaretlenen kişiyle eşleştirir. Bir karede başka kişiler bulunması onların da aynı olaya atanmasına yol açmaz. İlk sürümde olayın bir hedef kişi takibi olur; diğer kişiler için gerekiyorsa ayrı olay oluşur.
+Yüz eşleşmesi güvenilir ve birden fazla karede kararlıysa hedef kişi takibi çalışan
+profiline otomatik bağlanır. Bir karede başka kişiler bulunması onların da aynı
+olaya bağlanmasına yol açmaz. Her olayın tek hedef kişi takibi olur; diğer kişiler
+için gerekiyorsa ayrı olay oluşur. Yüz görünmüyor, kalite yetersiz veya en iyi iki
+aday birbirine yakınsa olay bilinmeyen/belirsiz kalır.
 
-Eşleştirme değiştirilirse önceki değer, işlemi yapan görevli, zaman ve açıklama geçmişte korunur. Aynı takip numarası başka kamera veya yeni kamera oturumunda aynı çalışan sayılmaz. Takip numarasına dayanarak sonraki olaylar otomatik olarak o çalışana atanmaz.
+Yanlış otomatik eşleşme fark edilirse kimlik bağlantısı kaldırılır ve olay
+bilinmeyen kuyruğuna alınır; görevli olayı başka bir çalışana elle atamaz. Önceki
+değer, işlemi yapan görevli, zaman ve açıklama denetim geçmişinde korunur. Aynı
+takip numarası başka kamera veya yeni kamera oturumunda aynı çalışan sayılmaz.
 
-Kritik sınır: kişi otomatik tanınmadığı için kişiye özel ek ekipman şartları bilinmeyen kişiye canlı uygulanamaz. İlk sürümde bunlar profilde bilgi ve inceleme desteğidir. Canlı otomatik ihlal kontrolünün temeli kamera/bölge kurallarıdır. Sonradan çalışan atamak, olay anındaki kuralı sessizce değiştirmeyecek.
+Kritik sınır: kişiye özel ek ekipman şartları yalnız yüz tanıma sonucu güvenilir ve
+kararlıysa canlı uygulanabilir. Tanınmayan veya belirsiz kişi için kamera/bölge
+kuralları uygulanır ve olay ayrı bilinmeyen kimlik kuyruğuna gider. İSG görevlisi
+olayı elle bir çalışana bağlamaz; böylece yanlış kişiye ait geçmiş oluşturulmaz.
 
 ## 7. Olayın iki ayrı durumu
 
@@ -89,9 +104,9 @@ Görevli not ekleyebilir ve kararını gerekçesiyle düzeltebilir. Çalışan p
 | Kamera ayrıntısı | Önizleme, kişi/ekipman işaretleri, bölge katmanı, model ve işleme durumu |
 | Kamera kuralları | Temel ekipman seçimleri, görüntü üzerinde çokgen çizme/düzenleme, bölgeye ekipman atama, kaydetmeden önce doğrulama |
 | Olaylar | Kamera, tarih, bölge, ekipman, inceleme durumu, çalışan/bilinmeyen kişi filtreleri |
-| Olay ayrıntısı | Neden, zaman, olayın hedef kişisi, fotoğraf/klip, olay anındaki kural, çalışan atama, not ve inceleme sonucu |
+| Olay ayrıntısı | Neden, zaman, olayın hedef kişisi, fotoğraf/klip, olay anındaki kural, otomatik kimlik sonucu, not ve inceleme sonucu |
 | Çalışanlar | Çalışan ekleme, arama, bölüm, etkin/pasif durumu |
-| Çalışan ayrıntısı | Bilgiler, ek gereksinimler, ayrı durumlarda geçmiş olaylar, doğrulanmış olay özeti |
+| Çalışan ayrıntısı | Bilgiler, izinli yüz kaydı, ek gereksinimler, otomatik olay geçmişi, doğrulanmış olay özeti |
 | Sistem ayarları | Desteklenen saklama seçenekleri, disk durumu, yönetici kullanıcı işlemleri, model sürüm bilgisi |
 
 Bildirim olaya götürecek. Olay ekranındaki çalışan bağlantısı kişinin sayfasını açacak. Önizleme ilk sürümde düşük FPS MJPEG olabilir; akış sunucudan alınacak. API, analiz sürecinin en güncel önizlemesini tek kopya üretiminden paylaşacak. Tarayıcıların RTSP'yi doğrudan oynatacağı varsayılmayacak. Klipler tarayıcıda çalıştığı doğrulanmış MP4 biçiminde sunulacak.
@@ -128,7 +143,11 @@ Saklama süresi ve toplam medya kotası ayarlanabilir olacak; başlangıç değe
 
 ## 11. Oturum, yetki ve çalışırlık
 
-Başlangıçta yönetici ve İSG görevlisi rolleri yeterli. Yönetici kullanıcı ve kamera/kuralları yönetebilir; İSG görevlisi olayları inceleyip çalışanla eşleştirebilir. Kullanıcının istediği gibi İSG rolüne de kamera/bölge kurallarını düzenleme yetkisi verilecek. Kullanıcı/altyapı ayarları yöneticiye ait kalacak. Değişiklikleri yapan kullanıcı kaydedilecek.
+Başlangıçta yönetici ve İSG görevlisi rolleri yeterli. Yönetici kullanıcı ve
+kamera/kuralları yönetebilir; İSG görevlisi olayları inceler, ancak olay için elle
+çalışan seçmez. İSG rolüne de kamera/bölge kurallarını düzenleme yetkisi verilecek.
+Kullanıcı/altyapı ayarları yöneticiye ait kalacak. Değişiklikleri yapan kullanıcı
+kaydedilecek.
 
 Oturum sunucuda tutulacak; parola düz metin tutulmayacak. Aynı kaynaktan sunulan panel için HttpOnly çerez, CSRF koruması, rol kontrolü ve oturum süresi uygulanacak. Üretim benzeri yerel ağ kurulumunda HTTPS kullanılacak; ilk yerel geliştirme ortamı bundan ayrı. Medya istekleri de yetki kontrolünden geçecek. Kamera şifreleri API yanıtlarına, loglara ve Git deposuna girmeyecek.
 
@@ -142,7 +161,9 @@ Analiz süreci son çalıştığı zamanı bildirecek. Panel yalnız kamera bağ
 4. Görüntüde el/baş/ayak seçilemiyorsa ilgili ekipmanın yokluğu otomatik varsayılmaz.
 5. Devam eden bir olay panelde sürekli yeni satırlar üretmez; kamera yeniden başladığında eski takip kimliğiyle birleştirilmez.
 6. Panel kapalıyken kayıt devam eder; yeniden girişte kaçırılan olaylar listelenir.
-7. Çalışansız olay sonradan Ahmet'e atanır; Ahmet'in geçmişinde görülür. Yanlış eşleştirme düzeltilir ve geçmişi korunur.
+7. Yüzü kararlı biçimde tanınan Ahmet'in olayı otomatik olarak profilinde görülür;
+   tanınmayan kişi ayrı kuyruğa gider. Yanlış bağlantı kaldırılır, başka çalışana
+   elle atanmaz ve denetim geçmişi korunur.
 8. Yanlış alarm çalışanının doğrulanmış ihlal sayısını artırmaz; inceleme düzeltmesi özetlere yansır.
 9. Kamera kopması veya analiz durması belirgin uyarı üretir; güncel olmayan görüntü canlı gibi sunulmaz.
 10. Klip henüz hazır değilse veya saklama süresi dolmuşsa arayüz doğru durumu gösterir.

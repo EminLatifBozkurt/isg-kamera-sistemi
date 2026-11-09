@@ -170,3 +170,24 @@ görüntüsü henüz eklenmediği için V3 tamamlandı olarak işaretlenmedi.
 Construction-PPE gerçek çekim/video kimliği sağlamadığı için görsel benzerlik
 gruplarının ortak kaynağı kesin kanıtlamadığı açıkça belgelendi. B5 tamamlandı;
 sıradaki ana görev, hazırlanmış veriyle küçük PPE modelini eğitmek (B6).
+
+## 9 Kasım 2026 — İlk PPE modeli eğitildi
+
+- `scripts/train_ppe_model.py` ile yalnız yerel veri ve yerel YOLO26n başlangıç
+  ağırlığı kullanan, otomatik indirme yapmayan eğitim akışı eklendi.
+- Eğitim kesilirse aynı deneyin `last.pt` kaydından devam etme desteği eklendi ve
+  yarıda kalan ana deney bu yolla tamamlandı.
+- Model 1.138 eğitim görüntüsüyle, 640 piksel görüntü boyutu, 8'li grup ve 20 tur
+  ayarlarıyla RTX 3050 Ti üzerinde eğitildi.
+- En iyi ağırlık 140 doğrulama görüntüsünde precision 0,6254, recall 0,5233,
+  mAP50 0,5423 ve mAP50-95 0,2794 verdi.
+- Baret ve yelek sınıfları güçlü görünürken `no_helmet`, `no_goggle`,
+  `no_gloves` ve `no_boots` sınıfları zayıf kaldı. Bu sonuç gizlenmeden sonraki
+  ölçümün önceliği olarak kaydedildi.
+- Deney girdileri, sürümler, dosya özetleri ve çıktı ağırlıkları
+  `experiment-record.json` dosyasına yazıldı; büyük çıktılar Git dışında tutuldu.
+- Eğitim yardımcılarının dosya özeti, güvenli deney adı, devam kaydı ve veri kaydı
+  davranışı için on test eklendi; veri hazırlama testleriyle birlikte 15 test geçti.
+
+B6 tamamlandı. Sonuçlar henüz bağımsız test başarısı değildir; sıradaki ana görev
+ayrılmış 138 test görüntüsünde sınıf başına doğruluk, hız ve bellek ölçümü (B7).
