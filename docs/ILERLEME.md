@@ -528,3 +528,30 @@ D3 tamamlandı. Sıradaki görev D4: kamera, çalışan ve sürümlü kural yön
 - Toplam 116 Python testi ve Ruff kontrolü temiz sonuç verdi.
 
 D4 tamamlandı. Sıradaki görev D5: çalışan arama, pasifleştirme ve geçmiş sorguları.
+
+## 10 Kasım 2026 — Çalışan arama ve geçmiş sorguları tamamlandı (D5)
+
+- `GET /api/v1/employees` isteğine ad, çalışan numarası veya bölümde arayan `q`,
+  en fazla 100 kayıtlık `limit` ve negatif olamayan `offset` parametreleri eklendi.
+- Arama metnindeki `%`, `_` ve ters bölü LIKE jokerine dönüşmeden güvenle
+  kaçırılıyor. Sonuçlar önce ad, sonra benzersiz çalışan numarasıyla sıralanıyor.
+- `GET /api/v1/employees/{id}/events`, yalnız yüz tanıma tarafından o çalışana
+  bağlanmış olayları kamera adı, kural sürümü, inceleme durumu ve ekipman
+  bulgularıyla döndürüyor.
+- `GET /api/v1/employees/{id}/history-summary`, toplam, bekleyen, doğrulanmış,
+  yanlış alarm ve son olay zamanını ayrı alanlarda veriyor.
+- Pasifleştirme fiziksel silme yapmıyor. Varsayılan çalışan listesi pasif kişiyi
+  gizliyor; `include_inactive=true` kaydı tekrar gösteriyor ve geçmiş uçları
+  pasif çalışan için çalışmaya devam ediyor.
+- Olayı elle bir çalışana bağlayan uç eklenmedi; geçmiş yalnız otomatik
+  `employee_id` bağlantısını okuyor.
+- Gerçek PostgreSQL + ASGI deneyinde aynı tam ada sahip iki çalışan farklı
+  numaralarıyla arandı. Bir kişiye biri bekleyen biri doğrulanmış iki olay ve
+  baret bulgusu bağlandı; özet doğrulandı.
+- Aynı kişi pasifleştirildikten sonra etkin listeden çıktı, tüm kayıt listesinde
+  kaldı ve iki olayın ikisi de geçmişte görünmeye devam etti. Geçici kayıtlar
+  temizlendi ve PostgreSQL kapatıldı.
+- Toplam 117 Python testi, Ruff biçim ve kod kalite kontrolleri temiz sonuç verdi.
+
+D5 tamamlandı. Sıradaki görev E1: tek kötü kare yerine süreli gözlemlerden olay
+adayı üretmek.

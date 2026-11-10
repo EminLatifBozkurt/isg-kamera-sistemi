@@ -27,14 +27,16 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   webcam ve kayıtlı video kaynağı doğrulaması.
 - Kamera temeli ile normalize çokgen bölgeleri doğrulayan, eski olayların bağlı
   olduğu sürümü değiştirmeyen kamera kuralı API'leri.
+- Ad/numara/bölüm aramalı çalışan listesi; otomatik bağlanmış olay geçmişi ve
+  bekleyen/doğrulanmış/yanlış alarm özet API'leri.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
 eksiklik sınıfları çıkarıldı. Temiz model, eğitimde görmediği 107 görüntüde
 mAP50 0,8536 ve yaklaşık 26 FPS verdi. Bu sonuç gerçek fabrika kamerasında saha
 onayı yerine geçmez.
-İlk web paneli, PostgreSQL çekirdek şeması ve yönetim API'leri hazırdır; çalışan
-geçmişi sorguları ve bildirim akışı sonraki adımlardır. Kural testleri model doğruluğu ölçümü olarak
+İlk web paneli, PostgreSQL çekirdek şeması ve yönetim API'leri hazırdır; zamansal
+olay üretimi ve bildirim akışı sonraki adımlardır. Kural testleri model doğruluğu ölçümü olarak
 yorumlanmamalıdır.
 
 ## Kurulum (Windows / PowerShell)
@@ -292,6 +294,8 @@ Gerçek yükseltme/geri alma deneyi
 [D2 migration raporunda](docs/ILK_VERITABANI_MIGRATION_DENEYI.md) bulunur.
 Kamera, çalışan ve sürümlü kural uçları ile doğrulama sınırları
 [D4 API belgesinde](docs/KAMERA_CALISAN_KURAL_API.md) açıklanır.
+Çalışan arama, olay özeti ve geçmiş sorguları
+[D5 belgesinde](docs/CALISAN_ARAMA_VE_GECMIS.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

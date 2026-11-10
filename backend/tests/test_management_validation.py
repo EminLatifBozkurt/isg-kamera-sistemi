@@ -1,6 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
+from isg_api.employees import employee_search_pattern
 from isg_api.main import create_app
 from isg_api.management_schemas import (
     CameraWriteRequest,
@@ -155,4 +156,10 @@ def test_management_routes_are_in_openapi_contract() -> None:
     assert "/api/v1/cameras" in paths
     assert "/api/v1/cameras/{camera_id}/rules" in paths
     assert "/api/v1/employees" in paths
+    assert "/api/v1/employees/{employee_id}/events" in paths
+    assert "/api/v1/employees/{employee_id}/history-summary" in paths
     assert "/api/v1/equipment" in paths
+
+
+def test_employee_search_escapes_like_wildcards() -> None:
+    assert employee_search_pattern("  A_100%  ") == "%A\\_100\\%%"

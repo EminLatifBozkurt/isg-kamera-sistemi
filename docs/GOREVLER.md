@@ -133,8 +133,10 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   ve değiştirilemez kamera/bölge kural sürümleri için yetkili API'ler eklendi.
   Geçersiz yol/RTSP/kesişen çokgen 422; yinelenen etkin kural 409 döndü. Gerçek
   PostgreSQL deneyinde eski olay ilk kural sürümüne bağlı kaldı ve A→B→A geçti.
-- [ ] D5. Çalışan arama, pasifleştirme ve geçmiş kayıt sorgularını ekle.
-  Bitme ölçütü: aynı isimler çalışan numarasıyla ayrılır; geçmiş kayıtlar korunur.
+- [x] D5. Çalışan arama, pasifleştirme ve geçmiş kayıt sorgularını ekle.
+  Sonuç: ad/numara/bölüm araması, sınırlı sayfalama, otomatik olay geçmişi ve
+  inceleme durumu özeti eklendi. Gerçek PostgreSQL deneyinde aynı adlı iki kişi
+  çalışan numarasıyla ayrıldı; pasifleştirilen kişinin iki olayı korunup sorgulandı.
 
 ## E. Olay üretimi ve kanıt — C ve D üzerine
 
