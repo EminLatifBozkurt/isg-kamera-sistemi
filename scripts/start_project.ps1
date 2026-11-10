@@ -127,6 +127,13 @@ try {
     }
     Remove-Item Env:PGPASSWORD -ErrorAction SilentlyContinue
 
+    # Yeni şema sürümlerini API başlamadan önce uygularız. Migration başarısızsa
+    # uygulama eski/uyumsuz tablo yapısıyla çalışıyor gibi gösterilmez.
+    & $pythonPath -m alembic -c (Join-Path $projectRoot "backend\alembic.ini") upgrade head
+    if ($LASTEXITCODE -ne 0) {
+        throw "Veritabani migration islemi tamamlanamadi."
+    }
+
     $npmPath = (Get-Command npm.cmd -ErrorAction Stop).Source
     New-Item -ItemType Directory -Force -Path $runtimeDirectory | Out-Null
 

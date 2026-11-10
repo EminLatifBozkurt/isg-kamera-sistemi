@@ -8,7 +8,7 @@ from isg_api.main import create_app
 
 
 def test_live_api_does_not_claim_analysis_or_database_is_ready():
-    settings = Settings(_env_file=None, app_name="Test İSG")
+    settings = Settings(_env_file=None, app_name="Test İSG", database_password=None)
 
     async def request_health():
         transport = httpx.ASGITransport(app=create_app(settings))

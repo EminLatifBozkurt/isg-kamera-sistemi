@@ -119,12 +119,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   Sonuç: PostgreSQL 18.6, `isg_kamera` veritabanı ve sınırlı `isg_app` kullanıcısı
   kuruldu. SQLAlchemy 2.1.8 ile gerçek `SELECT 1` geçti; yanlış parola ve kapalı
   sunucu reddedildi. Parolalar yalnız Windows kullanıcı ortamında, Git dışında.
-- [ ] D2. SQLAlchemy tablolarını ve ilk Alembic şema değişikliğini yaz.
+- [x] D2. SQLAlchemy tablolarını ve ilk Alembic şema değişikliğini yaz.
   Çıktı: kamera, oturum, kural sürümü, çalışan, olay, medya ve inceleme kayıtları.
-  Hazırlık: Tablo alanları, tarihsel kayıt davranışı, silme kuralları, indeksler ve
-  ilk migration sırası `docs/VERITABANI_SEMASI.md` içinde kesinleştirildi.
-  PostgreSQL ve migration paketleri hazır; sıradaki iş modelleri ve gerçek
-  yükseltme–geri alma deneyidir.
+  Sonuç: Dokuz çekirdek tablo, beş sabit ekipman kaydı, tarihçe/kimlik/medya
+  kısıtları ve indeksler eklendi. Gerçek PostgreSQL'de upgrade → downgrade →
+  upgrade geçti; `alembic check` model–şema farkı bulmadı.
 - [ ] D3. Kullanıcı oturumu, parola özeti, CSRF ve yönetici/İSG yetkilerini ekle.
   Bitme ölçütü: yetkisiz işlemler ve medya erişimleri reddedilir.
 - [ ] D4. Kamera, çalışan ve kural yönetimi API'lerini doğrulamayla ekle.

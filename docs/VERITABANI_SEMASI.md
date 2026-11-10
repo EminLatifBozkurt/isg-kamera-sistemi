@@ -248,3 +248,21 @@ geçici olarak boş bırakılabilir; D3 değişikliği gerçek yabancı anahtar�
   işlemler reddedilmeli.
 - Parola, RTSP gizli bilgisi ve yüz fotoğrafı migration veya Git geçmişine
   girmemeli.
+
+## D2 doğrulama sonucu — 10 Kasım 2026
+
+- Tipli SQLAlchemy 2 modelleri `backend/src/isg_api/models.py` içinde dokuz tablo
+  olarak yazıldı.
+- İlk Alembic sürümü `20261110_0001` gerçek PostgreSQL 18.6 üzerinde uygulandı.
+- Baret, reflektif yelek, eldiven, koruyucu gözlük ve iş botu sabit katalog verisi
+  migration ile eklendi.
+- Geçerli kamera → oturum → kural → olay → bulgu/medya/inceleme kayıt zinciri
+  geçici bir transaction içinde başarıyla yazıldı ve test sonunda geri alındı.
+- Tanınmış olup çalışan bağlantısı olmayan olay, aynı kamerada iki güncel kural,
+  dosya bilgisi olmayan hazır medya ve geçmişi bulunan kamerayı silme işlemleri
+  PostgreSQL kısıtlarıyla reddedildi.
+- `downgrade base` sonrasında yalnız Alembic sürüm tablosu kaldı; tekrar
+  `upgrade head` sonrası şema ve katalog eksiksiz geri geldi.
+- `alembic check` yeni işlem bulmadı; migration ile model metadata'sı aynı.
+
+Ayrıntılı komut ve sonuçlar `docs/ILK_VERITABANI_MIGRATION_DENEYI.md` içindedir.

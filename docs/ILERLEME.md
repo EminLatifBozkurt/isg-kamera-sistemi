@@ -444,3 +444,29 @@ yanlış parola testi yapılacak.
   derlemesi temiz sonuç verdi.
 
 D1 tamamlandı. Sıradaki görev D2: SQLAlchemy modelleri ve ilk Alembic migration'ı.
+
+## 10 Kasım 2026 — Çekirdek veritabanı şeması tamamlandı (D2)
+
+- Ortak adlandırma düzenine sahip tipli SQLAlchemy 2 modelleri eklendi: kamera,
+  kamera oturumu, çalışan, ekipman kataloğu, değiştirilemez kural sürümü, olay,
+  olay bulgusu, medya ve eklemeli inceleme geçmişi.
+- Kimlik sonucu ile çalışan bağlantısının tutarlılığı, olay zaman sırası, tek güncel
+  kural, hazır medya dosya bilgileri ve geçmiş kayıt silme koruması doğrudan
+  PostgreSQL kısıtlarıyla güvenceye alındı.
+- İlk Alembic migration'ı `20261110_0001` oluşturuldu. Sabit katalogdaki baret,
+  reflektif yelek, eldiven, koruyucu gözlük ve iş botu aynı migration ile eklendi.
+- Gerçek PostgreSQL 18.6 üzerinde ilk upgrade geçti. `alembic check` model ile
+  şema arasında yeni işlem bulmadı.
+- Geçerli kayıt grafiği ve dört kritik reddetme senaryosu
+  `scripts/verify_database_schema.py` ile transaction içinde sınandı; deneme
+  kayıtları kalıcı bırakılmadı.
+- `downgrade base` şemayı temiz kaldırdı; yeniden `upgrade head` ve ikinci şema
+  doğrulaması geçti.
+- `PROJEYI_BASLAT.cmd`, API başlamadan önce bekleyen Alembic migration'larını
+  uygulayacak şekilde güncellendi.
+- Başlatıcı boş şema durumunda ayrıca denendi; migration'ı `20261110_0001 (head)`
+  seviyesine getirdi, health `database: ok` ve panel HTTP 200 döndürdü.
+- Toplam 90 Python testi geçti; Ruff kod ve biçim kontrolleri temiz sonuç verdi.
+
+D2 tamamlandı. Sıradaki görev D3: kullanıcı oturumu, parola özeti, CSRF ve rol
+yetkilendirmesi.

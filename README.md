@@ -27,8 +27,9 @@ proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uyg
 eksiklik sınıfları çıkarıldı. Temiz model, eğitimde görmediği 107 görüntüde
 mAP50 0,8536 ve yaklaşık 26 FPS verdi. Bu sonuç gerçek fabrika kamerasında saha
 onayı yerine geçmez.
-İlk web paneli hazırdır; kamera bağlantısı, veritabanı ve bildirimler sonraki
-adımlardır. Kural testleri model doğruluğu ölçümü olarak yorumlanmamalıdır.
+İlk web paneli ve PostgreSQL çekirdek şeması hazırdır; kamera yönetim API'leri ve
+bildirim akışı sonraki adımlardır. Kural testleri model doğruluğu ölçümü olarak
+yorumlanmamalıdır.
 
 ## Kurulum (Windows / PowerShell)
 
@@ -72,8 +73,9 @@ göstermez ve paket/sunucu indirmeye çalışmaz.
 
 Windows'ta depo kökündeki `PROJEYI_BASLAT.cmd` dosyasına çift tıkla. Betik
 PostgreSQL, FastAPI ve React süreçlerini arka planda başlatır, gerçek veritabanı
-bağlantısını ve iki HTTP adresini doğrular, ardından paneli varsayılan tarayıcıda
-açar. Tüm proje süreçlerini kontrollü kapatmak için
+bağlantısını doğrular, bekleyen Alembic migration'larını uygular, iki HTTP adresini
+kontrol eder ve ardından paneli varsayılan tarayıcıda açar. Tüm proje süreçlerini
+kontrollü kapatmak için
 `PROJEYI_DURDUR.cmd` dosyasına çift tıkla.
 
 Başlatıcı paket indirmez. `.venv` veya `frontend/node_modules` eksikse hangi
@@ -82,9 +84,11 @@ Git dışında tutulan `data/runtime/` klasörüne yazılır.
 
 ### Terminalden başlatma
 
-İki ayrı PowerShell terminali aç. Birinci terminalde API'yi çalıştır:
+PostgreSQL çalışırken önce şemayı güncelle, ardından iki ayrı PowerShell terminali
+aç. Birinci terminalde API'yi çalıştır:
 
 ```powershell
+.\.venv\Scripts\python.exe -m alembic -c backend/alembic.ini upgrade head
 .\.venv\Scripts\python.exe -m uvicorn isg_api.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
@@ -260,6 +264,8 @@ ekleyeceğiz. Ayrıntılar: [Görev listesi](docs/GOREVLER.md),
 [proje kararları](docs/PROJE_KARARLARI.md), [sistem tasarımı](docs/SISTEM_TASARIMI.md).
 Kalıcı kayıtların tablo ve ilişki planı
 [veritabanı şeması belgesinde](docs/VERITABANI_SEMASI.md) açıklanır.
+Gerçek yükseltme/geri alma deneyi
+[D2 migration raporunda](docs/ILK_VERITABANI_MIGRATION_DENEYI.md) bulunur.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

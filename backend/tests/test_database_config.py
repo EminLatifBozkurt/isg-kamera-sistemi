@@ -13,7 +13,9 @@ from isg_api.database import (
 
 
 def test_database_is_not_configured_without_secret() -> None:
-    settings = Settings(_env_file=None)
+    # Bilgisayarda gerçek kullanıcı ortam değişkeni bulunsa da bu test parola yok
+    # senaryosunu yalıtılmış biçimde sınar.
+    settings = Settings(_env_file=None, database_password=None)
 
     assert not settings.database_configured
     with pytest.raises(DatabaseNotConfiguredError, match="PASSWORD"):
