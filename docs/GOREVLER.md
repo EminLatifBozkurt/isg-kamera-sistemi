@@ -121,6 +121,9 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   PostgreSQL/Docker yok; sunucu ve Python paketleri onay alınmadan indirilmeyecek.
 - [ ] D2. SQLAlchemy tablolarını ve ilk Alembic şema değişikliğini yaz.
   Çıktı: kamera, oturum, kural sürümü, çalışan, olay, medya ve inceleme kayıtları.
+  Hazırlık: Tablo alanları, tarihsel kayıt davranışı, silme kuralları, indeksler ve
+  ilk migration sırası `docs/VERITABANI_SEMASI.md` içinde kesinleştirildi. Kod ve
+  gerçek PostgreSQL migration deneyi paket/kurulum onayından sonra yapılacak.
 - [ ] D3. Kullanıcı oturumu, parola özeti, CSRF ve yönetici/İSG yetkilerini ekle.
   Bitme ölçütü: yetkisiz işlemler ve medya erişimleri reddedilir.
 - [ ] D4. Kamera, çalışan ve kural yönetimi API'lerini doğrulamayla ekle.

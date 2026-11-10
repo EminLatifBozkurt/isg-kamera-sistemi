@@ -400,3 +400,18 @@ yanlış parola testi yapılacak.
 - Görüntüde kamera karesi, çalışan bilgisi veya başka kişisel veri bulunmuyor.
 - README'deki çalıştırma adreslerinin altına görsel ve dürüst durum açıklaması
   eklendi. V1–V3 erken arayüz bölümü artık tamamlandı.
+
+## 10 Kasım 2026 — D2 veritabanı şema sözleşmesi hazırlandı
+
+- SQLAlchemy ve Alembic koduna geçmeden önce kalıcı kayıtların sınırları
+  `docs/VERITABANI_SEMASI.md` belgesinde kesinleştirildi.
+- Kamera, kamera oturumu, çalışan, değiştirilemez kural sürümü, olay, ekipman
+  bulgusu, medya ve eklemeli inceleme geçmişi için alanlar belirlendi.
+- Kamera veya çalışan pasifleştirildiğinde eski olayların korunması; geçmiş kural
+  sürümünün değişmemesi; tanınmayan kişinin bir çalışana zorla bağlanmaması ve
+  medya silinse de olay kaydının kalması şema kuralı haline getirildi.
+- UUID kimlikleri, UTC zamanları, JSONB kural anlık görüntüsü, önemli indeksler,
+  yabancı anahtar/silme davranışları ve ilk migration sırası belgelendi.
+- Bu çalışma indirme yapmadı. D2 henüz tamamlanmadı; SQLAlchemy/Alembic paketleri
+  ile gerçek PostgreSQL yükseltme–geri alma deneyi kullanıcı onayından sonra
+  yapılacak.

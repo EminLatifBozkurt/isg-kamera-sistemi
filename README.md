@@ -254,6 +254,8 @@ scripts/            Geliştirme yardımcıları
 Web arayüzü ve analiz bileşenlerini, ilgili aşamada ayrı modüller olarak
 ekleyeceğiz. Ayrıntılar: [Görev listesi](docs/GOREVLER.md),
 [proje kararları](docs/PROJE_KARARLARI.md), [sistem tasarımı](docs/SISTEM_TASARIMI.md).
+Kalıcı kayıtların tablo ve ilişki planı
+[veritabanı şeması belgesinde](docs/VERITABANI_SEMASI.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması
