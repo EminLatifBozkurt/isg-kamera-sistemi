@@ -4,6 +4,7 @@ from sqlalchemy.schema import CreateTable
 from isg_api.models import Base, SafetyEvent
 
 EXPECTED_TABLES = {
+    "app_user",
     "camera",
     "camera_session",
     "employee",
@@ -13,6 +14,7 @@ EXPECTED_TABLES = {
     "media_record",
     "rule_version",
     "safety_event",
+    "user_session",
 }
 
 
@@ -54,3 +56,19 @@ def test_only_one_current_rule_index_is_partial_and_unique() -> None:
 
     assert index.unique
     assert str(index.dialect_options["postgresql"]["where"]) == "valid_until IS NULL"
+
+
+def test_auth_schema_stores_only_password_and_token_verifiers() -> None:
+    user_table = Base.metadata.tables["app_user"]
+    session_table = Base.metadata.tables["user_session"]
+
+    assert "password_hash" in user_table.c
+    assert "password" not in user_table.c
+    assert {"verifier_hash", "csrf_hash"}.issubset(session_table.c.keys())
+    assert "verifier" not in session_table.c
+    assert "csrf_token" not in session_table.c
+
+    constraint_names = {constraint.name for constraint in session_table.constraints}
+    assert "ck_user_session_verifier_hash_sha256" in constraint_names
+    assert "ck_user_session_csrf_hash_sha256" in constraint_names
+    assert "ck_user_session_absolute_expiry_order" in constraint_names

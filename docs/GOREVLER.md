@@ -124,8 +124,10 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   Sonuç: Dokuz çekirdek tablo, beş sabit ekipman kaydı, tarihçe/kimlik/medya
   kısıtları ve indeksler eklendi. Gerçek PostgreSQL'de upgrade → downgrade →
   upgrade geçti; `alembic check` model–şema farkı bulmadı.
-- [ ] D3. Kullanıcı oturumu, parola özeti, CSRF ve yönetici/İSG yetkilerini ekle.
-  Bitme ölçütü: yetkisiz işlemler ve medya erişimleri reddedilir.
+- [x] D3. Kullanıcı oturumu, parola özeti, CSRF ve yönetici/İSG yetkilerini ekle.
+  Sonuç: Argon2id parola özeti, ham belirteci saklamayan sunucu oturumu,
+  HttpOnly/SameSite cookie, CSRF, süre/kilitleme ve admin/İSG rolleri eklendi.
+  Gerçek HTTP testinde yetkisiz medya 401, eksik CSRF ve rol aşımı 403 döndürdü.
 - [ ] D4. Kamera, çalışan ve kural yönetimi API'lerini doğrulamayla ekle.
   Bitme ölçütü: geçersiz kaynak/şekil reddedilir; eski olayların kural sürümü korunur.
 - [ ] D5. Çalışan arama, pasifleştirme ve geçmiş kayıt sorgularını ekle.

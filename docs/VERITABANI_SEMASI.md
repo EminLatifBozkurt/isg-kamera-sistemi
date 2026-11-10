@@ -266,3 +266,16 @@ geçici olarak boş bırakılabilir; D3 değişikliği gerçek yabancı anahtar�
 - `alembic check` yeni işlem bulmadı; migration ile model metadata'sı aynı.
 
 Ayrıntılı komut ve sonuçlar `docs/ILK_VERITABANI_MIGRATION_DENEYI.md` içindedir.
+
+## D3 kullanıcı ve oturum eklemesi — 10 Kasım 2026
+
+- `app_user`, Argon2id parola özetini, admin/İSG rolünü, aktifliği ve geçici giriş
+  kilidini tutar; düz parola alanı yoktur.
+- `user_session`, herkese açık UUID ile yalnız SHA-256 `verifier_hash` ve
+  `csrf_hash` değerlerini tutar. Ham cookie ve CSRF belirteci veritabanına girmez.
+- Oturumda mutlak bitiş, hareketsizlik bitişi, son görülme ve iptal zamanı ayrı
+  tutulur. Kullanıcı pasifleştirildiğinde açık oturumları iptal edilir.
+- Kuralı oluşturan ve incelemeyi yapan kullanıcı alanlarına gerçek `app_user`
+  yabancı anahtarları eklendi.
+- `20261110_0002` migration'ı D2 şemasını bozmadan geri alınıp yeniden uygulandı;
+  beş ekipman kaydı korundu ve `alembic check` fark bulmadı.

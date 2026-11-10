@@ -28,7 +28,8 @@ Kullanıcının bildirdiği: Acer Nitro 5, 12. nesil Intel i5, 32 GB RAM, 512 GB
 | Canlı önizleme | İlk sürümde sınırlı FPS MJPEG | Basit demo; bant genişliği yüksek, ölçekli kullanım için WebRTC yeniden değerlendirilecek |
 | Medya | Yerel dosya sistemi, MP4/JPEG | Veritabanında dosya yolu ve meta bilgiler; disk kotası ve saklama süresi |
 | Etiketleme | Gerektiğinde CVAT Community | Kendi fotoğraf/video verilerini etiketleme |
-| Oturum | Sunucuda tutulan oturum, HttpOnly çerez | Aynı kaynaktan çalışan panel için basit giriş/çıkış; CSRF, parola özeti ve rol kontrolü uygulanacak |
+| Oturum | PostgreSQL'de sunucu oturumu, HttpOnly/SameSite cookie, CSRF | Ham belirteç yerine SHA-256 doğrulayıcı; 30 dk hareketsizlik ve 8 saat mutlak süre |
+| Parola | pwdlib + Argon2id | Parola şifrelenmez; 64 MiB bellekli uyarlanabilir tek yönlü özet ve benzersiz salt |
 | Test | pytest, temel panel akışlarında Playwright | Kural mantığı, olay birleştirme, çalışan eşleştirme ve inceleme doğrulaması |
 | Kod düzeni | Ruff, ESLint, TypeScript kontrolü | Hataları erken bulma, tutarlı kod |
 | Kod yönetimi | Git + GitHub, tek depo | Arayüz, sunucu, analiz ve belgelerin birlikte sürümlenmesi |

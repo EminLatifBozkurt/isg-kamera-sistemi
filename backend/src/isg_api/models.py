@@ -86,6 +86,11 @@ class MediaStatus(StrEnum):
     DELETED = "deleted"
 
 
+class UserRole(StrEnum):
+    ADMIN = "admin"
+    ISG = "isg"
+
+
 def value_enum(enum_type: type[StrEnum], name: str, length: int) -> Enum:
     """Python enum adlarını değil kararlı küçük harfli değerleri veritabanına yazar."""
     return Enum(
@@ -96,6 +101,68 @@ def value_enum(enum_type: type[StrEnum], name: str, length: int) -> Enum:
         values_callable=lambda members: [member.value for member in members],
         length=length,
     )
+
+
+class AppUser(Base):
+    __tablename__ = "app_user"
+    __table_args__ = (
+        CheckConstraint(
+            "username = lower(username) AND username ~ '^[a-z0-9][a-z0-9._-]{2,63}$'",
+            name="username_format",
+        ),
+        CheckConstraint("failed_login_count >= 0", name="failed_login_nonnegative"),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    username: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    display_name: Mapped[str] = mapped_column(String(160), nullable=False)
+    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    role: Mapped[UserRole] = mapped_column(value_enum(UserRole, "user_role", 16), nullable=False)
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True, server_default=text("true")
+    )
+    failed_login_count: Mapped[int] = mapped_column(
+        Integer, nullable=False, default=0, server_default=text("0")
+    )
+    locked_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now()
+    )
+
+    sessions: Mapped[list[UserSession]] = relationship(back_populates="user")
+
+
+class UserSession(Base):
+    __tablename__ = "user_session"
+    __table_args__ = (
+        CheckConstraint("expires_at > created_at", name="absolute_expiry_order"),
+        CheckConstraint("idle_expires_at > created_at", name="idle_expiry_order"),
+        CheckConstraint("last_seen_at >= created_at", name="last_seen_order"),
+        CheckConstraint("verifier_hash ~ '^[0-9a-f]{64}$'", name="verifier_hash_sha256"),
+        CheckConstraint("csrf_hash ~ '^[0-9a-f]{64}$'", name="csrf_hash_sha256"),
+        Index("ix_user_session_user_expires", "user_id", text("expires_at DESC")),
+        Index("ix_user_session_active_expiry", "expires_at", "idle_expires_at"),
+    )
+
+    # Kimlik cookie içinde açık taşınabilir; tek başına oturum açmaya yetmez.
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("app_user.id", ondelete="CASCADE"), nullable=False
+    )
+    # Ham verifier ve CSRF belirteci hiçbir zaman veritabanına yazılmaz.
+    verifier_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    csrf_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    idle_expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped[AppUser] = relationship(back_populates="sessions")
 
 
 class EquipmentDefinition(Base):
@@ -215,7 +282,9 @@ class RuleVersion(Base):
     valid_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     definition: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)
     definition_hash: Mapped[str] = mapped_column(String(64), nullable=False)
-    created_by: Mapped[uuid.UUID | None] = mapped_column(Uuid)
+    created_by: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("app_user.id", ondelete="RESTRICT")
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
@@ -397,7 +466,9 @@ class EventReviewRevision(Base):
         value_enum(ReviewStatus, "new_review_status", 16), nullable=False
     )
     note: Mapped[str | None] = mapped_column(Text)
-    reviewed_by: Mapped[uuid.UUID | None] = mapped_column(Uuid)
+    reviewed_by: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("app_user.id", ondelete="RESTRICT")
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )

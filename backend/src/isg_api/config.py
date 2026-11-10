@@ -22,6 +22,11 @@ class Settings(BaseSettings):
     database_password: SecretStr | None = None
     database_pool_size: int = Field(default=5, ge=1, le=20)
     database_connect_timeout_seconds: int = Field(default=5, ge=1, le=30)
+    session_absolute_hours: int = Field(default=8, ge=1, le=24)
+    session_idle_minutes: int = Field(default=30, ge=5, le=240)
+    session_cookie_secure: bool = False
+    login_max_failures: int = Field(default=5, ge=3, le=20)
+    login_lock_minutes: int = Field(default=15, ge=1, le=120)
 
     @property
     def database_configured(self) -> bool:

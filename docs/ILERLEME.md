@@ -470,3 +470,33 @@ D1 tamamlandı. Sıradaki görev D2: SQLAlchemy modelleri ve ilk Alembic migrati
 
 D2 tamamlandı. Sıradaki görev D3: kullanıcı oturumu, parola özeti, CSRF ve rol
 yetkilendirmesi.
+
+## 10 Kasım 2026 — Kimlik doğrulama ve rol güvenliği tamamlandı (D3)
+
+- FastAPI'nin resmî önerdiği `pwdlib 0.3.1` ve Argon2id desteği kuruldu; bağımlı
+  sürümler `requirements-security.lock.txt` içinde sabitlendi.
+- Parolalar en az 12, en fazla 128 karakter olarak kabul ediliyor ve Argon2id
+  (`m=65536, t=3, p=4`) ile tek yönlü özetleniyor. Bu bilgisayardaki tek ölçümde
+  özetleme 44,515 ms, doğrulama 43,572 ms sürdü.
+- `app_user` ve `user_session` tablolarını ekleyen `20261110_0002` migration'ı
+  gerçek PostgreSQL'e uygulandı. Geri almada D2 tabloları ve beş ekipman kaydı
+  korundu; yeniden yükseltme ve `alembic check` geçti.
+- Cookie, UUID ile 256 bit rastgele doğrulayıcıdan oluşuyor. Veritabanı yalnız
+  doğrulayıcının SHA-256 özetini tutuyor; ham oturum veya CSRF belirteci saklanmıyor.
+- Oturum cookie'si HttpOnly + SameSite=Strict; ayrı CSRF cookie/header eşleşmesi
+  yazma işlemlerinde zorunlu. Yerel HTTP'de Secure kapalı, HTTPS tesliminde açık.
+- Oturum için 30 dakika hareketsizlik, 8 saat mutlak süre ve sunucu taraflı iptal;
+  giriş için varsayılan beş başarısız denemeden sonra 15 dakika kilit eklendi.
+- Admin ve İSG rolleri eklendi. Kullanıcı listeleme/oluşturma/pasifleştirme yalnız
+  admin; medya meta bilgisi iki role açık; yetkisiz istekler ayrıntı sızdırmıyor.
+- İlk yönetici için parolayı göstermeyen ve komut geçmişine almayan
+  `scripts/create_initial_admin.py` eklendi; varsayılan hesap/parola yok.
+- Gerçek PostgreSQL + ASGI deneyinde 11 kontrol geçti: yetkisiz medya, cross-origin
+  login, yanlış parola, cookie bayrakları, `/me`, CSRF, admin kullanıcı oluşturma,
+  ham token saklamama, rol sınırı, logout iptali ve geçici kilit.
+- Gerçek Uvicorn başlangıcında health `database: ok`, migration
+  `20261110_0002 (head)` oldu; oturumsuz `/auth/me`, `/users` ve `/media/{id}`
+  isteklerinin üçü de 401 döndürdü. Test sonunda bütün süreçler kapatıldı.
+- Toplam 101 Python testi, Ruff ve `pip check` temiz sonuç verdi.
+
+D3 tamamlandı. Sıradaki görev D4: kamera, çalışan ve sürümlü kural yönetimi API'leri.

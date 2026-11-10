@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Any
+
+from fastapi import HTTPException, Request, status
+from sqlalchemy.orm import Session, sessionmaker
 
 from isg_api.config import Settings
 
@@ -79,3 +83,21 @@ def check_database_connection(engine: Any) -> DatabaseCheckResult:
         status="ok",
         latency_ms=round((time.perf_counter() - started) * 1000, 3),
     )
+
+
+def create_session_factory(engine: Any) -> sessionmaker[Session]:
+    """API isteklerinin kullandığı kısa ömürlü SQLAlchemy oturumlarını üretir."""
+    return sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+
+
+def get_database_session(request: Request) -> Iterator[Session]:
+    """FastAPI bağımlılığı; veritabanı hazır değilse işlemi açıkça reddeder."""
+    factory = getattr(request.app.state, "database_session_factory", None)
+    if factory is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Veritabanı bağlantısı hazır değil",
+        )
+
+    with factory() as session:
+        yield session

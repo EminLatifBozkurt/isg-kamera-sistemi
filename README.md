@@ -21,6 +21,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Analiz yavaşladığında eski kareleri düşüren sınırlı kuyruk ve donma/güncellik durumu.
 - RTX 3050 Ti için ölçülmüş en fazla iki eşzamanlı yerel kaynak sınırı.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
+- Argon2id parola özeti, sunucuda tutulan HttpOnly oturum, CSRF ve yönetici/İSG
+  rol denetimi.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -39,11 +41,13 @@ yorumlanmamalıdır.
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.lock.txt
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements-database.lock.txt
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements-security.lock.txt
 .\.venv\Scripts\python.exe -m pip install --no-deps -e ./backend
 ```
 
-`requirements-dev.lock.txt` ve `requirements-database.lock.txt`, Python 3.12 /
-Windows üzerinde doğrulanan sunucu, test ve PostgreSQL paketlerinin sürümleridir.
+`requirements-dev.lock.txt`, `requirements-database.lock.txt` ve
+`requirements-security.lock.txt`, Python 3.12 / Windows üzerinde doğrulanan
+sunucu, test, PostgreSQL ve parola güvenliği paketlerinin sürümleridir.
 GPU/model ortamı ayrı kurulur:
 
 ```powershell
@@ -81,6 +85,22 @@ kontrollü kapatmak için
 Başlatıcı paket indirmez. `.venv` veya `frontend/node_modules` eksikse hangi
 kurulum adımının gerektiğini Türkçe hata mesajıyla bildirir. Çalışma logları
 Git dışında tutulan `data/runtime/` klasörüne yazılır.
+
+### İlk yönetici hesabı
+
+Projede varsayılan kullanıcı veya parola yoktur. PostgreSQL çalışırken ilk ve
+yalnız ilk yönetici şu komutla oluşturulur; parola terminalde görünmez ve komut
+geçmişine yazılmaz:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/create_initial_admin.py `
+  --username emin `
+  --display-name "Emin Bozkurt"
+```
+
+İlk kullanıcı oluşturulduktan sonra yeni yönetici/İSG hesapları yalnız yetkili
+yönetici API'sinden eklenir. Ayrıntılar
+[kimlik doğrulama ve yetki belgesindedir](docs/KIMLIK_DOGRULAMA_VE_YETKI.md).
 
 ### Terminalden başlatma
 
