@@ -140,8 +140,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
 
 ## E. Olay üretimi ve kanıt — C ve D üzerine
 
-- [ ] E1. Kural sonucunu süreli gözlemlerle olay adayına dönüştür.
-  Bitme ölçütü: tek kötü kare alarm oluşturmaz; eşikler deneyle belgelenir.
+- [x] E1. Kural sonucunu süreli gözlemlerle olay adayına dönüştür.
+  Sonuç: oturum + kural sürümü + takip + ekipman başına zamansal durum makinesi
+  eklendi. Başlangıç eşiği 3 saniyelik pencerede en az 4 gözlem ve 1,5 saniye;
+  azami ara 1 saniye. Kontrollü altı senaryoda tek/hızlı/seyrek kare reddedildi,
+  sürekli gözlem aday üretti ve uygun gözlem kanıtı sıfırladı.
 - [ ] E2. Olay birleştirme, bitiş nedeni ve tekrar bildirim engelini yaz.
   Bitme ölçütü: bir olay her karede çoğalmaz; takip/oturum değişimi güvenli ele alınır.
 - [ ] E3. Fotoğraf ve sınırlı öncesi/sonrası klip tamponunu ekle.

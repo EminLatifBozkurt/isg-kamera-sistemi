@@ -555,3 +555,34 @@ D4 tamamlandı. Sıradaki görev D5: çalışan arama, pasifleştirme ve geçmi�
 
 D5 tamamlandı. Sıradaki görev E1: tek kötü kare yerine süreli gözlemlerden olay
 adayı üretmek.
+
+## 10 Kasım 2026 — Zamansal ihlal-adayı kararı tamamlandı (E1)
+
+- `TemporalViolationTracker`, kanıtı kamera oturumu, kural sürümü, takip numarası
+  ve ekipman kodu birleşimine göre ayrı tutacak şekilde eklendi. Böylece başka
+  oynatma, kişi, kural veya ekipmanın gözlemleri birbirine karışmıyor.
+- Başlangıç politikası 3 saniyelik kayan pencerede en az 4 ihlal-adayı gözlem ve
+  ilk–son gözlem arasında en az 1,5 saniye istiyor. İki ihlal gözlemi arasındaki
+  azami boşluk 1 saniye.
+- Tek kötü kare ve 0,3 saniyeye sıkışan dört kötü kare aday oluşturmadı. 0,0;
+  0,5; 1,0 ve 1,5 saniyelerdeki sürekli dört gözlem adayı tam 1,5 saniyede
+  oluşturdu.
+- 1 saniyeden uzun gözlem arası eski kanıtı sıfırlıyor. Kısa
+  `değerlendirilemiyor` dönemi ihlal sayısını artırmadan kanıtı koruyor; uzun
+  belirsizlik eski kanıtı düşürüyor.
+- `uygun` sonucu birikmiş kanıtı hemen sıfırlıyor. Aday eşiğine geçiş yalnız bir
+  kez `became_candidate=true` üretiyor; aynı adayın olay yaşam döngüsü E2'ye
+  bırakılıyor.
+- Geriye giden/NaN zaman, negatif takip numarası ve tutarsız politika değerleri
+  reddediliyor. 10 saniye gözlenmeyen takip belleği temizlenebiliyor; biten kamera
+  oturumunun bütün kanıtı açıkça sıfırlanabiliyor.
+- `scripts/evaluate_temporal_policy.py`, tek kare, hızlı dört kare, sürekli,
+  seyrek, kısa belirsizlik ve uygunlukla sıfırlama olmak üzere altı kontrollü
+  senaryoyu JSON olarak ölçtü.
+- Eşikler gerçek fabrika doğruluğu iddiası değildir. 5–10 analiz FPS hedefinde
+  tek kare alarmını engelleyen ölçülmüş yazılım başlangıcıdır; saha videosuyla
+  yeniden kalibre edilmelidir.
+- Toplam 130 Python testi ve Ruff biçim/kod kalite kontrolleri geçti.
+
+E1 tamamlandı. Sıradaki görev E2: aynı adayın her karede yeni olaya dönüşmesini
+engelleyen olay birleştirme ve bitiş yaşam döngüsü.

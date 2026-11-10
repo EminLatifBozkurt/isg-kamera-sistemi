@@ -29,6 +29,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   olduğu sürümü değiştirmeyen kamera kuralı API'leri.
 - Ad/numara/bölüm aramalı çalışan listesi; otomatik bağlanmış olay geçmişi ve
   bekleyen/doğrulanmış/yanlış alarm özet API'leri.
+- Tek kötü kareyi olay saymayan; tekrar sayısı, süre, gözlem boşluğu ve oturum
+  sınırlarıyla çalışan zamansal ihlal-adayı durum makinesi.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -296,6 +298,8 @@ Kamera, çalışan ve sürümlü kural uçları ile doğrulama sınırları
 [D4 API belgesinde](docs/KAMERA_CALISAN_KURAL_API.md) açıklanır.
 Çalışan arama, olay özeti ve geçmiş sorguları
 [D5 belgesinde](docs/CALISAN_ARAMA_VE_GECMIS.md) açıklanır.
+Tek karelik kural sonuçlarının süreli adaya dönüşme eşikleri
+[E1 belgesinde](docs/ZAMANSAL_IHLAL_ADAYI.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması
