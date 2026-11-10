@@ -387,3 +387,16 @@ kurulumunu ve gizli bilgileri depoya koymayan bağlantı ayarlarını hazırlama
 D1 henüz tamamlanmadı. Resmî Windows kurucusu ve Python veritabanı paketleri
 kullanıcının indirme onayından sonra kurulacak; ardından gerçek bağlantı ve
 yanlış parola testi yapılacak.
+
+## 9 Kasım 2026 — İlk panel ekran görüntüsü README'ye eklendi
+
+- V3'ün daha önce eksik kalan kalıcı ekran görüntüsü görevi tamamlandı.
+- FastAPI ve Vite yalnız çekim süresince yerel olarak çalıştırıldı; kurulu
+  Microsoft Edge başsız modda doğrudan `127.0.0.1:5173` adresini görüntüledi.
+- 1440×1000 PNG görsel `docs/images/isg-kontrol-paneli.png` olarak kaydedildi ve
+  görsel olarak kontrol edildi.
+- Panel uygulama sunucusunu `Çalışıyor`; henüz API sürecine bağlanmayan analiz
+  motoru ve PostgreSQL'i `Bağlı değil`; kamera kaynağını `0` gösteriyor.
+- Görüntüde kamera karesi, çalışan bilgisi veya başka kişisel veri bulunmuyor.
+- README'deki çalıştırma adreslerinin altına görsel ve dürüst durum açıklaması
+  eklendi. V1–V3 erken arayüz bölümü artık tamamlandı.

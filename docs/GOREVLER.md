@@ -74,12 +74,16 @@ Tespit başarısı ve hız için burada sonuç uydurulmaz.
   Bitme ölçütü: sunucu/model/veritabanı durumları hazır değilse açıkça öyle görünür.
   Sonuç: Vite proxy üzerinden gerçek FastAPI health yanıtı gösteriliyor. Sunucu
   `ok`; analiz ve veritabanı `not_configured` olarak dürüstçe görüntüleniyor.
-- [ ] V3. İlk ekranı çalıştırma komutlarını ve ekran görüntüsünü README'ye ekle.
-  Bitme ölçütü: kullanıcı yerel adresten ilerlemeyi görebilir.
+- [x] V3. İlk ekranı çalıştırma komutlarını ve ekran görüntüsünü README'ye ekle.
+  Sonuç: Tek tıkla ve terminalden çalıştırma komutlarıyla birlikte 1440×1000
+  gerçek yerel panel görüntüsü README'ye eklendi. Görüntü hazır olmayan analiz,
+  veritabanı ve kamera bileşenlerini açıkça bağlı değil olarak gösteriyor.
 
 Bu erken arayüz, daha sonraki F bölümündeki kamera önizleme, bölge çizimi ve
 olay inceleme özelliklerinin temelidir. Hazır olmayan özellikler sahte veriyle
 çalışıyor gibi gösterilmeyecek.
+
+V1–V3 erken görünür arayüz görevleri tamamlandı.
 
 ## C. Tek görüntü kaynağını işleme — B sonuçları uygun olduğunda
 

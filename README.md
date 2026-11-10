@@ -96,6 +96,12 @@ npm run dev
 - Sunucu durumu: <http://127.0.0.1:8000/api/v1/health>
 - İSG web paneli: <http://127.0.0.1:5173>
 
+![İSG Kontrol Merkezi genel bakış ekranı](docs/images/isg-kontrol-paneli.png)
+
+Bu ekran görüntüsü 9 Kasım 2026 tarihinde gerçek yerel FastAPI yanıtıyla alındı.
+Hazır olmayan analiz, veritabanı ve kamera bileşenleri çalışıyormuş gibi
+gösterilmez.
+
 Bu adres şu aşamada yalnız bu bilgisayardan erişilir. Sunucu durumunun `ok`
 olması, kamera veya modelin çalıştığını göstermez; yanıtta bu bileşenlerin henüz
 yapılandırılmadığı ayrıca belirtilir. `--reload` geliştirme içindir.
