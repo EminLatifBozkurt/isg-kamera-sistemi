@@ -17,6 +17,8 @@ export function DashboardPage() {
   const { data, state, error, refresh } = useHealth();
   const loading = state === "loading";
   const backendReady = state === "ready" && data?.status === "ok";
+  const databaseReady = data?.database === "ok";
+  const databaseUnavailable = data?.database === "unavailable";
 
   return (
     <>
@@ -64,11 +66,25 @@ export function DashboardPage() {
         />
         <StatusCard
           title="Veritabanı"
-          value={data?.database === "not_configured" ? "Bağlı değil" : "Bekleniyor"}
-          detail="PostgreSQL sonraki uygulama aşamasında"
-          badge="PLANLI"
+          value={
+            databaseReady
+              ? "Bağlı"
+              : databaseUnavailable
+                ? "Ulaşılamıyor"
+                : data?.database === "not_configured"
+                  ? "Ayarlanmamış"
+                  : "Kontrol ediliyor"
+          }
+          detail={
+            databaseReady
+              ? "PostgreSQL bağlantısı gerçek sorguyla doğrulandı"
+              : databaseUnavailable
+                ? "PostgreSQL sürecini ve bağlantı ayarlarını kontrol et"
+                : "Yerel PostgreSQL bağlantısı henüz ayarlanmamış"
+          }
+          badge={databaseReady ? "HAZIR" : databaseUnavailable ? "HATA" : "PLANLI"}
           icon={<StorageRounded />}
-          tone="warning"
+          tone={databaseReady ? "success" : databaseUnavailable ? "error" : "warning"}
           loading={loading}
         />
         <StatusCard

@@ -114,16 +114,17 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
 
 ## D. Kalıcı kayıt ve uygulama sunucusu
 
-- [ ] D1. PostgreSQL geliştirme kurulumunu ve bağlantı ayarlarını hazırla.
+- [x] D1. PostgreSQL geliştirme kurulumunu ve bağlantı ayarlarını hazırla.
   Bitme ölçütü: bağlantı doğrulanır; şifre depoya girmez.
-  Hazırlık: Host/port/veritabanı/kullanıcı ayarları ve gizli `SecretStr` parola,
-  güvenli hedef özeti ve `SELECT 1` bağlantı kontrolü eklendi. Bilgisayarda
-  PostgreSQL/Docker yok; sunucu ve Python paketleri onay alınmadan indirilmeyecek.
+  Sonuç: PostgreSQL 18.6, `isg_kamera` veritabanı ve sınırlı `isg_app` kullanıcısı
+  kuruldu. SQLAlchemy 2.1.8 ile gerçek `SELECT 1` geçti; yanlış parola ve kapalı
+  sunucu reddedildi. Parolalar yalnız Windows kullanıcı ortamında, Git dışında.
 - [ ] D2. SQLAlchemy tablolarını ve ilk Alembic şema değişikliğini yaz.
   Çıktı: kamera, oturum, kural sürümü, çalışan, olay, medya ve inceleme kayıtları.
   Hazırlık: Tablo alanları, tarihsel kayıt davranışı, silme kuralları, indeksler ve
-  ilk migration sırası `docs/VERITABANI_SEMASI.md` içinde kesinleştirildi. Kod ve
-  gerçek PostgreSQL migration deneyi paket/kurulum onayından sonra yapılacak.
+  ilk migration sırası `docs/VERITABANI_SEMASI.md` içinde kesinleştirildi.
+  PostgreSQL ve migration paketleri hazır; sıradaki iş modelleri ve gerçek
+  yükseltme–geri alma deneyidir.
 - [ ] D3. Kullanıcı oturumu, parola özeti, CSRF ve yönetici/İSG yetkilerini ekle.
   Bitme ölçütü: yetkisiz işlemler ve medya erişimleri reddedilir.
 - [ ] D4. Kamera, çalışan ve kural yönetimi API'lerini doğrulamayla ekle.

@@ -1,12 +1,13 @@
 export type ServiceState = "ok";
-export type ComponentState = "not_configured";
+export type AnalysisState = "not_configured";
+export type DatabaseState = "ok" | "not_configured" | "unavailable";
 
 export interface HealthResponse {
   service: string;
   version: string;
   status: ServiceState;
-  analysis: ComponentState;
-  database: ComponentState;
+  analysis: AnalysisState;
+  database: DatabaseState;
 }
 
 function isHealthResponse(value: unknown): value is HealthResponse {
@@ -20,7 +21,9 @@ function isHealthResponse(value: unknown): value is HealthResponse {
     typeof candidate.version === "string" &&
     candidate.status === "ok" &&
     candidate.analysis === "not_configured" &&
-    candidate.database === "not_configured"
+    (candidate.database === "ok" ||
+      candidate.database === "not_configured" ||
+      candidate.database === "unavailable")
   );
 }
 

@@ -415,3 +415,32 @@ yanlış parola testi yapılacak.
 - Bu çalışma indirme yapmadı. D2 henüz tamamlanmadı; SQLAlchemy/Alembic paketleri
   ile gerçek PostgreSQL yükseltme–geri alma deneyi kullanıcı onayından sonra
   yapılacak.
+
+## 10 Kasım 2026 — PostgreSQL gerçek bağlantısı tamamlandı (D1)
+
+- Kullanıcının Wi-Fi ve indirme onayından sonra WinGet üzerinden yayıncısı
+  PostgreSQL Global Development Group olan PostgreSQL 18.6 paketi indirildi;
+  paket SHA-256 özeti kurulumdan önce doğrulandı.
+- EDB kurucusunun Windows Türkçe bölge adındaki ASCII dışı karakter nedeniyle
+  başlatamadığı boş küme, PostgreSQL'in kendi `initdb` aracıyla UTF-8 ve ICU
+  `tr-TR` ayarında güvenli biçimde oluşturuldu.
+- Yönetici gerektiren Windows servisi yerine geliştirmeye uygun kullanıcı süreci
+  seçildi. `PROJEYI_BASLAT.cmd` artık PostgreSQL + FastAPI + React'i birlikte
+  başlatıyor; `PROJEYI_DURDUR.cmd` üçünü de kontrollü kapatıyor.
+- `isg_kamera` veritabanı ve superuser olmayan `isg_app` rolü oluşturuldu.
+  Parolalar Windows kullanıcı ortamına kaydedildi; Git çalışma ağacına girmedi.
+- SQLAlchemy 2.1.8, Alembic 1.20.1 ve Psycopg 3.3.8 kuruldu; sürümler
+  `requirements-database.lock.txt` içinde sabitlendi.
+- Proje koduyla gerçek `SELECT 1` geçti. Bilerek yanlış parola ve kontrollü kapalı
+  sunucu bağlantısı reddedildi; yeniden başlatma sonrası sonuç tekrar `ok` oldu.
+- Kapalı sunucuda uzun varsayılan bekleme gözlendiği için bağlantı zaman aşımı
+  ayarlanabilir 5 saniyeye indirildi.
+- Health API ve panel veritabanını artık gerçek bağlantıya göre `Bağlı`,
+  `Ulaşılamıyor` veya `Ayarlanmamış` olarak gösteriyor; hata ayrıntısı/parola
+  kullanıcıya sızdırılmıyor.
+- Başlatıcı uçtan uca denendi: health yanıtı `database: ok`, panel HTTP 200 verdi.
+  README ekran görüntüsü gerçek bağlı PostgreSQL durumuyla yenilendi.
+- Toplam 85 Python testi geçti. Ruff, ESLint, TypeScript kontrolü ve Vite üretim
+  derlemesi temiz sonuç verdi.
+
+D1 tamamlandı. Sıradaki görev D2: SQLAlchemy modelleri ve ilk Alembic migration'ı.

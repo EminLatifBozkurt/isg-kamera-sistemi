@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param()
+param([switch]$SkipBrowser)
 
 $ErrorActionPreference = "Stop"
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -7,6 +7,10 @@ $runtimeDirectory = Join-Path $projectRoot "data\runtime"
 $pythonPath = Join-Path $projectRoot ".venv\Scripts\python.exe"
 $frontendDirectory = Join-Path $projectRoot "frontend"
 $frontendPackages = Join-Path $frontendDirectory "node_modules"
+$postgresRoot = "C:\Program Files\PostgreSQL\18"
+$postgresData = Join-Path $postgresRoot "data"
+$pgCtlPath = Join-Path $postgresRoot "bin\pg_ctl.exe"
+$psqlPath = Join-Path $postgresRoot "bin\psql.exe"
 $panelUrl = "http://127.0.0.1:5173/"
 $healthUrl = "http://127.0.0.1:8000/api/v1/health"
 
@@ -82,6 +86,7 @@ function Save-ProcessRecord {
 }
 
 $startedProcesses = [System.Collections.Generic.List[System.Diagnostics.Process]]::new()
+$databaseStarted = $false
 
 try {
     if (-not (Test-Path -LiteralPath $pythonPath -PathType Leaf)) {
@@ -93,6 +98,34 @@ try {
     if (-not (Test-Path -LiteralPath $frontendPackages -PathType Container)) {
         throw "Arayuz paketleri kurulu degil. frontend klasorunde bir kez 'npm ci' calistir."
     }
+    if (-not (Test-Path -LiteralPath $pgCtlPath -PathType Leaf) -or
+        -not (Test-Path -LiteralPath $psqlPath -PathType Leaf) -or
+        -not (Test-Path -LiteralPath $postgresData -PathType Container)) {
+        throw "PostgreSQL 18 kurulumu bulunamadi. docs\POSTGRESQL_GELISTIRME_KURULUMU.md dosyasini kontrol et."
+    }
+
+    # Parola Git deposunda tutulmaz; kurulum sırasında Windows kullanıcı ortamına kaydedilir.
+    $databasePassword = [Environment]::GetEnvironmentVariable("ISG_DATABASE_PASSWORD", "User")
+    if ([string]::IsNullOrWhiteSpace($databasePassword)) {
+        throw "ISG_DATABASE_PASSWORD Windows kullanici ortaminda bulunamadi."
+    }
+    $env:ISG_DATABASE_PASSWORD = $databasePassword
+    $env:PGPASSWORD = $databasePassword
+
+    & $pgCtlPath status -D $postgresData *> $null
+    if ($LASTEXITCODE -ne 0) {
+        & $pgCtlPath start -D $postgresData -l (Join-Path $postgresData "isg-postgresql.log") -w -t 30
+        if ($LASTEXITCODE -ne 0) {
+            throw "PostgreSQL baslatilamadi. data klasorundeki isg-postgresql.log dosyasini kontrol et."
+        }
+        $databaseStarted = $true
+    }
+
+    & $psqlPath -h 127.0.0.1 -p 5432 -U isg_app -d isg_kamera -tAc "SELECT 1" *> $null
+    if ($LASTEXITCODE -ne 0) {
+        throw "PostgreSQL calisiyor ancak isg_app baglantisi dogrulanamadi."
+    }
+    Remove-Item Env:PGPASSWORD -ErrorAction SilentlyContinue
 
     $npmPath = (Get-Command npm.cmd -ErrorAction Stop).Source
     New-Item -ItemType Directory -Force -Path $runtimeDirectory | Out-Null
@@ -128,8 +161,10 @@ try {
     Wait-ForEndpoint -Url $healthUrl -Name "FastAPI sunucusu"
     Wait-ForEndpoint -Url $panelUrl -Name "React paneli"
 
-    # Kullanici dosyaya cift tikladigi icin son adimda varsayilan tarayiciyi aciyoruz.
-    Start-Process $panelUrl
+    # Normal çift tıklamada tarayıcı açılır; otomatik testte -SkipBrowser kullanılabilir.
+    if (-not $SkipBrowser) {
+        Start-Process $panelUrl
+    }
     Write-Host "Proje hazir: $panelUrl" -ForegroundColor Green
     exit 0
 }
@@ -139,6 +174,9 @@ catch {
         if (-not $process.HasExited) {
             Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
         }
+    }
+    if ($databaseStarted) {
+        & $pgCtlPath stop -D $postgresData -m fast -w -t 30 *> $null
     }
     Show-ErrorMessage -Message $_.Exception.Message
     exit 1

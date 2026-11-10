@@ -1,0 +1,10 @@
+# 10 Kasım 2026 tarihinde Windows / Python 3.12 üzerinde doğrulanan veritabanı paketleri.
+# Önce requirements-dev.lock.txt kurulabilir; yinelenen ortak paket sürümleri aynıdır.
+alembic==1.20.1
+Mako==1.4.3
+MarkupSafe==3.0.3
+psycopg==3.3.8
+psycopg-binary==3.3.8
+SQLAlchemy==2.1.8
+typing_extensions==4.16.0
+tzdata==2026.6

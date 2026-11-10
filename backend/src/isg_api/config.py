@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     database_user: str = Field(default="isg_app", pattern=r"^[A-Za-z_][A-Za-z0-9_]*$")
     database_password: SecretStr | None = None
     database_pool_size: int = Field(default=5, ge=1, le=20)
+    database_connect_timeout_seconds: int = Field(default=5, ge=1, le=30)
 
     @property
     def database_configured(self) -> bool:

@@ -63,6 +63,8 @@ def create_database_engine(settings: Settings) -> Any:
         pool_pre_ping=True,
         pool_size=settings.database_pool_size,
         max_overflow=0,
+        # Sunucu kapalıysa panel uzun süre beklemesin; hata hızlı ve görünür olsun.
+        connect_args={"connect_timeout": settings.database_connect_timeout_seconds},
     )
 
 

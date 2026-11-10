@@ -66,3 +66,26 @@ def test_database_check_executes_realistic_select_one() -> None:
 
     assert result.status == "ok"
     assert engine.connection.statement == "SELECT 1"
+
+
+def test_database_engine_uses_short_configured_timeout(monkeypatch) -> None:
+    captured = {}
+    expected_engine = object()
+
+    def fake_create_engine(url, **options):
+        captured["url"] = url
+        captured["options"] = options
+        return expected_engine
+
+    monkeypatch.setattr("sqlalchemy.create_engine", fake_create_engine)
+    settings = Settings(
+        _env_file=None,
+        database_password="secret-that-must-not-leak",
+        database_connect_timeout_seconds=7,
+    )
+
+    engine = create_database_engine(settings)
+
+    assert engine is expected_engine
+    assert captured["options"]["connect_args"] == {"connect_timeout": 7}
+    assert "secret-that-must-not-leak" not in str(captured["url"])

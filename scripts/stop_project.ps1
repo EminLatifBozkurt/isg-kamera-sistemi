@@ -4,6 +4,8 @@ param()
 $ErrorActionPreference = "Stop"
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $runtimeDirectory = Join-Path $projectRoot "data\runtime"
+$postgresData = "C:\Program Files\PostgreSQL\18\data"
+$pgCtlPath = "C:\Program Files\PostgreSQL\18\bin\pg_ctl.exe"
 
 function Stop-ProcessTree {
     param([int]$ProcessId)
@@ -43,8 +45,21 @@ function Stop-RecordedProcess {
 try {
     $backendStopped = Stop-RecordedProcess -Name "backend"
     $frontendStopped = Stop-RecordedProcess -Name "frontend"
+    $databaseStopped = $false
 
-    if ($backendStopped -or $frontendStopped) {
+    if ((Test-Path -LiteralPath $pgCtlPath -PathType Leaf) -and
+        (Test-Path -LiteralPath $postgresData -PathType Container)) {
+        & $pgCtlPath status -D $postgresData *> $null
+        if ($LASTEXITCODE -eq 0) {
+            & $pgCtlPath stop -D $postgresData -m fast -w -t 30
+            if ($LASTEXITCODE -ne 0) {
+                throw "PostgreSQL duzgun kapatilamadi."
+            }
+            $databaseStopped = $true
+        }
+    }
+
+    if ($backendStopped -or $frontendStopped -or $databaseStopped) {
         Write-Host "ISG Kamera Sistemi arka plan surecleri durduruldu." -ForegroundColor Green
     }
     else {

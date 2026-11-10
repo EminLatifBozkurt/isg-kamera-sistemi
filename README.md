@@ -37,11 +37,13 @@ adımlardır. Kural testleri model doğruluğu ölçümü olarak yorumlanmamalı
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.lock.txt
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements-database.lock.txt
 .\.venv\Scripts\python.exe -m pip install --no-deps -e ./backend
 ```
 
-`requirements-dev.lock.txt`, Python 3.12 / Windows üzerinde doğrulanan sunucu
-ve test paketlerinin sürümleridir. GPU/model ortamı ayrı kurulur:
+`requirements-dev.lock.txt` ve `requirements-database.lock.txt`, Python 3.12 /
+Windows üzerinde doğrulanan sunucu, test ve PostgreSQL paketlerinin sürümleridir.
+GPU/model ortamı ayrı kurulur:
 
 ```powershell
 # İlk dosya yaklaşık 2,75 GB PyTorch paketi indirir.
@@ -59,8 +61,9 @@ Sistem Python'una proje paketleri kurulmaz.
 
 İsteğe bağlı ayarlar için `.env.example` dosyasını `.env` adıyla kopyalayabilirsin.
 Başlangıç ayarlarıyla bu dosya olmadan da çalışır.
-Veritabanı şifresi yalnız Git'e girmeyen `.env` içindeki
-`ISG_DATABASE_PASSWORD` alanında tutulur; eksikse uygulama veritabanını hazır
+Veritabanı şifresi Git'e girmez. Yerel Windows kurulumunda
+`ISG_DATABASE_PASSWORD` kullanıcı ortamında tutulur; başka kurulumlarda Git'in
+dışladığı `.env` dosyası kullanılabilir. Şifre eksikse uygulama veritabanını hazır
 göstermez ve paket/sunucu indirmeye çalışmaz.
 
 ## Çalıştırma
@@ -68,8 +71,9 @@ göstermez ve paket/sunucu indirmeye çalışmaz.
 ### Tek tıkla başlatma
 
 Windows'ta depo kökündeki `PROJEYI_BASLAT.cmd` dosyasına çift tıkla. Betik
-FastAPI ve React süreçlerini arka planda başlatır, hazır olmalarını bekler ve
-paneli varsayılan tarayıcıda açar. Sunucuları kapatmak için
+PostgreSQL, FastAPI ve React süreçlerini arka planda başlatır, gerçek veritabanı
+bağlantısını ve iki HTTP adresini doğrular, ardından paneli varsayılan tarayıcıda
+açar. Tüm proje süreçlerini kontrollü kapatmak için
 `PROJEYI_DURDUR.cmd` dosyasına çift tıkla.
 
 Başlatıcı paket indirmez. `.venv` veya `frontend/node_modules` eksikse hangi
@@ -98,9 +102,9 @@ npm run dev
 
 ![İSG Kontrol Merkezi genel bakış ekranı](docs/images/isg-kontrol-paneli.png)
 
-Bu ekran görüntüsü 9 Kasım 2026 tarihinde gerçek yerel FastAPI yanıtıyla alındı.
-Hazır olmayan analiz, veritabanı ve kamera bileşenleri çalışıyormuş gibi
-gösterilmez.
+Bu ekran görüntüsü 10 Kasım 2026 tarihinde gerçek yerel FastAPI ve PostgreSQL
+yanıtıyla alındı. Veritabanı gerçek sorguyla `Bağlı`; henüz API sürecine
+bağlanmayan analiz ve kamera bileşenleri hazır değil olarak gösterilir.
 
 Bu adres şu aşamada yalnız bu bilgisayardan erişilir. Sunucu durumunun `ok`
 olması, kamera veya modelin çalıştığını göstermez; yanıtta bu bileşenlerin henüz
