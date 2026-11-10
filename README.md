@@ -23,14 +23,18 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
 - Gerçek FastAPI durumuna bağlı React tabanlı İSG kontrol paneli.
 - Argon2id parola özeti, sunucuda tutulan HttpOnly oturum, CSRF ve yönetici/İSG
   rol denetimi.
+- Kamera ve çalışan ekleme/düzenleme/pasifleştirme API'leri; türüne göre güvenli
+  webcam ve kayıtlı video kaynağı doğrulaması.
+- Kamera temeli ile normalize çokgen bölgeleri doğrulayan, eski olayların bağlı
+  olduğu sürümü değiştirmeyen kamera kuralı API'leri.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
 eksiklik sınıfları çıkarıldı. Temiz model, eğitimde görmediği 107 görüntüde
 mAP50 0,8536 ve yaklaşık 26 FPS verdi. Bu sonuç gerçek fabrika kamerasında saha
 onayı yerine geçmez.
-İlk web paneli ve PostgreSQL çekirdek şeması hazırdır; kamera yönetim API'leri ve
-bildirim akışı sonraki adımlardır. Kural testleri model doğruluğu ölçümü olarak
+İlk web paneli, PostgreSQL çekirdek şeması ve yönetim API'leri hazırdır; çalışan
+geçmişi sorguları ve bildirim akışı sonraki adımlardır. Kural testleri model doğruluğu ölçümü olarak
 yorumlanmamalıdır.
 
 ## Kurulum (Windows / PowerShell)
@@ -286,6 +290,8 @@ Kalıcı kayıtların tablo ve ilişki planı
 [veritabanı şeması belgesinde](docs/VERITABANI_SEMASI.md) açıklanır.
 Gerçek yükseltme/geri alma deneyi
 [D2 migration raporunda](docs/ILK_VERITABANI_MIGRATION_DENEYI.md) bulunur.
+Kamera, çalışan ve sürümlü kural uçları ile doğrulama sınırları
+[D4 API belgesinde](docs/KAMERA_CALISAN_KURAL_API.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

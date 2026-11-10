@@ -58,6 +58,16 @@ def test_only_one_current_rule_index_is_partial_and_unique() -> None:
     assert str(index.dialect_options["postgresql"]["where"]) == "valid_until IS NULL"
 
 
+def test_historical_rule_hash_is_searchable_but_not_unique() -> None:
+    rule_table = Base.metadata.tables["rule_version"]
+    index = next(
+        item for item in rule_table.indexes if item.name == "ix_rule_version_camera_definition_hash"
+    )
+
+    assert not index.unique
+    assert [column.name for column in index.columns] == ["camera_id", "definition_hash"]
+
+
 def test_auth_schema_stores_only_password_and_token_verifiers() -> None:
     user_table = Base.metadata.tables["app_user"]
     session_table = Base.metadata.tables["user_session"]

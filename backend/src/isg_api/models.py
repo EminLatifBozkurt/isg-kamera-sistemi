@@ -259,12 +259,12 @@ class RuleVersion(Base):
     __tablename__ = "rule_version"
     __table_args__ = (
         UniqueConstraint("camera_id", "version_number", name="camera_version"),
-        UniqueConstraint("camera_id", "definition_hash", name="camera_definition_hash"),
         CheckConstraint("version_number > 0", name="positive_version"),
         CheckConstraint("valid_until IS NULL OR valid_until > valid_from", name="valid_time_order"),
         CheckConstraint("jsonb_typeof(definition) = 'object'", name="definition_object"),
         CheckConstraint("definition_hash ~ '^[0-9a-f]{64}$'", name="definition_hash_sha256"),
         Index("ix_rule_version_camera_valid_from", "camera_id", text("valid_from DESC")),
+        Index("ix_rule_version_camera_definition_hash", "camera_id", "definition_hash"),
         Index(
             "uq_rule_version_one_current_per_camera",
             "camera_id",

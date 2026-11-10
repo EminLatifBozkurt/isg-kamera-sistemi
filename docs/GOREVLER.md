@@ -128,8 +128,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   Sonuç: Argon2id parola özeti, ham belirteci saklamayan sunucu oturumu,
   HttpOnly/SameSite cookie, CSRF, süre/kilitleme ve admin/İSG rolleri eklendi.
   Gerçek HTTP testinde yetkisiz medya 401, eksik CSRF ve rol aşımı 403 döndürdü.
-- [ ] D4. Kamera, çalışan ve kural yönetimi API'lerini doğrulamayla ekle.
-  Bitme ölçütü: geçersiz kaynak/şekil reddedilir; eski olayların kural sürümü korunur.
+- [x] D4. Kamera, çalışan ve kural yönetimi API'lerini doğrulamayla ekle.
+  Sonuç: webcam/kayıtlı video kaynakları, çalışan kayıtları, sabit ekipman kataloğu
+  ve değiştirilemez kamera/bölge kural sürümleri için yetkili API'ler eklendi.
+  Geçersiz yol/RTSP/kesişen çokgen 422; yinelenen etkin kural 409 döndü. Gerçek
+  PostgreSQL deneyinde eski olay ilk kural sürümüne bağlı kaldı ve A→B→A geçti.
 - [ ] D5. Çalışan arama, pasifleştirme ve geçmiş kayıt sorgularını ekle.
   Bitme ölçütü: aynı isimler çalışan numarasıyla ayrılır; geçmiş kayıtlar korunur.
 

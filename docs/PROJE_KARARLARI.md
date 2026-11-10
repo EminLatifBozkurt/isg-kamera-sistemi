@@ -22,7 +22,7 @@
 - Repo lisansı: AGPL-3.0. Mevcut LICENSE korunur; model/veri lisansları ayrıca incelenir.
 - Kullanıcının donanımı: Acer Nitro 5, 12. nesil Intel i5, 32 GB RAM, 512 GB SSD.
 - Yerel sürücü sorgusu: RTX 3050 Ti Laptop GPU, 4096 MiB VRAM.
-- Windows üzerinde Python 3.12.2 mevcut. Proje paketleri ayrı `.venv` içine kurulacak.
+- Windows üzerinde Python 3.12.10 mevcut. Proje paketleri ayrı `.venv` içine kurulacak.
 - Doğrulanan model ortamı: PyTorch 2.11.0+cu128, torchvision 0.26.0+cu128,
   Ultralytics 8.4.194 ve OpenCV 5.0.0. RTX 3050 Ti üzerinde CUDA hesabı geçti.
 - İlk genel model deneyi `yolo26n.pt` ile geçti. Model kişiyi buldu fakat PPE

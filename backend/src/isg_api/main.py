@@ -9,6 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from isg_api import __version__
 from isg_api.auth import router as auth_router
+from isg_api.cameras import router as cameras_router
 from isg_api.config import Settings
 from isg_api.database import (
     DatabaseNotConfiguredError,
@@ -16,7 +17,9 @@ from isg_api.database import (
     create_database_engine,
     create_session_factory,
 )
+from isg_api.employees import router as employees_router
 from isg_api.media import router as media_router
+from isg_api.rule_management import router as rule_management_router
 from isg_api.users import router as users_router
 
 DatabaseState = Literal["ok", "not_configured", "unavailable"]
@@ -88,6 +91,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     application.include_router(auth_router)
     application.include_router(users_router)
     application.include_router(media_router)
+    application.include_router(cameras_router)
+    application.include_router(employees_router)
+    application.include_router(rule_management_router)
     return application
 
 

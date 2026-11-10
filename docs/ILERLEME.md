@@ -500,3 +500,31 @@ yetkilendirmesi.
 - Toplam 101 Python testi, Ruff ve `pip check` temiz sonuç verdi.
 
 D3 tamamlandı. Sıradaki görev D4: kamera, çalışan ve sürümlü kural yönetimi API'leri.
+
+## 10 Kasım 2026 — Kamera, çalışan ve kural yönetimi tamamlandı (D4)
+
+- Yönetici ve İSG rollerine açık kamera listeleme, ayrıntı, ekleme, düzenleme ve
+  pasifleştirme API'leri yazıldı. Fiziksel silme ucu eklenmedi.
+- Webcam kaynağında cihaz numarası, isteğe bağlı çözünürlük ve FPS sınırlandı.
+  Kayıtlı video yalnız göreli, üst klasöre çıkmayan ve desteklenen uzantılı yol
+  kabul ediyor.
+- Gerçek RTSP kamera ve güvenli kimlik kasası doğrulanmadığı için RTSP URL/parola
+  kabul edilmiyor; gizli bilgi `source_config` içine yazılmıyor.
+- Çalışan numarası benzersiz ve normalize; ad, bölüm ve aktiflik alanları için
+  ekleme, düzenleme, listeleme ve pasifleştirme uçları eklendi.
+- Sabit beş ekipman kataloğu okunabiliyor. Kamera temel ekipmanı ile en fazla 32
+  bölge ve bölge başına 3–50 normalize nokta kabul eden kural isteği yazıldı.
+- Çokgenlerde 0–1 koordinat, tekrar eden nokta, sıfır alan ve kendi kendini kesme
+  denetleniyor. Bölge kimlikleri ve ekipman seçimleri yinelenemiyor.
+- Kural değişikliği eski satırı ezmiyor: güncel sürümün bitiş zamanı kapanıyor ve
+  kamera satırı kilitlenerek artan numaralı yeni sürüm oluşturuluyor.
+- `20261110_0003`, geçmişteki bir tanıma A → B → A biçiminde dönebilmeyi sağladı.
+  Aynı etkin tanım yine `409` ile reddediliyor.
+- Gerçek PostgreSQL + ASGI deneyinde sekiz kontrol geçti: yetkisiz yönetim,
+  güvensiz kaynak, gizlisiz kamera, çalışan normalizasyonu, geçersiz çokgen,
+  olayın tarihsel kuralı, eski tanıma dönüş ve pasifleştirme.
+- Migration geri alma/yükseltme ve `alembic check` geçti. Deneme kayıtları
+  temizlendi, PostgreSQL kapatıldı.
+- Toplam 116 Python testi ve Ruff kontrolü temiz sonuç verdi.
+
+D4 tamamlandı. Sıradaki görev D5: çalışan arama, pasifleştirme ve geçmiş sorguları.

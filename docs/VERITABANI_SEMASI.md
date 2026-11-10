@@ -279,3 +279,17 @@ Ayrıntılı komut ve sonuçlar `docs/ILK_VERITABANI_MIGRATION_DENEYI.md` içind
   yabancı anahtarları eklendi.
 - `20261110_0002` migration'ı D2 şemasını bozmadan geri alınıp yeniden uygulandı;
   beş ekipman kaydı korundu ve `alembic check` fark bulmadı.
+
+## D4 kural sürümü düzeltmesi — 10 Kasım 2026
+
+- Aynı tanımın art arda gereksiz sürüm oluşturması API tarafından `409` ile
+  engellenir. Ancak A → B → A gibi geçmiş bir ayara bilinçli dönüş, yeni zaman
+  aralığına sahip yeni bir sürüm olmalıdır.
+- Bu nedenle `(camera_id, definition_hash)` benzersiz kısıtı
+  `20261110_0003` migration'ıyla normal arama indeksine çevrildi. Kamera içindeki
+  sürüm numarası benzersizliği ve tek güncel sürüm kısıtı korunur.
+- Gerçek PostgreSQL deneyinde birinci sürüme bağlı olay oluşturuldu, ikinci ve
+  üçüncü sürümler kaydedildi ve olayın `rule_version_id` alanının ilk sürümde
+  kaldığı doğrulandı.
+- Migration `0003 → 0002 → 0003` olarak geri alınıp yeniden uygulandı;
+  `alembic check` model–şema farkı bulmadı.
