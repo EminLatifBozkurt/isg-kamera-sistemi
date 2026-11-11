@@ -145,8 +145,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   eklendi. Başlangıç eşiği 3 saniyelik pencerede en az 4 gözlem ve 1,5 saniye;
   azami ara 1 saniye. Kontrollü altı senaryoda tek/hızlı/seyrek kare reddedildi,
   sürekli gözlem aday üretti ve uygun gözlem kanıtı sıfırladı.
-- [ ] E2. Olay birleştirme, bitiş nedeni ve tekrar bildirim engelini yaz.
-  Bitme ölçütü: bir olay her karede çoğalmaz; takip/oturum değişimi güvenli ele alınır.
+- [x] E2. Olay birleştirme, bitiş nedeni ve tekrar bildirim engelini yaz.
+  Sonuç: oturum içindeki kişi takibi başına en fazla bir açık olay tutuluyor.
+  Bildirim komutu yalnız `started` geçişinde; devam karelerinde değil. İki uygun
+  gözlem + 1 saniye `resolved`; 2 saniye kayıp, oturum sonu ve kural değişimi
+  ayrı nedenlerle bitiyor. Kontrollü akışta 8 geçişten yalnız 2 olay/bildirim çıktı.
 - [ ] E3. Fotoğraf ve sınırlı öncesi/sonrası klip tamponunu ekle.
   Bitme ölçütü: klip hazırlanıyor/hazır/hatalı durumları doğru; işlem analizi kilitlemez.
 - [ ] E4. Kalıcı olay/değişiklik kayıtları ve WebSocket bildirimi ekle.

@@ -31,6 +31,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   bekleyen/doğrulanmış/yanlış alarm özet API'leri.
 - Tek kötü kareyi olay saymayan; tekrar sayısı, süre, gözlem boşluğu ve oturum
   sınırlarıyla çalışan zamansal ihlal-adayı durum makinesi.
+- Kesintisiz ihlali tek olayda birleştiren, yalnız olay başlangıcında bildirim
+  komutu üreten ve açık bitiş nedeni taşıyan olay yaşam döngüsü.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -300,6 +302,8 @@ Kamera, çalışan ve sürümlü kural uçları ile doğrulama sınırları
 [D5 belgesinde](docs/CALISAN_ARAMA_VE_GECMIS.md) açıklanır.
 Tek karelik kural sonuçlarının süreli adaya dönüşme eşikleri
 [E1 belgesinde](docs/ZAMANSAL_IHLAL_ADAYI.md) açıklanır.
+Olay birleştirme, tekrar bildirimi ve teknik bitiş nedenleri
+[E2 belgesinde](docs/OLAY_YASAM_DONGUSU.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

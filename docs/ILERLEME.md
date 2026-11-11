@@ -586,3 +586,32 @@ adayı üretmek.
 
 E1 tamamlandı. Sıradaki görev E2: aynı adayın her karede yeni olaya dönüşmesini
 engelleyen olay birleştirme ve bitiş yaşam döngüsü.
+
+## 10 Kasım 2026 — Olay birleştirme ve bitiş yaşam döngüsü tamamlandı (E2)
+
+- `EventLifecycleTracker`, aynı kamera oturumu ve takip numarası için en fazla
+  bir açık teknik olay tutacak şekilde eklendi. Aynı takip numarası başka oturumda
+  bağımsızdır.
+- İlk aday `started` ve `notification_required=true` üretiyor. Devam eden her
+  gözlem aynı olay UUID'siyle `updated` oluyor ve tekrar bildirim istemiyor.
+- Kesintisiz dönemde eksik ekipman listesi değişirse olay bölünmüyor. O anda
+  geçerli ekipmanlar ayrı, olay boyunca görülen bütün ekipmanlar birleşik tutuluyor.
+- Tek uygun kare olayı kapatmıyor. En az iki uygun gözlem ve ilk uygun gözlemden
+  itibaren en az 1 saniye geçince `resolved` nedeniyle kapanıyor. Bu arada ihlal
+  dönerse aynı olay devam ediyor.
+- Takip 2 saniye görülmezse `observation_lost`, kamera/video oturumu kapanırsa
+  `session_ended`, aynı takipte kural sürümü değişirse `rule_changed` nedeni
+  üretiliyor. Kural değişiminde eski olay kapanıp gerekiyorsa yeni olay başlıyor.
+- Olay sona erdikten sonra yeni ihlal yeni UUID ve yeni başlangıç bildirimi alıyor.
+  Böylece gerçek ayrı dönemler korunurken her karede satır/bildirim çoğalmıyor.
+- Geriye giden/NaN zamanlar, negatif takip numarası ve tutarsız süre politikaları
+  reddediliyor. Son görüldü zamanı kapanış zamanıyla yanlışlıkla ezilmiyor.
+- `scripts/evaluate_event_lifecycle.py` kontrollü sekiz gözlemde iki ayrı olay ve
+  iki bildirim başlangıcı üretti; kısa düzelme aynı olayda kaldı, yeterli düzelme
+  `resolved` ile bitirdi.
+- Bu aşama yalnız geçiş komutlarını üretir. Veritabanına yazma ve gerçek panel
+  bildirimi E4'te; fotoğraf/klip kanıtı E3'te eklenecek.
+- Toplam 143 Python testi ve Ruff biçim/kod kalite kontrolleri geçti.
+
+E2 tamamlandı. Sıradaki görev E3: olay fotoğrafı ve sınırlı öncesi/sonrası klip
+tamponu.
