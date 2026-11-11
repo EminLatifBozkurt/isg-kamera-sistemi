@@ -209,6 +209,47 @@ def main() -> int:
                 assert message["cursor"] == change_ids[-1]
                 assert message["change"]["change_kind"] == "media_ready"
 
+            review_without_csrf = client.post(
+                f"/api/v1/events/{event_id}/reviews",
+                json={"new_status": "confirmed", "note": "Baret kullanılmamış."},
+            )
+            assert review_without_csrf.status_code == 403
+            csrf_token = client.cookies.get("csrf")
+            assert csrf_token is not None
+            csrf_header = {"X-CSRF-Token": csrf_token}
+            first_review = client.post(
+                f"/api/v1/events/{event_id}/reviews",
+                headers=csrf_header,
+                json={"new_status": "confirmed", "note": "Baret kullanılmamış."},
+            )
+            assert first_review.status_code == 201, first_review.text
+            correction = client.post(
+                f"/api/v1/events/{event_id}/reviews",
+                headers=csrf_header,
+                json={
+                    "new_status": "false_alarm",
+                    "note": "Yakından incelemede baretin takılı olduğu görüldü.",
+                },
+            )
+            assert correction.status_code == 201, correction.text
+            reviews = client.get(f"/api/v1/events/{event_id}/reviews")
+            assert reviews.status_code == 200, reviews.text
+            history = reviews.json()
+            assert [item["revision_number"] for item in history] == [1, 2]
+            assert [item["previous_status"] for item in history] == [
+                "pending",
+                "confirmed",
+            ]
+            assert [item["new_status"] for item in history] == [
+                "confirmed",
+                "false_alarm",
+            ]
+            refreshed_events = client.get("/api/v1/events?limit=100").json()["items"]
+            reviewed_event = next(
+                item for item in refreshed_events if item["id"] == str(event_id)
+            )
+            assert reviewed_event["review_status"] == "false_alarm"
+
         print(
             json.dumps(
                 {
@@ -216,6 +257,9 @@ def main() -> int:
                     "event_persisted_while_panel_absent": True,
                     "reconnected_list_contains_event": True,
                     "websocket_resumed_from_cursor": True,
+                    "csrf_without_header_rejected": True,
+                    "review_history": ["pending->confirmed", "confirmed->false_alarm"],
+                    "final_review_status": "false_alarm",
                     "technical_status": TechnicalStatus.ENDED,
                     "change_ids": change_ids,
                     "change_kinds": change_kinds,

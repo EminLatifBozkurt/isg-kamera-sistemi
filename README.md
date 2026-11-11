@@ -37,6 +37,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   fotoğraf ile kısa MP4 kanıtı hazırlayan asenkron medya işçisi.
 - Panel kapalıyken de olayları koruyan PostgreSQL olay/değişiklik kaydı; yeniden
   bağlanınca sıra imlecinden devam eden kimlik doğrulamalı WebSocket akışı.
+- İSG kararını açıklama ve kullanıcıyla eklemeli revizyon geçmişine yazan; yanlış
+  alarmı doğrulanmış ihlal sayımından ayıran olay inceleme API'si.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -312,6 +314,8 @@ Fotoğraf, kısa klip, bellek sınırları ve asenkron medya durumları
 [E3 belgesinde](docs/OLAY_KANIT_TAMPONU.md) açıklanır.
 Kalıcı olay yazımı, yeniden bağlantı ve WebSocket bildirim akışı
 [E4 belgesinde](docs/KALICI_OLAY_VE_BILDIRIM.md) açıklanır.
+İnceleme kararı, açıklama, düzeltme ve denetim geçmişi
+[E5 belgesinde](docs/OLAY_INCELEME_GECMISI.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

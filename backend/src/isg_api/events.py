@@ -7,16 +7,26 @@ import uuid
 from datetime import UTC, datetime, timedelta
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, Depends, Query, WebSocket, WebSocketDisconnect
-from pydantic import BaseModel, ConfigDict
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    Query,
+    WebSocket,
+    WebSocketDisconnect,
+    status,
+)
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, joinedload, selectinload
 
-from isg_api.auth import AuthenticatedSession, cookie_names, require_roles
+from isg_api.auth import AuthenticatedSession, cookie_names, require_csrf, require_roles
 from isg_api.database import get_database_session
 from isg_api.models import (
+    AppUser,
     EventChange,
     EventChangeKind,
+    EventReviewRevision,
     IdentityStatus,
     MediaStatus,
     MediaType,
@@ -93,6 +103,31 @@ class WebSocketMessage(BaseModel):
     change: EventChangeResponse | None = None
 
 
+class EventReviewRequest(BaseModel):
+    new_status: ReviewStatus
+    note: str = Field(min_length=2, max_length=2000)
+
+    @field_validator("note")
+    @classmethod
+    def normalize_note(cls, value: str) -> str:
+        normalized = " ".join(value.split())
+        if len(normalized) < 2:
+            raise ValueError("İnceleme açıklaması en az iki karakter olmalıdır")
+        return normalized
+
+
+class EventReviewResponse(BaseModel):
+    id: uuid.UUID
+    event_id: uuid.UUID
+    revision_number: int
+    previous_status: ReviewStatus | None
+    new_status: ReviewStatus
+    note: str | None
+    reviewed_by: uuid.UUID | None
+    reviewed_by_name: str | None
+    created_at: datetime
+
+
 @router.get("", response_model=EventPage)
 def list_events(
     database: DatabaseSession,
@@ -142,6 +177,93 @@ def list_event_changes(
         items=[EventChangeResponse.model_validate(item) for item in visible],
         last_id=visible[-1].id if visible else after_id,
         has_more=has_more,
+    )
+
+
+@router.get("/{event_id}/reviews", response_model=list[EventReviewResponse])
+def list_event_reviews(
+    event_id: uuid.UUID,
+    database: DatabaseSession,
+    _authentication: AuthorizedUser,
+) -> list[EventReviewResponse]:
+    if database.get(SafetyEvent, event_id) is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Olay bulunamadı")
+    rows = database.execute(
+        select(EventReviewRevision, AppUser.display_name)
+        .outerjoin(AppUser, AppUser.id == EventReviewRevision.reviewed_by)
+        .where(EventReviewRevision.event_id == event_id)
+        .order_by(EventReviewRevision.revision_number)
+    ).all()
+    return [
+        EventReviewResponse(
+            id=revision.id,
+            event_id=revision.event_id,
+            revision_number=revision.revision_number,
+            previous_status=revision.previous_status,
+            new_status=revision.new_status,
+            note=revision.note,
+            reviewed_by=revision.reviewed_by,
+            reviewed_by_name=reviewer_name,
+            created_at=revision.created_at,
+        )
+        for revision, reviewer_name in rows
+    ]
+
+
+@router.post(
+    "/{event_id}/reviews",
+    response_model=EventReviewResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_event_review(
+    event_id: uuid.UUID,
+    payload: EventReviewRequest,
+    database: DatabaseSession,
+    authentication: Annotated[AuthenticatedSession, Depends(require_csrf)],
+) -> EventReviewResponse:
+    if authentication.user.role not in {UserRole.ADMIN, UserRole.ISG}:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Yetkiniz yok")
+    # Olay satırı kilidi aynı anda gelen iki kararın aynı sıra numarasını almasını önler.
+    event = database.scalar(select(SafetyEvent).where(SafetyEvent.id == event_id).with_for_update())
+    if event is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Olay bulunamadı")
+    latest_revision = database.scalar(
+        select(func.max(EventReviewRevision.revision_number)).where(
+            EventReviewRevision.event_id == event_id
+        )
+    )
+    revision = EventReviewRevision(
+        event_id=event_id,
+        revision_number=(latest_revision or 0) + 1,
+        previous_status=event.review_status,
+        new_status=payload.new_status,
+        note=payload.note,
+        reviewed_by=authentication.user.id,
+    )
+    event.review_status = payload.new_status
+    database.add(revision)
+    database.add(
+        EventChange(
+            event_id=event_id,
+            change_kind=EventChangeKind.EVENT_UPDATED,
+            payload={
+                "review_status": payload.new_status.value,
+                "revision_number": revision.revision_number,
+            },
+        )
+    )
+    database.commit()
+    database.refresh(revision)
+    return EventReviewResponse(
+        id=revision.id,
+        event_id=revision.event_id,
+        revision_number=revision.revision_number,
+        previous_status=revision.previous_status,
+        new_status=revision.new_status,
+        note=revision.note,
+        reviewed_by=revision.reviewed_by,
+        reviewed_by_name=authentication.user.display_name,
+        created_at=revision.created_at,
     )
 
 

@@ -160,8 +160,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   `event_change` imleci HTTP ve kimlik doğrulamalı WebSocket üzerinden okunuyor.
   Gerçek deneyde panel kapalıyken olay kaydedildi; panel açılınca tam listede bulundu
   ve WebSocket sondan bir önceki imleçten yalnız kaçırılan değişiklikle devam etti.
-- [ ] E5. İnceleme sonucu, açıklama ve değişiklik geçmişini ekle.
-  Bitme ölçütü: yanlış alarm doğrulanmış ihlal sayısını artırmaz; düzeltme izlenebilir.
+- [x] E5. İnceleme sonucu, açıklama ve değişiklik geçmişini ekle.
+  Sonuç: kararlar zorunlu açıklama, kullanıcı ve artan revizyon numarasıyla eklemeli
+  geçmişe yazılıyor; eski karar değiştirilmiyor. CSRF'siz yazma reddedildi. Gerçek
+  deneyde `pending → confirmed → false_alarm` zinciri korundu; güncel özet yalnız
+  son durumu saydığı için yanlış alarm doğrulanmış ihlal olarak kalmıyor.
 
 ## F. Web paneli — API akışları netleştikten sonra
 

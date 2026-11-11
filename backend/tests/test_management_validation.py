@@ -2,6 +2,7 @@ import pytest
 from pydantic import ValidationError
 
 from isg_api.employees import employee_search_pattern
+from isg_api.events import EventReviewRequest
 from isg_api.main import create_app
 from isg_api.management_schemas import (
     CameraWriteRequest,
@@ -161,7 +162,16 @@ def test_management_routes_are_in_openapi_contract() -> None:
     assert "/api/v1/equipment" in paths
     assert "/api/v1/events" in paths
     assert "/api/v1/events/changes" in paths
+    assert "/api/v1/events/{event_id}/reviews" in paths
 
 
 def test_employee_search_escapes_like_wildcards() -> None:
     assert employee_search_pattern("  A_100%  ") == "%A\\_100\\%%"
+
+
+def test_review_note_is_normalized_and_cannot_be_empty() -> None:
+    request = EventReviewRequest(new_status="confirmed", note="  Baret   kullanılmamış. ")
+    assert request.note == "Baret kullanılmamış."
+
+    with pytest.raises(ValidationError):
+        EventReviewRequest(new_status="false_alarm", note="   ")

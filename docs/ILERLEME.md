@@ -661,3 +661,23 @@ yazmak, ardından yeni/değişen olayları WebSocket üzerinden panele bildirmek
 
 E4 tamamlandı. Sıradaki görev E5: inceleme sonucu, açıklama ve düzeltilebilir ama
 silinmeyen inceleme geçmişi.
+
+## 11 Kasım 2026 — İnceleme kararı ve düzeltme geçmişi tamamlandı (E5)
+
+- Olay için `pending`, `confirmed` ve `false_alarm` insan inceleme kararları API'ye
+  eklendi. Teknik olay durumu ile insan kararı ayrı tutulmaya devam ediyor.
+- Her karar en az iki karakterlik normalleştirilmiş açıklama, kararı veren kullanıcı,
+  önceki/yeni durum ve artan revizyon numarasıyla `event_review_revision` tablosuna
+  ekleniyor. Önceki revizyonlar güncellenmiyor veya silinmiyor.
+- Olay satırı karar işlemi boyunca kilitlenerek eşzamanlı kararların aynı revizyon
+  numarasını kullanması engellendi. Güncel karar hızlı listeler için olayda tutuluyor.
+- Karar yazma geçerli admin/İSG oturumuna ve CSRF doğrulamasına bağlandı. Her karar
+  E4 değişiklik akışına durum ve revizyon numarası ekleyerek paneli güncelleyebilir.
+- Gerçek PostgreSQL deneyinde CSRF'siz istek reddedildi. Ardından
+  `pending → confirmed → false_alarm` iki ayrı revizyon olarak okundu ve olay listesi
+  son durumu yanlış alarm gösterdi; ilk karar denetim geçmişinde korundu.
+- Çalışan özet sorgusu yalnız güncel `confirmed` olayları doğrulanmış ihlal saydığı
+  için `false_alarm` kararı bu sayıyı artırmıyor.
+
+E1–E5 olay üretimi ve kanıt aşaması tamamlandı. Sıradaki öncelik F1: mevcut React/
+TypeScript panelini gerçek oturum ve olay API'lerine bağlayarak giriş ekranını kurmak.
