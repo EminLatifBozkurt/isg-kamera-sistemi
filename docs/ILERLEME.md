@@ -704,3 +704,24 @@ TypeScript panelini gerçek oturum ve olay API'lerine bağlayarak giriş ekranı
 
 F1 tamamlandı. Sıradaki görev F2: gerçek kamera listesini API'den göstermek, kamera
 ayrıntısını ve analizi çoğaltmayan ortak önizleme sözleşmesini hazırlamak.
+
+## 11 Kasım 2026 — Kamera listesi, ayrıntısı ve ortak önizleme tamamlandı (F2)
+
+- Kamera sayfası `include_inactive=true` ile gerçek API verisini okuyor; yüklenme,
+  hata, boş liste, etkin ve pasif kamera durumlarını ayrı gösteriyor.
+- Kamera kartları kaynak türünü ve yalnız güvenli kaynak özetini gösterip UUID tabanlı
+  ayrıntı rotasına açılıyor. Ayrıntı sayfasında kaynak ve önizleme durumu var.
+- Kamera başına tek JPEG son kare tutan `FilesystemPreviewStore` eklendi. Analiz
+  atomik geçici dosya üzerinden yayınlıyor; tarayıcı aynı hazır dosyayı okuyor.
+- Önizleme `unavailable`, `live` ve `stale` durumlarını taşıyor. Varsayılan üç
+  saniyeyi geçen kare gösterilmeye devam ediyor fakat belirgin biçimde eski işaretleniyor.
+- Önizleme durum API'si ve yetkili JPEG API'si eklendi. Cevap önbelleğe alınmıyor;
+  yakalama zamanı ve güncellik başlıklarla da bildiriliyor.
+- 8 depo testi ile kamera sözleşme testleri geçti. Gerçek PostgreSQL deneyinde kamera
+  listelendi; kare yok/live/stale geçişleri ve JPEG bütünlüğü doğrulandı. Tarayıcı
+  isteğinin analiz başlatmadığı açıkça sınandı.
+- Frontend ESLint ve katı TypeScript kontrolü geçti. Otomatik görsel QA, aynı tarayıcı
+  erişim kısıtı nedeniyle yapılamadı.
+
+F2 tamamlandı. Sıradaki görev F3: kamera ayrıntısında çokgen bölge çizme, düzenleme
+ve sürümlü ekipman kurallarını gerçek API'ye bağlamak.

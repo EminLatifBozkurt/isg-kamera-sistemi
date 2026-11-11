@@ -41,6 +41,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   alarmı doğrulanmış ihlal sayımından ayıran olay inceleme API'si.
 - Gerçek sunucu oturumuna bağlı React giriş ekranı, korumalı sayfalar, kullanıcı/rol
   görünümü ve CSRF korumalı güvenli çıkış.
+- Gerçek API kamera listesi ve ayrıntısı; tarayıcının analiz başlatmadığı, tek JPEG
+  son kareyi paylaşan ve eski görüntüyü belirgin işaretleyen önizleme akışı.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -320,6 +322,8 @@ Kalıcı olay yazımı, yeniden bağlantı ve WebSocket bildirim akışı
 [E5 belgesinde](docs/OLAY_INCELEME_GECMISI.md) açıklanır.
 React panel giriş, oturum kontrolü ve korumalı yönlendirme akışı
 [F1 belgesinde](docs/WEB_PANEL_GIRIS.md) açıklanır.
+Kamera listesi, ayrıntı sayfası ve ortak son-kare önizleme sözleşmesi
+[F2 belgesinde](docs/KAMERA_LISTESI_VE_ONIZLEME.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

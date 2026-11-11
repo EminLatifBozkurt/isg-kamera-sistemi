@@ -505,6 +505,156 @@ body {
   padding-bottom: 28px;
 }
 
+.detail-loading {
+  display: grid;
+  min-height: 280px;
+  place-items: center;
+}
+
+.camera-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.camera-card { min-height: 245px; }
+.camera-card--inactive { opacity: 0.68; }
+.camera-card-action { height: 100%; align-items: stretch !important; }
+.camera-card-action .MuiCardContent-root {
+  display: flex;
+  min-height: 245px;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.camera-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 27px;
+}
+
+.camera-card-icon,
+.camera-info-icon {
+  display: grid;
+  width: 45px;
+  height: 45px;
+  place-items: center;
+  border-radius: 13px;
+  color: #b45309;
+  background: #fff7e7;
+}
+
+.camera-card-type {
+  margin-top: 8px !important;
+  color: #9a5b0d;
+  font-size: 0.74rem !important;
+  font-weight: 750 !important;
+}
+
+.camera-card-detail {
+  margin-top: 8px !important;
+  overflow: hidden;
+  color: #7b8594;
+  font-size: 0.78rem !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.camera-card-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 22px;
+  color: #4f5d70;
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
+.camera-card-link .MuiSvgIcon-root { font-size: 1rem; }
+
+.camera-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 0.72fr);
+  gap: 20px;
+}
+
+.preview-card { overflow: hidden; }
+.preview-stage {
+  position: relative;
+  display: grid;
+  min-height: 480px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.035) 25%, transparent 25%) 0 0 / 22px 22px,
+    #0d1524;
+}
+
+.preview-stage > img {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  object-fit: contain;
+}
+
+.preview-empty {
+  display: flex;
+  max-width: 430px;
+  flex-direction: column;
+  align-items: center;
+  padding: 35px;
+  color: #8f9db0;
+  text-align: center;
+}
+
+.preview-empty > .MuiSvgIcon-root { margin-bottom: 16px; font-size: 2.6rem; }
+.preview-empty > p:first-of-type { color: #d9e1eb; font-size: 0.9rem; font-weight: 750; }
+.preview-empty > p:last-of-type { margin-top: 8px; font-size: 0.75rem; line-height: 1.6; }
+
+.preview-state {
+  position: absolute !important;
+  top: 16px;
+  left: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+  backdrop-filter: blur(12px);
+}
+.preview-state--live { background: rgba(5, 150, 105, 0.88) !important; }
+.preview-state--stale { background: rgba(180, 83, 9, 0.9) !important; }
+.preview-state .MuiChip-icon { color: inherit !important; }
+
+.preview-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 24px !important;
+}
+.preview-time { color: #7b8594; font-size: 0.75rem !important; text-align: right; }
+
+.camera-info-card .MuiCardContent-root { padding: 26px; }
+.camera-info-icon { margin: 20px 0 18px; }
+.camera-source-detail {
+  margin-top: 10px !important;
+  overflow-wrap: anywhere;
+  color: #737f90;
+  font-size: 0.8rem !important;
+  line-height: 1.55 !important;
+}
+.camera-meta-list { display: grid; gap: 0; margin: 27px 0; border-top: 1px solid #edf0f3; }
+.camera-meta-list > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid #edf0f3;
+  font-size: 0.76rem;
+}
+.camera-meta-list span { color: #8a94a3; }
+.camera-meta-list strong { color: #344054; text-align: right; }
+
 @media (min-width: 900px) {
   .desktop-drawer { display: block; }
   .mobile-drawer { display: none; }
@@ -513,6 +663,8 @@ body {
 
 @media (max-width: 1150px) {
   .status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .camera-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .camera-detail-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {
@@ -521,13 +673,18 @@ body {
   .page-header-action { width: 100%; }
   .page-header-action .MuiButton-root { width: 100%; }
   .status-grid,
-  .dashboard-lower-grid { grid-template-columns: 1fr; }
+  .dashboard-lower-grid,
+  .camera-grid { grid-template-columns: 1fr; }
   .page-container { padding: 27px 16px 48px; }
   .user-copy,
   .logout-button { font-size: 0 !important; }
   .logout-button .MuiButton-startIcon { margin: 0 !important; }
   .user-summary { margin-left: auto; padding-left: 9px; }
   .environment-pill { display: none; }
+  .preview-stage,
+  .preview-stage > img { min-height: 300px; }
+  .preview-caption { align-items: flex-start; flex-direction: column; }
+  .preview-time { text-align: left; }
 }
 
 @media (max-width: 980px) {

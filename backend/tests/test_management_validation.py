@@ -155,6 +155,8 @@ def test_management_routes_are_in_openapi_contract() -> None:
     paths = create_app().openapi()["paths"]
 
     assert "/api/v1/cameras" in paths
+    assert "/api/v1/cameras/{camera_id}/preview/status" in paths
+    assert "/api/v1/cameras/{camera_id}/preview" in paths
     assert "/api/v1/cameras/{camera_id}/rules" in paths
     assert "/api/v1/employees" in paths
     assert "/api/v1/employees/{employee_id}/events" in paths

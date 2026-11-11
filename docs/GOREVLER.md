@@ -173,8 +173,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   rotalar, kullanıcı/rol gösterimi ve CSRF'li çıkış eklendi. ESLint, TypeScript,
   Vite üretim derlemesi ve gerçek PostgreSQL üzerinde 11 oturum güvenliği kontrolü
   geçti. Otomatik görsel test, tarayıcı erişim aracı kullanılamadığı için yapılamadı.
-- [ ] F2. Kamera listesi, ayrıntısı ve ortak canlı önizlemeyi ekle.
-  Bitme ölçütü: tarayıcı açılması yeni GPU analizi başlatmaz; eski kare belirgin görünür.
+- [x] F2. Kamera listesi, ayrıntısı ve ortak canlı önizlemeyi ekle.
+  Sonuç: gerçek API kamera listesi ve ayrıntı rotası eklendi. Analiz kamera başına
+  tek JPEG son kareyi atomik yayınlıyor; tarayıcı yalnız aynı dosyayı okuyor ve GPU
+  analizi başlatmıyor. Üç saniyeyi geçen kare silinmeden `GÖRÜNTÜ GÜNCEL DEĞİL`
+  etiketi alıyor. Gerçek PostgreSQL akışı ve önizleme depo testleri geçti.
 - [ ] F3. Çokgen çizme, düzenleme ve bölge kurallarını ekle.
   Bitme ölçütü: ölçek/boş kenar koordinatları doğru; geçersiz şekiller reddedilir.
 - [ ] F4. Olay listesi, filtreler, bildirim ve fotoğraf/video inceleme ekranını ekle.

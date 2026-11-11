@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -16,6 +16,7 @@ from isg_api.auth import AuthenticatedSession, require_csrf, require_roles
 from isg_api.database import get_database_session
 from isg_api.management_schemas import ActiveStateRequest, CameraWriteRequest
 from isg_api.models import Camera, CameraSourceType, UserRole
+from isg_api.preview_store import FilesystemPreviewStore, PreviewState
 
 router = APIRouter(prefix="/api/v1/cameras", tags=["Kameralar"])
 
@@ -36,6 +37,14 @@ class CameraResponse(BaseModel):
     is_active: bool
     created_at: datetime
     updated_at: datetime
+
+
+class CameraPreviewStatusResponse(BaseModel):
+    camera_id: uuid.UUID
+    state: PreviewState
+    captured_at: datetime | None
+    age_seconds: float | None
+    size_bytes: int | None
 
 
 def camera_or_404(database: Session, camera_id: uuid.UUID) -> Camera:
@@ -78,6 +87,59 @@ def get_camera(
     _authentication: ManagerAuthentication,
 ) -> CameraResponse:
     return CameraResponse.model_validate(camera_or_404(database, camera_id))
+
+
+def preview_store(request: Request) -> FilesystemPreviewStore:
+    settings = request.app.state.settings
+    return FilesystemPreviewStore(
+        settings.preview_directory,
+        stale_after_seconds=settings.preview_stale_seconds,
+    )
+
+
+@router.get("/{camera_id}/preview/status", response_model=CameraPreviewStatusResponse)
+def get_camera_preview_status(
+    camera_id: uuid.UUID,
+    request: Request,
+    database: DatabaseSession,
+    _authentication: ManagerAuthentication,
+) -> CameraPreviewStatusResponse:
+    camera_or_404(database, camera_id)
+    snapshot = preview_store(request).snapshot(camera_id)
+    return CameraPreviewStatusResponse(
+        camera_id=camera_id,
+        state=snapshot.state,
+        captured_at=snapshot.captured_at,
+        age_seconds=snapshot.age_seconds,
+        size_bytes=snapshot.size_bytes,
+    )
+
+
+@router.get("/{camera_id}/preview")
+def get_camera_preview(
+    camera_id: uuid.UUID,
+    request: Request,
+    database: DatabaseSession,
+    _authentication: ManagerAuthentication,
+) -> Response:
+    camera_or_404(database, camera_id)
+    snapshot, content = preview_store(request).read(camera_id)
+    if content is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Bu kamera için henüz önizleme karesi yok",
+        )
+    return Response(
+        content=content,
+        media_type="image/jpeg",
+        headers={
+            "Cache-Control": "no-store",
+            "X-Preview-State": snapshot.state.value,
+            "X-Preview-Captured-At": snapshot.captured_at.isoformat()
+            if snapshot.captured_at
+            else "",
+        },
+    )
 
 
 @router.post("", response_model=CameraResponse, status_code=status.HTTP_201_CREATED)

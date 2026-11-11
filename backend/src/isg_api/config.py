@@ -1,5 +1,7 @@
 """Paylaşılabilir varsayılanlar ve bilgisayara özel ortam ayarları."""
 
+from pathlib import Path
+
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -27,6 +29,8 @@ class Settings(BaseSettings):
     session_cookie_secure: bool = False
     login_max_failures: int = Field(default=5, ge=3, le=20)
     login_lock_minutes: int = Field(default=15, ge=1, le=120)
+    preview_directory: Path = Path("data/runtime/previews")
+    preview_stale_seconds: float = Field(default=3.0, gt=0, le=60)
 
     @property
     def database_configured(self) -> bool:
