@@ -10,6 +10,7 @@ EXPECTED_TABLES = {
     "employee",
     "equipment_definition",
     "event_finding",
+    "event_change",
     "event_review_revision",
     "media_record",
     "rule_version",
@@ -82,3 +83,21 @@ def test_auth_schema_stores_only_password_and_token_verifiers() -> None:
     assert "ck_user_session_verifier_hash_sha256" in constraint_names
     assert "ck_user_session_csrf_hash_sha256" in constraint_names
     assert "ck_user_session_absolute_expiry_order" in constraint_names
+
+
+def test_event_changes_are_ordered_and_survive_websocket_disconnects() -> None:
+    change_table = Base.metadata.tables["event_change"]
+
+    assert change_table.c.id.primary_key
+    assert change_table.c.id.autoincrement is True
+    assert next(iter(change_table.c.event_id.foreign_keys)).ondelete == "CASCADE"
+    assert "ck_event_change_payload_object" in {
+        constraint.name for constraint in change_table.constraints
+    }
+    media_table = Base.metadata.tables["media_record"]
+    media_unique = next(
+        constraint
+        for constraint in media_table.constraints
+        if constraint.name == "event_media_type"
+    )
+    assert [column.name for column in media_unique.columns] == ["event_id", "media_type"]

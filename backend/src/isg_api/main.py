@@ -18,6 +18,7 @@ from isg_api.database import (
     create_session_factory,
 )
 from isg_api.employees import router as employees_router
+from isg_api.events import router as events_router
 from isg_api.media import router as media_router
 from isg_api.rule_management import router as rule_management_router
 from isg_api.users import router as users_router
@@ -94,6 +95,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     application.include_router(cameras_router)
     application.include_router(employees_router)
     application.include_router(rule_management_router)
+    application.include_router(events_router)
     return application
 
 

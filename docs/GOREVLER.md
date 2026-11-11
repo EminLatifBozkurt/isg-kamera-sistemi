@@ -155,8 +155,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   sonrası ayrı iş parçacığında fotoğraf + MP4 kanıtına dönüşüyor. Hazırlanıyor,
   hazır, hatalı ve oturum kesilirse kısmi durumları test edildi; dolu yazma kuyruğu
   analizi bekletmiyor. Gerçek deneyde 7 karelik MP4 yeniden açılıp doğrulandı.
-- [ ] E4. Kalıcı olay/değişiklik kayıtları ve WebSocket bildirimi ekle.
-  Bitme ölçütü: panel kapalıyken olay kaydedilir; yeniden bağlantıda liste tamamlanır.
+- [x] E4. Kalıcı olay/değişiklik kayıtları ve WebSocket bildirimi ekle.
+  Sonuç: olay geçişleri ve medya durumları önce PostgreSQL'e yazılıyor. Artan
+  `event_change` imleci HTTP ve kimlik doğrulamalı WebSocket üzerinden okunuyor.
+  Gerçek deneyde panel kapalıyken olay kaydedildi; panel açılınca tam listede bulundu
+  ve WebSocket sondan bir önceki imleçten yalnız kaçırılan değişiklikle devam etti.
 - [ ] E5. İnceleme sonucu, açıklama ve değişiklik geçmişini ekle.
   Bitme ölçütü: yanlış alarm doğrulanmış ihlal sayısını artırmaz; düzeltme izlenebilir.
 

@@ -35,6 +35,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   komutu üreten ve açık bitiş nedeni taşıyan olay yaşam döngüsü.
 - Olayın öncesi/sonrası için RAM'i sınırlayan JPEG tamponu ve analizi bekletmeden
   fotoğraf ile kısa MP4 kanıtı hazırlayan asenkron medya işçisi.
+- Panel kapalıyken de olayları koruyan PostgreSQL olay/değişiklik kaydı; yeniden
+  bağlanınca sıra imlecinden devam eden kimlik doğrulamalı WebSocket akışı.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -308,6 +310,8 @@ Olay birleştirme, tekrar bildirimi ve teknik bitiş nedenleri
 [E2 belgesinde](docs/OLAY_YASAM_DONGUSU.md) açıklanır.
 Fotoğraf, kısa klip, bellek sınırları ve asenkron medya durumları
 [E3 belgesinde](docs/OLAY_KANIT_TAMPONU.md) açıklanır.
+Kalıcı olay yazımı, yeniden bağlantı ve WebSocket bildirim akışı
+[E4 belgesinde](docs/KALICI_OLAY_VE_BILDIRIM.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

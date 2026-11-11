@@ -159,6 +159,8 @@ def test_management_routes_are_in_openapi_contract() -> None:
     assert "/api/v1/employees/{employee_id}/events" in paths
     assert "/api/v1/employees/{employee_id}/history-summary" in paths
     assert "/api/v1/equipment" in paths
+    assert "/api/v1/events" in paths
+    assert "/api/v1/events/changes" in paths
 
 
 def test_employee_search_escapes_like_wildcards() -> None:

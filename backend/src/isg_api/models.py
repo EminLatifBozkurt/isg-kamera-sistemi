@@ -86,6 +86,14 @@ class MediaStatus(StrEnum):
     DELETED = "deleted"
 
 
+class EventChangeKind(StrEnum):
+    EVENT_STARTED = "event_started"
+    EVENT_UPDATED = "event_updated"
+    EVENT_ENDED = "event_ended"
+    MEDIA_READY = "media_ready"
+    MEDIA_FAILED = "media_failed"
+
+
 class UserRole(StrEnum):
     ADMIN = "admin"
     ISG = "isg"
@@ -372,6 +380,7 @@ class SafetyEvent(Base):
     findings: Mapped[list[EventFinding]] = relationship(back_populates="event")
     media: Mapped[list[MediaRecord]] = relationship(back_populates="event")
     review_revisions: Mapped[list[EventReviewRevision]] = relationship(back_populates="event")
+    changes: Mapped[list[EventChange]] = relationship(back_populates="event")
 
 
 class EventFinding(Base):
@@ -406,6 +415,7 @@ class EventFinding(Base):
 class MediaRecord(Base):
     __tablename__ = "media_record"
     __table_args__ = (
+        UniqueConstraint("event_id", "media_type", name="event_media_type"),
         CheckConstraint("size_bytes IS NULL OR size_bytes >= 0", name="size_nonnegative"),
         CheckConstraint("sha256 IS NULL OR sha256 ~ '^[0-9a-f]{64}$'", name="sha256_format"),
         CheckConstraint(
@@ -445,6 +455,33 @@ class MediaRecord(Base):
     error_message: Mapped[str | None] = mapped_column(Text)
 
     event: Mapped[SafetyEvent] = relationship(back_populates="media")
+
+
+class EventChange(Base):
+    """WebSocket kopsa bile yeniden okunabilen sıralı olay değişikliği."""
+
+    __tablename__ = "event_change"
+    __table_args__ = (
+        CheckConstraint("jsonb_typeof(payload) = 'object'", name="payload_object"),
+        Index("ix_event_change_event_id", "event_id", "id"),
+        Index("ix_event_change_created", text("created_at DESC")),
+    )
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    event_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("safety_event.id", ondelete="CASCADE"), nullable=False
+    )
+    change_kind: Mapped[EventChangeKind] = mapped_column(
+        value_enum(EventChangeKind, "event_change_kind", 24), nullable=False
+    )
+    payload: Mapped[dict[str, Any]] = mapped_column(
+        JSONB, nullable=False, default=dict, server_default=text("'{}'::jsonb")
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    event: Mapped[SafetyEvent] = relationship(back_populates="changes")
 
 
 class EventReviewRevision(Base):

@@ -637,3 +637,27 @@ tamponu.
 
 E3 tamamlandı. Sıradaki görev E4: olayı ve medya durumlarını PostgreSQL'e kalıcı
 yazmak, ardından yeni/değişen olayları WebSocket üzerinden panele bildirmek.
+
+## 11 Kasım 2026 — Kalıcı olay ve yeniden bağlanabilir bildirim tamamlandı (E4)
+
+- E2 geçişlerini kamera oturumu kaynak zamanından UTC'ye çevirip `safety_event`,
+  `event_finding` ve iki hazırlık medya kaydına yazan `event_store.py` eklendi.
+- Aynı olay başlangıcının tekrar oynatılması idempotent yapıldı. Aynı UUID'nin
+  farklı kamera, takip, kural, kişi veya model sürümüyle kullanılması reddediliyor.
+- E3 kanıt sonucu hazır olduğunda fotoğraf/klip yolu, türü, boyutu ve SHA-256 özeti;
+  hatalı olduğunda görünür hata durumu kalıcı medya satırlarına uygulanıyor.
+- Her olay için bir fotoğraf ve bir klip kuralı veritabanı benzersizliğiyle korundu.
+- Artan kimlikli `event_change` tablosu eklendi. Başlangıç, önemli güncelleme,
+  bitiş, medya hazır ve medya hatalı değişiklikleri bağlantıdan bağımsız saklanıyor.
+- Yetkili olay listesi ile `after_id` tabanlı değişiklik listesi eklendi. WebSocket
+  aynı imleçten yaklaşık saniyelik sorguyla devam ediyor ve yalnız admin/İSG
+  oturumlarını kabul ediyor.
+- Gerçek PostgreSQL deneyinde panel yokken olay commit edildi; değişiklik sırası
+  `started → updated → ended → media_ready` oldu. Panel sonradan açılınca olay
+  listede bulundu ve WebSocket son kaçırılan değişikliği aldı.
+- İleri migration başarıyla uygulandı. Veri silebileceği için geliştirme veritabanında
+  otomatik downgrade çalıştırılmadı. Geçici deney kayıtları temizlendi.
+- Toplam 156 Python testi, Ruff kontrolleri ve bağımlılık denetimi geçti.
+
+E4 tamamlandı. Sıradaki görev E5: inceleme sonucu, açıklama ve düzeltilebilir ama
+silinmeyen inceleme geçmişi.
