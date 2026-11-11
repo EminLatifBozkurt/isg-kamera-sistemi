@@ -19,6 +19,7 @@ import {
   type CameraPreviewStatus,
 } from "../api/cameras";
 import { PageHeader } from "../components/PageHeader";
+import { RuleEditor } from "../components/RuleEditor";
 
 export function CameraDetailPage() {
   const { cameraId = "" } = useParams();
@@ -92,6 +93,7 @@ export function CameraDetailPage() {
       {loading ? (
         <Box className="detail-loading"><CircularProgress size={30} /></Box>
       ) : camera ? (
+        <>
         <Box className="camera-detail-grid">
           <Card className="preview-card">
             <Box className="preview-stage">
@@ -144,6 +146,8 @@ export function CameraDetailPage() {
             </CardContent>
           </Card>
         </Box>
+        <RuleEditor cameraId={cameraId} previewImageUrl={imageUrl} />
+        </>
       ) : null}
     </>
   );

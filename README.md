@@ -323,7 +323,9 @@ Kalıcı olay yazımı, yeniden bağlantı ve WebSocket bildirim akışı
 React panel giriş, oturum kontrolü ve korumalı yönlendirme akışı
 [F1 belgesinde](docs/WEB_PANEL_GIRIS.md) açıklanır.
 Kamera listesi, ayrıntı sayfası ve ortak son-kare önizleme sözleşmesi
-[F2 belgesinde](docs/KAMERA_LISTESI_VE_ONIZLEME.md) açıklanır.
+[F2 belgesinde](docs/KAMERA_LISTESI_VE_ONIZLEME.md) açıklanır. Kamera görüntüsü üzerinde
+tehlikeli bölge çizme, sabit ekipman seçme ve sürümlü kural kaydı ise
+[bölge kural editörü belgesinde](docs/BOLGE_KURAL_EDITORU.md) anlatılır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

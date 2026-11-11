@@ -178,8 +178,12 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   tek JPEG son kareyi atomik yayınlıyor; tarayıcı yalnız aynı dosyayı okuyor ve GPU
   analizi başlatmıyor. Üç saniyeyi geçen kare silinmeden `GÖRÜNTÜ GÜNCEL DEĞİL`
   etiketi alıyor. Gerçek PostgreSQL akışı ve önizleme depo testleri geçti.
-- [ ] F3. Çokgen çizme, düzenleme ve bölge kurallarını ekle.
-  Bitme ölçütü: ölçek/boş kenar koordinatları doğru; geçersiz şekiller reddedilir.
+- [x] F3. Çokgen çizme, düzenleme ve bölge kurallarını ekle.
+  Sonuç: Kamera ayrıntısında gerçek önizleme oranını kullanan normalize çokgen çizimi,
+  geri alma/temizleme, mevcut bölgeyi düzenleme, sabit ekipman seçimi ve değiştirilemez
+  kural sürümü kaydı eklendi. İki farklı ölçekte koordinatlar aynı kaldı; kenarlar
+  `0–1` aralığına oturdu. Kesişen/sıfır alanlı şekiller hem tarayıcıda hem API'de
+  reddedildi; gerçek PostgreSQL kural geçmişi denemesi geçti.
 - [ ] F4. Olay listesi, filtreler, bildirim ve fotoğraf/video inceleme ekranını ekle.
   Bitme ölçütü: tanınan kişinin bildirimi çalışan profilini; tanınmayan kişinin
   bildirimi ayrı bilinmeyen kimlik kuyruğunu açar; medya durumu doğru gösterilir.

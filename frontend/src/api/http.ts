@@ -34,3 +34,8 @@ export function readCookie(name: string): string | null {
     .find((item) => item.startsWith(prefix));
   return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : null;
 }
+
+export function readCsrfToken(): string | null {
+  // Yerel HTTP geliştirmede `csrf`, HTTPS kurulumunda __Host- önekli cookie kullanılır.
+  return readCookie("__Host-csrf") ?? readCookie("csrf");
+}

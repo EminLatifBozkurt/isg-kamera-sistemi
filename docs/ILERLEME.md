@@ -725,3 +725,17 @@ ayrıntısını ve analizi çoğaltmayan ortak önizleme sözleşmesini hazırla
 
 F2 tamamlandı. Sıradaki görev F3: kamera ayrıntısında çokgen bölge çizme, düzenleme
 ve sürümlü ekipman kurallarını gerçek API'ye bağlamak.
+
+## 11 Kasım 2026 — Kamera bölge kural editörü tamamlandı (F3)
+
+- Kamera ayrıntısına genel ekipman şartları ve görüntü üzerinde çokgen bölge çizimi eklendi.
+- Bölgeler eklenebiliyor, yeniden düzenlenebiliyor ve kaldırılabiliyor; son nokta geri
+  alınabiliyor veya çizim temizlenebiliyor.
+- Görüntünün doğal en-boy oranı kullanıldığı için boş kenar koordinat kayması önlendi.
+- Noktalar çözünürlükten bağımsız `0–1` aralığında saklanıyor.
+- Kesişen, sıfır alanlı, tekrarlı veya üçten az noktalı şekiller arayüzde ve API'de reddediliyor.
+- Kayıt eski kuralı ezmiyor; yeni sürüm oluşturuyor ve olay geçmişi korunuyor.
+- ESLint, TypeScript, üretim derlemesi, 6 geometri kontrolü ve gerçek PostgreSQL akışı geçti.
+
+F3 tamamlandı. Sıradaki görev F4: olay listesi, filtreler, canlı bildirim ve fotoğraf/video
+inceleme ekranını gerçek olay API'sine bağlamak.

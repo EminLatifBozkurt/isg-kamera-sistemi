@@ -655,6 +655,176 @@ body {
 .camera-meta-list span { color: #8a94a3; }
 .camera-meta-list strong { color: #344054; text-align: right; }
 
+.rule-loading {
+  display: flex;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
+  color: #667085;
+}
+
+.rule-editor-card { margin-top: 20px; }
+.rule-editor-card > .MuiCardContent-root { padding: 28px; }
+.rule-editor-heading,
+.zone-list-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+}
+.rule-editor-heading > div > p,
+.zone-list-heading p {
+  max-width: 680px;
+  margin-top: 8px;
+  color: #737f90;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+.rule-alert { margin-top: 20px; }
+.rule-editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.72fr);
+  gap: 24px;
+  margin-top: 25px;
+}
+.rule-drawing-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #283448;
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%) 0 0 / 20px 20px,
+    #0d1524;
+}
+.rule-drawing-stage > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  user-select: none;
+}
+.rule-no-image {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  color: #8d9aae;
+  font-size: 0.78rem;
+  text-align: center;
+  pointer-events: none;
+}
+.rule-drawing-stage > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+.rule-drawing-stage polygon,
+.rule-drawing-stage polyline {
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+.saved-zone {
+  fill: rgba(16, 185, 129, 0.25);
+  stroke: #34d399;
+  stroke-width: 3;
+}
+.draft-zone-line {
+  fill: none;
+  stroke: #fbbf24;
+  stroke-width: 3;
+  stroke-dasharray: 8 5;
+}
+.draft-zone-fill {
+  fill: rgba(245, 158, 11, 0.27);
+  stroke: #fbbf24;
+  stroke-width: 3;
+}
+.rule-drawing-stage circle {
+  fill: #fff;
+  stroke: #d97706;
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+.point-counter {
+  position: absolute !important;
+  top: 12px;
+  right: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  color: #fff !important;
+  background: rgba(15, 23, 42, 0.82) !important;
+  font-size: 0.62rem !important;
+  pointer-events: none;
+}
+.drawing-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 2px 0;
+}
+.drawing-toolbar > p { color: #7b8594; font-size: 0.7rem; }
+.drawing-toolbar > div { display: flex; flex: 0 0 auto; }
+.rule-controls { display: grid; align-content: start; gap: 16px; }
+.rule-section {
+  border: 1px solid #e3e7ec;
+  border-radius: 13px;
+  padding: 20px;
+  background: #fafbfc;
+}
+.rule-section h3,
+.zone-list-section h3 {
+  color: #263449;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.rule-section > p {
+  margin: 7px 0 14px;
+  color: #7b8594;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+.equipment-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.equipment-options .MuiFormControlLabel-label { color: #536072; font-size: 0.75rem; }
+.equipment-options .MuiCheckbox-root { padding: 6px 8px; }
+.equipment-label { margin-top: 14px !important; margin-bottom: 3px !important; }
+.zone-form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.zone-list-section {
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid #e8ebef;
+}
+.zone-list-empty {
+  margin-top: 17px !important;
+  border: 1px dashed #d8dde5;
+  border-radius: 11px;
+  padding: 18px;
+  color: #8993a2;
+  font-size: 0.76rem !important;
+  text-align: center;
+}
+.zone-list { display: grid; gap: 9px; margin-top: 17px; }
+.zone-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid #e2e7ec;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #fbfcfd;
+}
+.zone-list-item > div:first-child { display: grid; gap: 3px; }
+.zone-list-item strong { color: #344054; font-size: 0.78rem; }
+.zone-list-item span { color: #818b9a; font-size: 0.68rem; }
+.zone-list-item > div:last-child { display: flex; }
+
 @media (min-width: 900px) {
   .desktop-drawer { display: block; }
   .mobile-drawer { display: none; }
@@ -665,6 +835,7 @@ body {
   .status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .camera-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .camera-detail-grid { grid-template-columns: 1fr; }
+  .rule-editor-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {
@@ -685,6 +856,14 @@ body {
   .preview-stage > img { min-height: 300px; }
   .preview-caption { align-items: flex-start; flex-direction: column; }
   .preview-time { text-align: left; }
+  .rule-editor-card > .MuiCardContent-root { padding: 20px; }
+  .rule-editor-heading,
+  .zone-list-heading,
+  .drawing-toolbar,
+  .zone-list-item { align-items: stretch; flex-direction: column; }
+  .zone-list-heading .MuiButton-root { width: 100%; }
+  .drawing-toolbar > div,
+  .zone-list-item > div:last-child { justify-content: flex-end; }
 }
 
 @media (max-width: 980px) {

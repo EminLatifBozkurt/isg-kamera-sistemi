@@ -1,4 +1,4 @@
-import { apiError, readCookie } from "./http";
+import { apiError, readCsrfToken } from "./http";
 
 export type UserRole = "admin" | "isg";
 
@@ -66,8 +66,7 @@ export async function login(username: string, password: string): Promise<AuthUse
 }
 
 export async function logout(): Promise<void> {
-  // Yerel HTTP geliştirmede `csrf`, HTTPS kurulumunda __Host- önekli cookie kullanılır.
-  const csrfToken = readCookie("__Host-csrf") ?? readCookie("csrf");
+  const csrfToken = readCsrfToken();
   if (!csrfToken) {
     throw new Error("Çıkış doğrulama bilgisi bulunamadı. Sayfayı yenileyip tekrar deneyin.");
   }
