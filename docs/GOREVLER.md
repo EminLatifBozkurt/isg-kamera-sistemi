@@ -168,8 +168,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
 
 ## F. Web paneli — API akışları netleştikten sonra
 
-- [ ] F1. React/TypeScript arayüzünü, sayfa yönlendirmesini ve giriş ekranını kur.
-  Çıktı: yerel dosyalardan çalışan, API'ye bağlı temel panel.
+- [x] F1. React/TypeScript arayüzünü, sayfa yönlendirmesini ve giriş ekranını kur.
+  Sonuç: açılışta gerçek `/auth/me` kontrolü, kullanıcı adı/parola girişi, korumalı
+  rotalar, kullanıcı/rol gösterimi ve CSRF'li çıkış eklendi. ESLint, TypeScript,
+  Vite üretim derlemesi ve gerçek PostgreSQL üzerinde 11 oturum güvenliği kontrolü
+  geçti. Otomatik görsel test, tarayıcı erişim aracı kullanılamadığı için yapılamadı.
 - [ ] F2. Kamera listesi, ayrıntısı ve ortak canlı önizlemeyi ekle.
   Bitme ölçütü: tarayıcı açılması yeni GPU analizi başlatmaz; eski kare belirgin görünür.
 - [ ] F3. Çokgen çizme, düzenleme ve bölge kurallarını ekle.

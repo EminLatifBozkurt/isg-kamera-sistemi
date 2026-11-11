@@ -18,6 +18,111 @@ body {
     #f4f6f8;
 }
 
+.auth-loading {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #667085;
+}
+
+.login-page {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: minmax(0, 1.15fr) minmax(420px, 0.85fr);
+  align-items: center;
+  gap: clamp(42px, 7vw, 110px);
+  padding: clamp(34px, 6vw, 90px);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(245, 158, 11, 0.16), transparent 24rem),
+    linear-gradient(125deg, #0b1220 0%, #111c31 54%, #f4f6f8 54%, #eef1f5 100%);
+}
+
+.login-intro {
+  width: min(100%, 650px);
+  color: #fff;
+}
+
+.login-brand-mark {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 34px;
+  place-items: center;
+  border: 1px solid rgba(251, 191, 36, 0.42);
+  border-radius: 17px;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.14);
+}
+
+.login-brand-mark .MuiSvgIcon-root { font-size: 2rem; }
+
+.login-eyebrow,
+.login-form-kicker {
+  margin-bottom: 12px !important;
+  color: #fbbf24;
+  font-size: 0.7rem !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.15em !important;
+}
+
+.login-title {
+  max-width: 620px;
+  font-size: clamp(2.35rem, 5vw, 4.5rem) !important;
+  font-weight: 820 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.05em !important;
+}
+
+.login-description {
+  max-width: 580px;
+  margin-top: 25px !important;
+  color: #aeb9ca;
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+}
+
+.login-security-note {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 38px;
+  color: #8795aa;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.login-security-note span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 0 5px rgba(52, 211, 153, 0.1);
+}
+
+.login-card {
+  width: min(100%, 520px);
+  justify-self: center;
+  border: 1px solid rgba(210, 216, 225, 0.9);
+  border-radius: 22px !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.14) !important;
+  backdrop-filter: blur(18px);
+}
+
+.login-card-content { padding: clamp(30px, 5vw, 52px) !important; }
+.login-form-kicker { color: #b45309; }
+.login-form-description {
+  margin: 12px 0 28px !important;
+  color: #737e8e;
+  font-size: 0.88rem !important;
+  line-height: 1.6 !important;
+}
+.login-alert { margin-bottom: 20px; }
+.login-form { display: grid; gap: 18px; }
+.login-form .MuiButton-root { min-height: 48px; margin-top: 3px; }
+
 .app-shell {
   min-height: 100vh;
 }
@@ -67,6 +172,28 @@ body {
   background: #d97706;
   box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.13);
 }
+
+.user-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 2px;
+  padding-left: 14px;
+  border-left: 1px solid #e3e7ec;
+}
+
+.user-avatar {
+  width: 34px !important;
+  height: 34px !important;
+  color: #92400e !important;
+  background: #fef3c7 !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+}
+
+.user-name { color: #283548; font-size: 0.73rem !important; font-weight: 750 !important; }
+.user-role { color: #8993a2; font-size: 0.63rem !important; }
+.logout-button { margin-left: 4px !important; color: #596579 !important; }
 
 .desktop-drawer .MuiDrawer-paper,
 .mobile-drawer .MuiDrawer-paper {
@@ -396,4 +523,30 @@ body {
   .status-grid,
   .dashboard-lower-grid { grid-template-columns: 1fr; }
   .page-container { padding: 27px 16px 48px; }
+  .user-copy,
+  .logout-button { font-size: 0 !important; }
+  .logout-button .MuiButton-startIcon { margin: 0 !important; }
+  .user-summary { margin-left: auto; padding-left: 9px; }
+  .environment-pill { display: none; }
+}
+
+@media (max-width: 980px) {
+  .login-page {
+    grid-template-columns: 1fr;
+    align-content: center;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(245, 158, 11, 0.14), transparent 22rem),
+      linear-gradient(180deg, #0b1220 0%, #111c31 45%, #eef1f5 45%);
+  }
+  .login-intro { padding-bottom: 12px; }
+  .login-title { max-width: 720px; font-size: clamp(2.1rem, 8vw, 3.7rem) !important; }
+  .login-description { max-width: 720px; }
+}
+
+@media (max-width: 560px) {
+  .login-page { padding: 26px 16px 38px; gap: 30px; }
+  .login-brand-mark { margin-bottom: 24px; }
+  .login-description { margin-top: 16px !important; font-size: 0.9rem !important; }
+  .login-security-note { margin-top: 24px; }
+  .login-card { border-radius: 16px !important; }
 }

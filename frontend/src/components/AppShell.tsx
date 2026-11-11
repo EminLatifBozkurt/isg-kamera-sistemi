@@ -1,7 +1,10 @@
 import { useState } from "react";
 import {
+  Alert,
   AppBar,
+  Avatar,
   Box,
+  Button,
   Drawer,
   IconButton,
   List,
@@ -11,6 +14,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  Snackbar,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -18,11 +22,14 @@ import {
   DashboardRounded,
   GroupsRounded,
   HealthAndSafetyRounded,
+  LogoutRounded,
   MenuRounded,
   NotificationsActiveRounded,
   VideocamRounded,
 } from "@mui/icons-material";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+
+import { useAuth } from "../auth/useAuth";
 
 const drawerWidth = 264;
 
@@ -82,7 +89,22 @@ export function AppShell() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
   const location = useLocation();
+  const { user, logout } = useAuth();
+
+  async function handleLogout() {
+    setLoggingOut(true);
+    setLogoutError(null);
+    try {
+      await logout();
+    } catch (reason) {
+      setLogoutError(reason instanceof Error ? reason.message : "Çıkış yapılamadı.");
+    } finally {
+      setLoggingOut(false);
+    }
+  }
 
   const today = new Intl.DateTimeFormat("tr-TR", {
     weekday: "long",
@@ -115,6 +137,27 @@ export function AppShell() {
             <span />
             Yerel sistem
           </Box>
+          <Box className="user-summary">
+            <Avatar className="user-avatar">{user?.display_name.charAt(0).toLocaleUpperCase("tr-TR")}</Avatar>
+            <Box className="user-copy">
+              <Typography className="user-name">{user?.display_name}</Typography>
+              <Typography className="user-role">
+                {user?.role === "admin" ? "Sistem yöneticisi" : "İSG görevlisi"}
+              </Typography>
+            </Box>
+            <Tooltip title="Güvenli çıkış">
+              <Button
+                color="inherit"
+                size="small"
+                startIcon={<LogoutRounded />}
+                onClick={() => void handleLogout()}
+                disabled={loggingOut}
+                className="logout-button"
+              >
+                Çıkış
+              </Button>
+            </Tooltip>
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -145,6 +188,16 @@ export function AppShell() {
           <Outlet />
         </Box>
       </Box>
+      <Snackbar
+        open={logoutError !== null}
+        autoHideDuration={5000}
+        onClose={() => setLogoutError(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert severity="error" onClose={() => setLogoutError(null)}>
+          {logoutError}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

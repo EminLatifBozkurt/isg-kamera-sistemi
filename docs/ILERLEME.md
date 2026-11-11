@@ -681,3 +681,26 @@ silinmeyen inceleme geçmişi.
 
 E1–E5 olay üretimi ve kanıt aşaması tamamlandı. Sıradaki öncelik F1: mevcut React/
 TypeScript panelini gerçek oturum ve olay API'lerine bağlayarak giriş ekranını kurmak.
+
+## 11 Kasım 2026 — Web paneli giriş ve korumalı yönlendirme tamamlandı (F1)
+
+- React uygulamasına merkezi `AuthProvider` eklendi. Açılışta `/auth/me` ile gerçek
+  sunucu oturumu kontrol ediliyor; 401 ile sunucu bağlantı hatası ayrılıyor.
+- Kullanıcı adı/parola formu ve bağlantı hatasında yeniden deneme davranışı eklendi.
+  Parola tarayıcı kalıcı depolamasına yazılmıyor.
+- Genel bakış, kamera, olay ve çalışan rotaları `RequireAuth` arkasına alındı.
+  Kullanıcı girişten sonra başlangıçta istediği korumalı yola geri dönebiliyor.
+- Üst çubukta kullanıcının adı ve admin/İSG rolü gösteriliyor. Çıkış yerel HTTP ve
+  ileride HTTPS için iki CSRF cookie adını destekliyor; hata kullanıcıya bildiriliyor.
+- Giriş ekranı mevcut lacivert/kehribar güvenlik merkezi tasarımıyla ve mobil kırılım
+  noktalarıyla hazırlandı.
+- ESLint, katı TypeScript kontrolü ve Vite üretim derlemesi geçti. Gerçek PostgreSQL
+  deneyinde giriş, `/auth/me`, rol, CSRF, güvenli cookie, çıkış ve hesap kilidi dahil
+  11 güvenlik kontrolü başarıyla tamamlandı.
+- Vite yalnız 571 kB ana JavaScript paketi için performans uyarısı verdi. İşlevsel
+  hata yok; sayfalar büyüdükçe dinamik rota yükleme değerlendirilecek.
+- Gömülü tarayıcı aracı Edge adresini doğrulayamadığı için otomatik görsel QA
+  durduruldu. Geçici test hesabı silindi ve test süreçleri kapatıldı.
+
+F1 tamamlandı. Sıradaki görev F2: gerçek kamera listesini API'den göstermek, kamera
+ayrıntısını ve analizi çoğaltmayan ortak önizleme sözleşmesini hazırlamak.

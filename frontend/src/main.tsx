@@ -5,6 +5,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import App from "./App";
 import { appTheme } from "./theme";
+import { AuthProvider } from "./auth/AuthProvider";
 import "./styles.css";
 
 const rootElement = document.getElementById("root");
@@ -18,7 +19,9 @@ createRoot(rootElement).render(
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,

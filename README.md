@@ -39,6 +39,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   bağlanınca sıra imlecinden devam eden kimlik doğrulamalı WebSocket akışı.
 - İSG kararını açıklama ve kullanıcıyla eklemeli revizyon geçmişine yazan; yanlış
   alarmı doğrulanmış ihlal sayımından ayıran olay inceleme API'si.
+- Gerçek sunucu oturumuna bağlı React giriş ekranı, korumalı sayfalar, kullanıcı/rol
+  görünümü ve CSRF korumalı güvenli çıkış.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -316,6 +318,8 @@ Kalıcı olay yazımı, yeniden bağlantı ve WebSocket bildirim akışı
 [E4 belgesinde](docs/KALICI_OLAY_VE_BILDIRIM.md) açıklanır.
 İnceleme kararı, açıklama, düzeltme ve denetim geçmişi
 [E5 belgesinde](docs/OLAY_INCELEME_GECMISI.md) açıklanır.
+React panel giriş, oturum kontrolü ve korumalı yönlendirme akışı
+[F1 belgesinde](docs/WEB_PANEL_GIRIS.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması
