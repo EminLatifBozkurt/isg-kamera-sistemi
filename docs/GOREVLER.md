@@ -150,8 +150,11 @@ V1–V3 erken görünür arayüz görevleri tamamlandı.
   Bildirim komutu yalnız `started` geçişinde; devam karelerinde değil. İki uygun
   gözlem + 1 saniye `resolved`; 2 saniye kayıp, oturum sonu ve kural değişimi
   ayrı nedenlerle bitiyor. Kontrollü akışta 8 geçişten yalnız 2 olay/bildirim çıktı.
-- [ ] E3. Fotoğraf ve sınırlı öncesi/sonrası klip tamponunu ekle.
-  Bitme ölçütü: klip hazırlanıyor/hazır/hatalı durumları doğru; işlem analizi kilitlemez.
+- [x] E3. Fotoğraf ve sınırlı öncesi/sonrası klip tamponunu ekle.
+  Sonuç: JPEG kare tamponu süre/kare/baytla sınırlandı; olayın 5 saniye öncesi ve
+  sonrası ayrı iş parçacığında fotoğraf + MP4 kanıtına dönüşüyor. Hazırlanıyor,
+  hazır, hatalı ve oturum kesilirse kısmi durumları test edildi; dolu yazma kuyruğu
+  analizi bekletmiyor. Gerçek deneyde 7 karelik MP4 yeniden açılıp doğrulandı.
 - [ ] E4. Kalıcı olay/değişiklik kayıtları ve WebSocket bildirimi ekle.
   Bitme ölçütü: panel kapalıyken olay kaydedilir; yeniden bağlantıda liste tamamlanır.
 - [ ] E5. İnceleme sonucu, açıklama ve değişiklik geçmişini ekle.

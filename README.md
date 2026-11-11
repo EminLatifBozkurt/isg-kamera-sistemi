@@ -33,6 +33,8 @@ olayları İSG görevlisinin incelemesine sunan bitirme projesi.
   sınırlarıyla çalışan zamansal ihlal-adayı durum makinesi.
 - Kesintisiz ihlali tek olayda birleştiren, yalnız olay başlangıcında bildirim
   komutu üreten ve açık bitiş nedeni taşıyan olay yaşam döngüsü.
+- Olayın öncesi/sonrası için RAM'i sınırlayan JPEG tamponu ve analizi bekletmeden
+  fotoğraf ile kısa MP4 kanıtı hazırlayan asenkron medya işçisi.
 
 İlk filtresiz PPE eğitimi veri setindeki alakasız sahneleri ortaya çıkardı ve
 proje modeli olarak reddedildi. 300 iş yeri dışı görüntü ile belirsiz/uygunsuz
@@ -304,6 +306,8 @@ Tek karelik kural sonuçlarının süreli adaya dönüşme eşikleri
 [E1 belgesinde](docs/ZAMANSAL_IHLAL_ADAYI.md) açıklanır.
 Olay birleştirme, tekrar bildirimi ve teknik bitiş nedenleri
 [E2 belgesinde](docs/OLAY_YASAM_DONGUSU.md) açıklanır.
+Fotoğraf, kısa klip, bellek sınırları ve asenkron medya durumları
+[E3 belgesinde](docs/OLAY_KANIT_TAMPONU.md) açıklanır.
 Veri seçimi ve gerçek arşiv denetimi için
 [veri seti incelemesine](docs/VERI_SETI_INCELEMESI.md) bakılabilir.
 Eğitim/doğrulama/test ayrımının hazırlanması

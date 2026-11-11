@@ -615,3 +615,25 @@ engelleyen olay birleştirme ve bitiş yaşam döngüsü.
 
 E2 tamamlandı. Sıradaki görev E3: olay fotoğrafı ve sınırlı öncesi/sonrası klip
 tamponu.
+
+## 11 Kasım 2026 — Fotoğraf ve kısa olay klibi tamponu tamamlandı (E3)
+
+- `EncodedEvidenceFrame`, ham görüntü yerine JPEG olarak sıkıştırılmış kare taşır.
+  Varsayılan tampon 5 saniye geçmiş, en fazla 150 kare ve 32 MiB ile sınırlıdır;
+  hangi sınır önce aşılırsa en eski kare atılır.
+- Olay başladığında olay zamanına en yakın kare fotoğraf seçildi. Önceki 5 saniye
+  ile sonraki 5 saniyenin kareleri tek kısa klip işi altında birleştirildi.
+- Dosya yazma ve MP4 kodlama ayrı bir iş parçacığına taşındı. Analiz çağrıları
+  yazıcıyı beklemiyor; sekiz işlik kuyruk dolarsa olay kanıtı açıkça hatalı oluyor.
+- Medya işi `preparing`, `ready` ve `failed` durumlarını taşıyor. Kamera/video erken
+  biterse eldeki kareler `session_ended` nedeniyle kısmi klip olarak işaretleniyor.
+- Fotoğraf ve klip önce `.part` dosyalarına yazılıp atomik olarak gerçek adlarına
+  taşınıyor. Hata halinde yarım dosyalar temizleniyor; var olan olay dosyalarının
+  üzerine yazılmıyor. Boyut ve SHA-256 özeti sonraki veritabanı kaydına hazır.
+- 12 yeni birim testi bellek sınırı, zaman penceresi, yavaş/hatalı yazıcı, dolu
+  kuyruk, kısmi klip, yarım dosya temizliği ve üzerine yazmama kuralını doğruladı.
+- Gerçek OpenCV deneyinde 7 karelik MP4 üretildi. 3.377 bayt fotoğraf ve 6.789 bayt
+  klip dosyası oluştu; klip tekrar açıldığında 7 karenin tamamı çözüldü.
+
+E3 tamamlandı. Sıradaki görev E4: olayı ve medya durumlarını PostgreSQL'e kalıcı
+yazmak, ardından yeni/değişen olayları WebSocket üzerinden panele bildirmek.
